@@ -9,7 +9,10 @@
   - Esto hará que el commit se vincule con la tarea del tablero para tener un mejor orden y seguimiento
     
 * Realizar el **git push**
-* Ir al repositorio y crear un **Pull Request** OJO, siempre comparando con la rama **_develop_** .
+* Ir al repositorio y crear un **Pull Request** (PR) OJO, siempre comparando con la rama **_develop_** .
+* Antes de confirmar el PR, vincular el PR con la tarea (en la seccion de Linked pull request). En caso que no me lo permita, hacer la vinculación luego de creado el PR desde la vista del Issue
+* ![image](https://github.com/niicodeer/sistema-inscripciones-et1/assets/97641886/b08fd6d9-63bb-4c73-aaf7-32d177a48c24)
+
   
 * Mover la tarea a la tabla de _"En Revision"_ . Una vez revisada y mergeada será movida a la tabla "_Done_"
 
@@ -54,7 +57,9 @@
         git push
 
 <br/>
+
 ### Otros comandos que se pueden usar
+
 * Renombrar una rama
 
         git branch -m <nombreViejo> <nombreNuevo>
@@ -74,6 +79,7 @@
 
 <br/>
 <br/>
+
 ## Comandos PHP a utilizar:
 
 * Crear modelo, migracion, controlador, seeder y factory con un solo comando:
