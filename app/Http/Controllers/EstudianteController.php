@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class EstudianteController extends Controller
 {
     public function index(){
-        $estudiante = Estudiante::with('dato')->findOrFail(2);
+        $estudiante = Estudiante::with(['dato','inscripciones'])->findOrFail(4);
 
 
 

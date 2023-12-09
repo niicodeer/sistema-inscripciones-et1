@@ -16,4 +16,6 @@ class Tutor extends Model
         'apellido',
         'ocupacion',
     ];
+
+    protected $table = "tutores";
 }
