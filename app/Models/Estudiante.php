@@ -21,6 +21,6 @@ class Estudiante extends Model
 
     public function dato() : HasOne
     {
-        return $this->hasOne(DatoEstudiante::class, 'dato_id', 'id');
+        return $this->hasOne(DatoEstudiante::class, 'id', 'dato_id');
     }
 }
