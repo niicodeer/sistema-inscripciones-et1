@@ -35,4 +35,9 @@ class Estudiante extends Model
     {
         return $this->belongsTo(Tutor::class, 'tutor_id', 'id');
     }
+
+    public function getFullnameAttribute()
+    {
+        return $this->nombre.' '.$this->apellido;
+    }
 }
