@@ -40,4 +40,5 @@ class Estudiante extends Model
     {
         return $this->nombre.' '.$this->apellido;
     }
+
 }
