@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EstudianteController;
+use App\Http\Controllers\RolController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +21,4 @@ Route::get('/', function () {
 });
 
 Route::get('estudiante', [EstudianteController::class, 'index']);
+Route::get('rol', [RolController::class, 'prueba']);

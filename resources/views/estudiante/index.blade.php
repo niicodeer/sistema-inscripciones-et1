@@ -1,4 +1,4 @@
-<h1>{{$estudiante-> nombre}}</h1>
+{{-- <h1>{{$estudiante-> nombre}}</h1>
 <h2>{{$estudiante-> email}}</h2>
 <h2>{{$estudiante-> dato->medioTransporte}}</h2>
 <h3>{{$estudiante-> tutor-> cuil}}</h3>
@@ -7,6 +7,8 @@
     <h2>{{$inscripcion->fechaInscripcion}}</h2>
     <h2>{{$inscripcion->curso->turno}}
     <br>
-@endforeach 
+@endforeach  --}}
     
+<h1>{{$user->name}}</h1>
+<h1>{{$user->rol->nombre}}</h1>
 
