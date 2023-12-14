@@ -9,7 +9,7 @@ class RolController extends Controller
 {
     public function prueba(){
 
-        $user = User::with('rol')->findOrFail(2);
+        $user = User::with('rol')->findOrFail(6);
 
         return view('estudiante.index', compact('user'));
     }

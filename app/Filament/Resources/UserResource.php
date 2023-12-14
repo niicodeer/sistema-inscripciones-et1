@@ -14,15 +14,30 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class UserResource extends Resource
 {
+    use Notifiable, HasRoles;
+
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    public static function canViewAny(): bool
+    {
+        return Auth::user()->hasRole('admin');
+        /*$user = auth()-> User();
+
+        return $user && $user->is_admin;*/
+    }
+
     public static function form(Form $form): Form
     {
+        
         return $form
             ->schema([
                 TextInput::make('name'),
@@ -35,7 +50,13 @@ class UserResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+
+        /*->canSee(function () {
+            return Auth::user()->hasRole('admin');
+        })*/
+
             ->columns([
+                
                 TextColumn::make('name'),
                 TextColumn::make('email'),
             ])
@@ -66,5 +87,7 @@ class UserResource extends Resource
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
+       
+
     }
 }

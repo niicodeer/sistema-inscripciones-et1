@@ -12,12 +12,21 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class CursoResource extends Resource
 {
     protected static ?string $model = Curso::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    public static function canViewAny(): bool
+    {
+        return Auth::user()->hasRole('admin');
+        /*$user = auth()-> User();
+
+        return $user && $user->is_admin;*/
+    }
 
     public static function form(Form $form): Form
     {
