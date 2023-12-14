@@ -8,7 +8,10 @@
     <h2>{{$inscripcion->curso->turno}}
     <br>
 @endforeach  --}}
-    
-<h1>{{$user->name}}</h1>
-<h1>{{$user->rol->nombre}}</h1>
-
+<p>Hasadasdasda</p>
+@role('admin')
+<p>Rol de admin</p>
+@endrole
+@role('secretario')
+<p>Rol de secretario</p>
+@endrole
