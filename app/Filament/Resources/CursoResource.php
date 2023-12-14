@@ -62,10 +62,14 @@ class CursoResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('turno'),
-                Tables\Columns\TextColumn::make('añoCurso'),
-                Tables\Columns\TextColumn::make('division'),
-                Tables\Columns\TextColumn::make('cantidadAlumnos'),
+                Tables\Columns\TextColumn::make('turno')
+                ->sortable(),
+                Tables\Columns\TextColumn::make('añoCurso')
+                ->sortable(),
+                Tables\Columns\TextColumn::make('division')
+                ->sortable(),
+                Tables\Columns\TextColumn::make('cantidadAlumnos')
+                ->sortable(),
                 Tables\Columns\TextColumn::make('cantidadMaxima'),
                 ])
             ->filters([

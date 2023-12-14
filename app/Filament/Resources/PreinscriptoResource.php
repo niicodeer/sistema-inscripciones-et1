@@ -51,15 +51,19 @@ class PreinscriptoResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('cuil'),
-                TextColumn::make('nombre'),
-                TextColumn::make('apellido'),
-                TextColumn::make('email'),
+                TextColumn::make('cuil')
+                ->searchable()->sortable(),
+                TextColumn::make('nombre')
+                ->searchable()->sortable(),
+                TextColumn::make('apellido')
+                ->searchable()->sortable(),
+                TextColumn::make('email')
+                ->searchable()->sortable(),
                 TextColumn::make('fecha_nac')
                 ->dateTime('d-M-y')
-                ->label("Fecha de nacimiento"),
+                ->label("Fecha de nacimiento")->sortable(),
                 TextColumn::make('created_at')
-                ->label("Fecha de preinscripcion"),
+                ->label("Fecha de preinscripcion")->sortable(),
             ])
             ->filters([
                 //
