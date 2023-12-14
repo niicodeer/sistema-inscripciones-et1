@@ -48,13 +48,23 @@ class EstudianteResource extends Resource
     {
         return $table
             ->columns([
-               TextColumn::make('cuil'),
-               TextColumn::make('nombre'),
-               TextColumn::make('apellido'),
-               TextColumn::make('email'),
+               TextColumn::make('cuil')
+               ->searchable()
+               ->sortable(),
+               TextColumn::make('nombre')
+               ->searchable()
+               ->sortable(),
+               TextColumn::make('apellido')
+               ->searchable()
+               ->sortable(),
+               TextColumn::make('email')
+               ->searchable()
+               ->sortable(),
                TextColumn::make('fecha_nac')
-               ->dateTime('d-M-y'),
-               ToggleColumn::make('esAlumno'),
+               ->dateTime('d-M-y')
+               ->sortable(),
+               ToggleColumn::make('esAlumno')
+               ->sortable(),
             ])
             ->filters([
                 //

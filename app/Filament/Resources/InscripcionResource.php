@@ -47,9 +47,13 @@ class InscripcionResource extends Resource
         
         return $table
             ->columns([
-                ToggleColumn::make('aceptado'),
-                TextColumn::make('fechaInscripcion'),
-                TextColumn::make('estudiante.fullname'),
+                ToggleColumn::make('aceptado')
+                ->sortable(),
+                TextColumn::make('fechaInscripcion')
+                ->sortable(),
+                TextColumn::make('estudiante.fullname')
+                ->searchable()
+                ->sortable(),
                 
             ])
             ->filters([
