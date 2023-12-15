@@ -22,3 +22,7 @@ Route::get('/', function () {
 
 Route::get('estudiante', [EstudianteController::class, 'index']);
 Route::get('rol', [RolController::class, 'prueba']);
+
+Route::get('/inscripciones', function () {
+    return view('formulario.inscripciones.index');
+});
