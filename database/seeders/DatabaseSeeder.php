@@ -14,14 +14,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\User::factory()->create();
         $this->call([
             PreinscriptoSeeder::class,
-            EstudianteSeeder::class,
-            InscripcionSeeder::class,
             CursoSeeder::class,
             TutorSeeder::class,
             DatoEstudianteSeeder::class,
+            EstudianteSeeder::class,
+            InscripcionSeeder::class,
+            RolSeeder::class,
+            UserSeeder::class,
         ]);
 
 

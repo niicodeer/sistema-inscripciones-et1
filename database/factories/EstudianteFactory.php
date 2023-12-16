@@ -22,6 +22,9 @@ class EstudianteFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'cuil' => fake()->numberBetween(1000000, 2000000),
             'fecha_nac' => fake()->date(),
+            'esAlumno' => fake()->boolean(),
+            'dato_id' => fake()->numberBetween(1, 30),
+            'tutor_id' => fake()->unique()->numberBetween(1, 30),
         ];
     }
 }

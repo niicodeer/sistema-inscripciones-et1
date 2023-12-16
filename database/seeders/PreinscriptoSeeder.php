@@ -13,6 +13,6 @@ class PreinscriptoSeeder extends Seeder
      */
     public function run(): void
     {
-        Preinscripto::factory()->count(10)->create();
+        Preinscripto::factory()->count(30)->create();
     }
 }

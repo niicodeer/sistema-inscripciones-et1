@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             $table->boolean('aceptado');
             $table->date('fechaInscripcion');
+            $table->unsignedBigInteger('estudiante_id')->nullable();
+            $table->unsignedBigInteger('curso_id')->nullable();
+            $table->foreign('estudiante_id')->references('id')->on('estudiantes')->onUpdate('set null')->onDelete('set null');
+            $table->foreign('curso_id')->references('id')->on('cursos')->onUpdate('set null')->onDelete('set null');
             $table->timestamps();
         });
     }

@@ -17,8 +17,10 @@ class InscripcionFactory extends Factory
     public function definition(): array
     {
         return [
-            'aceptado' => fake() -> boolean(),
-            'fechaInscripcion' => fake() -> date(),
+            'aceptado' => fake()->boolean(),
+            'fechaInscripcion' => fake()->date(),
+            'estudiante_id' => fake()->numberBetween(1,30),
+            'curso_id' => fake()->numberBetween(1,36),
         ];
     }
 }

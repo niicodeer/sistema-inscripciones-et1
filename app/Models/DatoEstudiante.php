@@ -20,8 +20,7 @@ class DatoEstudiante extends Model
         'escuelaProviene',
     ];
 
-    public function estudiante(): BelongsTo 
-    
+    public function estudiante(): BelongsTo
     {
 
         return $this->belongsTo(Estudiante::class);
