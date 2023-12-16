@@ -22,21 +22,18 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->firstName(),
-            'email' => fake()->email(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('123456'),
+            'name' => 'Secre',
+            'email' => 'secretario@demo.com',
+            'password' => Hash::make('123456'),
             'remember_token' => Str::random(10),
-            'rol_id' => function () {
-                return Rol::inRandomOrder()->first()->id;
-            },
+            'rol_id' => 2
         ];
     }
 
     /**
      * Indicate that the model's email address should be unverified.
      */
-    public function unverified(): static
+    public function unverified()
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,

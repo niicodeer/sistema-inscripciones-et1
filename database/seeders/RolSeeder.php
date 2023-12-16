@@ -13,7 +13,21 @@ class RolSeeder extends Seeder
      */
     public function run(): void
     {
-        Rol::create(['nombre' => 'Administrador']);
-        Rol::create(['nombre' => 'Usuario']);
+        //Rol::factory()->create();
+        $roles = ['Admin', 'Secretario'];
+        $data = [];
+        foreach ($roles as $rol) {
+            $data[] = [
+                'name' => $rol,
+                'guard_name' => 'web',
+                'created_at'=> now(),
+                'updated_at'=> now(),
+            ];
+        };
+
+
+        foreach ($data as $rolData) {
+            Rol::insert($rolData);
+        };
     }
 }

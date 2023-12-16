@@ -14,14 +14,9 @@ class CursoFactory extends Factory
      *
      * @return array<string, mixed>
      */
+
     public function definition(): array
     {
-        return [
-            'turno' => $this->faker->randomElement(['mañana', 'tarde']),
-            'añoCurso' => $this->faker->numberBetween(1, 6),
-            'division' => $this->faker->numberBetween(1, 4),
-            'cantidadAlumnos' => $this->faker->numberBetween(1, 22),
-            'cantidadMaxima' => $this->faker->numberBetween(20, 22),
-        ];
-    }
+        //
+    } 
 }
