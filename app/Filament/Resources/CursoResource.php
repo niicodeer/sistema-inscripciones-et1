@@ -24,14 +24,6 @@ class CursoResource extends Resource
 
     protected static ?int $navigationSort = 4;
 
-    public static function canViewAny(): bool
-    {
-        return Auth::user()->hasRole('admin');
-        /*$user = auth()-> User();
-
-        return $user && $user->is_admin;*/
-    }
-
     public static function form(Form $form): Form
     {
         return $form
@@ -54,13 +46,13 @@ class CursoResource extends Resource
                     '4' => '4',
                     '5' => '5',
                     '6' => '6',
-                    
+
                 ])
                 ->required(),
                 Forms\Components\Select::make('turno')
                 ->options([
-                    'mañana' => 'mañana',
-                    'tarde' => 'tarde',
+                    'Mañana' => 'Mañana',
+                    'Tarde' => 'Tarde',
                 ])
                 ->required(),
                 Forms\Components\TextInput::make('cantidadMaxima')

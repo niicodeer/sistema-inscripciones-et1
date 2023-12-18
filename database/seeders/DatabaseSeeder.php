@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,14 +22,24 @@ class DatabaseSeeder extends Seeder
             DatoEstudianteSeeder::class,
             EstudianteSeeder::class,
             InscripcionSeeder::class,
-            RolSeeder::class,
-            UserSeeder::class,
+            //RolSeeder::class,
+            //UserSeeder::class,
         ]);
 
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $user = User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'admin@demo.com',
+        ]);
+        $roleAdmin= Role::create(['name'=>'Admin']);
+        $user->assignRole($roleAdmin);
+
+        $user2 = User::factory()->create([
+            'name' => 'Secre',
+            'email' => 'secretario@demo.com',
+        ]);
+        $roleSecre= Role::create(['name'=>'Secretario']);
+        $user2->assignRole($roleSecre);
+
     }
 }

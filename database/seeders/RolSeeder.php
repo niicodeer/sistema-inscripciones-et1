@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Rol;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class RolSeeder extends Seeder
 {
@@ -27,7 +28,7 @@ class RolSeeder extends Seeder
 
 
         foreach ($data as $rolData) {
-            Rol::insert($rolData);
+            Role::insert($rolData);
         };
     }
 }
