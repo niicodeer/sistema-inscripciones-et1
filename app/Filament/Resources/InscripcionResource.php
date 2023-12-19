@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class InscripcionResource extends Resource
 {
-    
+
     protected static ?string $model = Inscripcion::class;
 
     protected static ?string $navigationLabel = 'Inscripciones';
@@ -39,26 +39,28 @@ class InscripcionResource extends Resource
     {
         return $form
             ->schema([
-                Toggle::make('aceptado'),
+                TextInput::make('estudiante.nombre'),
+                TextInput::make('estudiante.apellido'),
                 DatePicker::make('fechaInscripcion')
-                ->format('d-M-y'),
-                TextInput::make('estudiante.nombre')
+                    ->format('d-M-y'),
+                Toggle::make('aceptado'),
             ]);
     }
 
     public static function table(Table $table): Table
     {
-        
+
         return $table
             ->columns([
-                ToggleColumn::make('aceptado')
+                TextColumn::make('estudiante.fullname')
+                ->searchable(['nombre', 'apellido'])
                 ->sortable(),
                 TextColumn::make('fechaInscripcion')
+                ->sortable()
+                ->dateTime("d-M-y  h:m"),
+                ToggleColumn::make('aceptado')
                 ->sortable(),
-                TextColumn::make('estudiante.fullname')
-                ->searchable()
-                ->sortable(),
-                
+
             ])
             ->filters([
                 //
