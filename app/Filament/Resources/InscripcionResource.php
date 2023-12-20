@@ -15,6 +15,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -61,7 +62,11 @@ class InscripcionResource extends Resource
                 
             ])
             ->filters([
-                //
+                SelectFilter::make('aceptado')
+                ->options([
+                    '0' => 'No aceptado',
+                    '1' => 'Aceptado',
+                ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

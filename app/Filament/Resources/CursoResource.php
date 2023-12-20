@@ -9,6 +9,8 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -86,7 +88,29 @@ class CursoResource extends Resource
                 Tables\Columns\TextColumn::make('cantidadMaxima'),
                 ])
             ->filters([
-                //
+                SelectFilter::make('turno')
+                ->options([
+                    'tarde' => 'Tarde',
+                    'mañana' => 'Mañana',
+                ]),
+                SelectFilter::make('añoCurso')
+                ->options([
+                    '1' => '1',
+                    '2' => '2',
+                    '3' => '3',
+                    '4' => '4',
+                    '5' => '5',
+                    '6' => '6'
+                ]),
+                SelectFilter::make('division')
+                ->options([
+                    '1' => '1',
+                    '2' => '2',
+                    '3' => '3',
+                    '4' => '4',
+                    '5' => '5',
+                    '6' => '6'
+                ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
