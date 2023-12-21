@@ -14,6 +14,8 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -71,7 +73,11 @@ class EstudianteResource extends Resource
                ->sortable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('esAlumno')
+                ->options([
+                    '0' => 'No es alumno',
+                    '1' => 'Es alumno',
+                ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
