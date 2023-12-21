@@ -23,4 +23,9 @@ class Curso extends Model
         return $this->hasMany(Inscripcion::class);
     }
 
+    public function getFullcursoAttribute()
+    {
+        return $this->añoCurso.'º '.$this->division.'º';
+    }
+
 }

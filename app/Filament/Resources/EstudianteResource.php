@@ -7,6 +7,7 @@ use App\Filament\Resources\EstudianteResource\RelationManagers;
 use App\Models\Estudiante;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Radio;
 use Filament\Forms\Form;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -44,9 +45,12 @@ class EstudianteResource extends Resource
                 TextInput::make('email'),
                 DatePicker::make('fecha_nac')
                 ->format('d-M-y'),
-                Toggle::make('esAlumno')
-                ->label('¿Es Alumno?'),
-                
+                Radio::make('esAlumno')
+                ->options([
+                    0 => 'No es alumno',
+                    1 => 'Si es alumno',
+                ])
+                ->label('¿Es Alumno?')
             ]);
     }
 

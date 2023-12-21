@@ -13,6 +13,8 @@ class Inscripcion extends Model
     protected $fillable=[
         'aceptado',
         'fechaInscripcion',
+        'estudiante_id',
+        'curso_id'
     ];
 
     protected $table = "inscripciones";
@@ -24,8 +26,8 @@ class Inscripcion extends Model
 
     public function curso() : BelongsTo
     {
-        return $this->belongsTo(Curso::class, 'estudiante_id', 'id');
+        return $this->belongsTo(Curso::class, 'curso_id', 'id');
     }
 
-    
+
 }
