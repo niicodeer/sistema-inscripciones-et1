@@ -43,8 +43,8 @@ class EstudianteResource extends Resource
                 TextInput::make('nombre'),
                 TextInput::make('apellido'),
                 TextInput::make('email'),
-                DatePicker::make('fecha_nac')
-                ->format('d-M-y'),
+                DatePicker::make('fecha_nac'),
+                //->format('d-M-y'),,
                 Radio::make('esAlumno')
                 ->options([
                     0 => 'No es alumno',

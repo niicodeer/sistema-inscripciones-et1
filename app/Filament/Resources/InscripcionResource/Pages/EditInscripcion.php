@@ -9,6 +9,7 @@ use Filament\Resources\Pages\EditRecord;
 class EditInscripcion extends EditRecord
 {
     protected static string $resource = InscripcionResource::class;
+   
 
     protected function getHeaderActions(): array
     {
@@ -16,4 +17,10 @@ class EditInscripcion extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return static::getResource()::getUrl('index');
+    }
 }
+
