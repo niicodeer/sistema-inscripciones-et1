@@ -3,13 +3,13 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\EstudianteResource\Pages;
-use App\Filament\Resources\EstudianteResource\RelationManagers;
+use App\Filament\Resources\EstudianteResource\RelationManagers\InscripcionesRelationManager;
 use App\Models\Estudiante;
-use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Radio;
 use Filament\Forms\Form;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -36,17 +36,44 @@ class EstudianteResource extends Resource
         return $form
             ->schema([
                 TextInput::make('cuil')
-                ->required()
-                ->minLength(3)
-                ->maxLength(20),
+                    ->required()
+                    ->minLength(3)
+                    ->maxLength(20),
                 TextInput::make('nombre'),
                 TextInput::make('apellido'),
                 TextInput::make('email'),
                 DatePicker::make('fecha_nac')
-                ->format('d-M-y'),
-                Toggle::make('esAlumno')
-                ->label('¿Es Alumno?'),
-                
+                    ->label('Fecha Nacimiento'),
+                Radio::make('esAlumno')
+                    ->options([
+                        0 => 'No es alumno',
+                        1 => 'Si es alumno',
+                    ])
+                    ->label('¿Es Alumno?'),
+                Fieldset::make('Más datos')
+                    ->relationship('dato')
+                    ->schema([
+                        TextInput::make('domicilio'),
+                        TextInput::make('medioTransporte')
+                            ->label('Medio de transporte'),
+                        TextInput::make('lugarNacimiento')
+                            ->label('Lugar de nacimiento'),
+                        TextInput::make('convivencia')
+                            ->label('Convive con'),
+                        TextInput::make('obraSocial'),
+                        TextInput::make('escuelaProviene')
+                            ->label('Escuela de la que proviente'),
+                        DatePicker::make('fechaIngreso'),
+                    ]),
+                Fieldset::make('Datos tutor')
+                    ->relationship('tutor')
+                    ->schema([
+                        TextInput::make('cuil'),
+                        TextInput::make('nombre'),
+                        TextInput::make('apellido'),
+                        TextInput::make('telefono'),
+                        TextInput::make('ocupacion'),
+                    ]),
             ]);
     }
 
@@ -54,32 +81,33 @@ class EstudianteResource extends Resource
     {
         return $table
             ->columns([
-               TextColumn::make('cuil')
-               ->searchable()
-               ->sortable(),
-               TextColumn::make('nombre')
-               ->searchable()
-               ->sortable(),
-               TextColumn::make('apellido')
-               ->searchable()
-               ->sortable(),
-               TextColumn::make('email')
-               ->searchable()
-               ->sortable(),
-               TextColumn::make('fecha_nac')
-               ->dateTime('d-M-y')
-               ->sortable(),
-               ToggleColumn::make('esAlumno')
-               ->sortable(),
+                TextColumn::make('cuil')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('nombre')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('apellido')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('email')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('fecha_nac')
+                    ->dateTime('d-M-y')
+                    ->sortable(),
+                ToggleColumn::make('esAlumno')
+                    ->sortable(),
             ])
             ->filters([
                 SelectFilter::make('esAlumno')
-                ->options([
-                    '0' => 'No es alumno',
-                    '1' => 'Es alumno',
-                ]),
+                    ->options([
+                        '0' => 'No es alumno',
+                        '1' => 'Es alumno',
+                    ]),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -92,7 +120,7 @@ class EstudianteResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            InscripcionesRelationManager::class,
         ];
     }
 
