@@ -21,6 +21,8 @@ class PreinscriptoFactory extends Factory
             'apellido' => fake()->lastName(),
             'email' => fake()->unique()->safeEmail(),
             'cuil' => fake()->numberBetween(1000000, 2000000),
+            'genero' => fake()->randomElement(['Femenino', 'Masculino', 'Otro']),
+            'telefono' => fake()->unique()->numerify('#############'),
             'fecha_nac' => fake()->date(),
         ];
     }

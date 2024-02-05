@@ -32,6 +32,11 @@ return new class extends Migration
      */
     public function down(): void
     {
+        // Eliminar restricciones de clave externa antes de eliminar la tabla
+        Schema::table('estudiantes', function (Blueprint $table) {
+            $table->dropForeign(['dato_id']);
+            $table->dropForeign(['tutor_id']);
+        });
         Schema::dropIfExists('estudiantes');
     }
 };

@@ -17,7 +17,9 @@ return new class extends Migration
             $table->string('nombre', 20);
             $table->string('apellido', 20);
             $table->string('email', 100);
-            $table->date('fecha_nac')->nullable();
+            $table->string('telefono', 15);
+            $table->string('genero');
+            $table->date('fecha_nac');
             $table->timestamps();
         });
     }
