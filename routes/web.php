@@ -1,28 +1,31 @@
 <?php
 
-use App\Http\Controllers\EstudianteController;
-use App\Http\Controllers\RolController;
+
+use App\Http\Controllers\PreinscriptoController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 Route::get('/', function () {
     return view('welcome');
-
 });
 
-Route::get('estudiante', [EstudianteController::class, 'index']);
-Route::get('rol', [RolController::class, 'prueba']);
+Route::get('/preinscripcion', [PreinscriptoController::class, 'index'])->name('preinscripcion');
+Route::post('/preinscripcion', [PreinscriptoController::class, 'store'])->name('preinscripcion');
 
-Route::get('/inscripciones', function () {
-    return view('formulario.inscripciones.index');
-});
+/* Route::get('/preinscripcion-correcta', function () {
+    return view('preinscripcion-correcta');
+})->name('confirmacion-preinscripcion'); */
+
+Route::get('/preinscripcion-correcta', function () {
+    return view('preinscripcion-correcta');
+})->name('confirmacion-preinscripcion')->middleware('checkPreinscripcion');
+
+/* Route::get('/preinscripcion', function () {
+    return view('livewire.preinscripcion-form');
+})->name('preinscipcion'); */
+
+
+Route::get('/verificar-cuil', [PreinscriptoController::class, 'verificacion'])->name('verificar-cuil');
+Route::post('/verificar-cuil', [PreinscriptoController::class, 'verificarCUIL'])->name('verificar-cuil');
+
+Route::get('/admin')->name('admin');
