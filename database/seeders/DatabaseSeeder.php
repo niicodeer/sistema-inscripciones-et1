@@ -33,14 +33,14 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@demo.com',
         ]);
         //$roleAdmin= Role::create(['name'=>'Admin']);
-        //$user->assignRole($roleAdmin);
+        $user->assignRole('Admin');
 
         $user2 = User::factory()->create([
             'name' => 'Secre',
             'email' => 'secretario@demo.com',
         ]);
         //$roleSecre= Role::create(['name'=>'Secretario']);
-       // $user2->assignRole($roleSecre);
+        $user2->assignRole('Secretario');
 
     }
 }

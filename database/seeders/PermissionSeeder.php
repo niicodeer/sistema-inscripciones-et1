@@ -14,10 +14,13 @@ class PermissionSeeder extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         // create permissions
-        Permission::create(['name' => 'editar estudiante']);
-        Permission::create(['name' => 'borrar estudiante']);
-        Permission::create(['name' => 'crear estudiante']);
-        Permission::create(['name' => 'ver estudiante']);
+
+        $arrayOfPermissionNames = ['editar estudiante', 'borrar estudiante', 'crear estudiante', 'ver estudiante'];
+    $permissions = collect($arrayOfPermissionNames)->map(function ($permission) {
+        return ['name' => $permission, 'guard_name' => 'web'];
+    });
+
+    Permission::insert($permissions->toArray());
         
 
         $role = Role::create(['name' => 'Admin']);
