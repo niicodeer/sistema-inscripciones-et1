@@ -28,4 +28,4 @@ Route::get('/preinscripcion-correcta', function () {
 Route::get('/verificar-cuil', [PreinscriptoController::class, 'verificacion'])->name('verificar-cuil');
 Route::post('/verificar-cuil', [PreinscriptoController::class, 'verificarCUIL'])->name('verificar-cuil');
 
-Route::get('/admin')->name('admin');
+//Route::get('/admin')->name('admin');
