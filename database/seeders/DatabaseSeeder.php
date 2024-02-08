@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             DatoEstudianteSeeder::class,
             EstudianteSeeder::class,
             InscripcionSeeder::class,
+            PermissionSeeder::class
             //RolSeeder::class,
             //UserSeeder::class,
         ]);
@@ -31,15 +32,15 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@demo.com',
         ]);
-        $roleAdmin= Role::create(['name'=>'Admin']);
-        $user->assignRole($roleAdmin);
+        //$roleAdmin= Role::create(['name'=>'Admin']);
+        //$user->assignRole($roleAdmin);
 
         $user2 = User::factory()->create([
             'name' => 'Secre',
             'email' => 'secretario@demo.com',
         ]);
-        $roleSecre= Role::create(['name'=>'Secretario']);
-        $user2->assignRole($roleSecre);
+        //$roleSecre= Role::create(['name'=>'Secretario']);
+       // $user2->assignRole($roleSecre);
 
     }
 }
