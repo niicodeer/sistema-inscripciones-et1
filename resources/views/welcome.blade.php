@@ -18,6 +18,6 @@
     <body class="antialiased">
         <h1>PAGINA PRINCIPAL DE LA ESCUELA</h1>
         <a href={{ route('preinscripcion') }}>Preinscripcion</a>
-        <a href={{ route('admin') }}>Administrador</a>
+        {{-- <a href={{ route('admin') }}>Administrador</a> --}}
     </body>
 </html>
