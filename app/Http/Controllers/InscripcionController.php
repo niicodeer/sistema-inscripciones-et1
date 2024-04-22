@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 
 class InscripcionController extends Controller
 {
-    public function index()
+    /* public function index()
     {
-        return view('formulario.inscripcion-form');
-    }
+        $step = 1;
+        return view('formulario.inscripcion-form', compact('step'));
+    } */
 }

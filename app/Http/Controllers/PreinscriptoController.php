@@ -48,11 +48,11 @@ class PreinscriptoController extends Controller
         return redirect()->route('confirmacion-preinscripcion');
     }
 
-    public function verificacion()
+/*     public function verificacion()
     {
         return view('verificar-cuil');
     }
-
+ */
     public function verificarCUIL(Request $request)
     {
         $cuil = $request->input('cuil');
