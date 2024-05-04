@@ -1,7 +1,6 @@
 {{-- @extends('layouts.forms-layout') --}}
 @section('title', 'Formulario Inscripción')
 
-{{-- @section('content') --}}
 <div class="px-2">
     <h1 class="text-2xl xl:text-3xl font-bold text-center mb-6 md:mb-14">Inscripción Ciclo Lectivo 2024</h1>
     @if ($currentStep <= 2)
@@ -51,29 +50,46 @@
                 <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full">
                     <x-input type="text" id="domicilio" label="Domicilio" placeholder="Domicilio"
                         wire:model="domicilio" />
-                    <x-input type="text" id="ciudad" label="Ciudad" placeholder="Ciudad" wire:model="ciudad" />
-
-                    <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
-                        <p class="text-[#2D3648] font-semibold text-sm">Medio de transporte</p>
-                        <x-input-check id="publico" label="Trasporte público" value="transporte-publico"
-                            wire:model="transporte" />
-                        <x-input-check id="auto" label="Auto / Camioneta" value="auto-camioneta"
-                            wire:model="transporte" />
-                        <x-input-check id="moto" label="Moto" value="moto" wire:model="transporte" />
-                        <x-input-check id="bicicleta" label="Bicicleta" value="bicicleta" wire:model="transporte" />
-                        <x-input-check id="otros" label="Otros" value="otros" wire:model="transporte" />
-                        <x-input-check id="no-utiliza" label="No utiliza" value="no-utiliza" wire:model="transporte" />
+                    <div class="w-[45%] flex gap-x-2">
+                        <x-input type="number" id="numeracion" label="Numeración" placeholder="Numeración"
+                            wire:model="numeracion" />
+                        <x-input type="text" id="piso" label="Piso dpto" placeholder="Piso" wire:model="piso" />
                     </div>
-
+                    {{-- <x-select id="provincia" label="Provincia" :options="json_encode(['Santiago del Estero', 'Córdoba', 'Otro'])" wire:model="provincia" /> --}}
+                    <x-input type="text" id="provincia" label="Provincia" placeholder="Provincia"
+                        wire:model="provincia" />
+                    <x-input type="text" id="localidad" label="Localidad" placeholder="Localidad"
+                        wire:model="localidad" />
+                    <x-input type="text" id="ciudad" label="Ciudad" placeholder="Ciudad" wire:model="ciudad" />
                     <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Convive con</p>
-                        <x-input-check id="madre" label="Madre" value="madre" wire:model="convive" />
-                        <x-input-check id="padre" label="Padre" value="padre" wire:model="convive" />
-                        <x-input-check id="hermanos" label="Hermano/a" value="hermanos" wire:model="convive" />
-                        <x-input-check id="tios" label="Tia/o" value="tios" wire:model="convive" />
-                        <x-input-check id="abuelos" label="Abuela/o" value="abuelos" wire:model="convive" />
+                        <div class="w-full grid grid-cols-2 gap-2">
+                            <x-input-check id="madre" label="Madre" value="madre" wire:model="convive" />
+                            <x-input-check id="padre" label="Padre" value="padre" wire:model="convive" />
+                            <x-input-check id="hermanos" label="Hermano/a" value="hermanos" wire:model="convive" />
+                            <x-input-check id="tios" label="Tia/o" value="tios" wire:model="convive" />
+                            <x-input-check id="abuelos" label="Abuela/o" value="abuelos" wire:model="convive" />
+                            <x-input-check id="otros" label="Otros" value="otros" wire:model="convive" />
+                        </div>
                     </div>
-                    <div class="w-full flex flex-col gap-y-2">
+                    <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
+                        <p class="text-[#2D3648] font-semibold text-sm">Medio de transporte</p>
+                        <div class="w-full grid grid-cols-2 gap-2">
+                            <x-input-check id="publico" label="Trasporte público" value="transporte-publico"
+                                wire:model="transporte" />
+                            <x-input-check id="auto" label="Auto / Camioneta" value="auto-camioneta"
+                                wire:model="transporte" />
+                            <x-input-check id="moto" label="Moto" value="moto" wire:model="transporte" />
+                            <x-input-check id="bicicleta" label="Bicicleta" value="bicicleta"
+                                wire:model="transporte" />
+                            <x-input-check id="otros" label="Otros" value="otros" wire:model="transporte" />
+                            <x-input-check id="no-utiliza" label="No utiliza" value="no-utiliza"
+                                wire:model="transporte" />
+                        </div>
+                    </div>
+
+
+                    <div class=" w-[45%] flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Obra Social / Prepaga</p>
                         <div class="flex md:max-w-[45%] w-full gap-6">
                             <x-input-radio id="obra-social" label="Si" value="si" wire:model="obraSocial" />
@@ -206,7 +222,7 @@
         @endif
         <div class="flex gap-4 w-full justify-center">
             @if ($currentStep == 1)
-                <x-secondary-button text="Volver" href="{{ route('verificar-cuil') }}"/>
+                <x-secondary-button text="Volver" href="{{ route('verificar-cuil') }}" />
             @endif
             @if ($currentStep > 1)
                 <x-secondary-button text="Volver" wire:click="decrementSteps" />
@@ -222,4 +238,3 @@
 
     </form>
 </div>
-{{-- @endsection --}}
