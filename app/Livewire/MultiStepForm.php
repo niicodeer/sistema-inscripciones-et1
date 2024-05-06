@@ -2,6 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Models\DatoEstudiante;
+use App\Models\Estudiante;
+use App\Models\Inscripcion;
+use App\Models\Tutor;
 use Livewire\Component;
 
 class MultiStepForm extends Component
@@ -68,16 +72,57 @@ class MultiStepForm extends Component
 
     public function submit()
     {
-        /*         $validated = $this->validate([
-            'status' => 'required',
-            'gender' => 'required',
-        ]); */
+        try {
+            Estudiante::create([
+                'nombre' => $this->nombre,
+                'apellido' => $this->apellido,
+                'genero' => $this->genero,
+                'cuil' => $this->cuil,
+                'email' => $this->email,
+                'fecha_nac' => $this->fecha_nac,
+            ]);
 
-        /*
-        Register::create([
-            'first_name'=>$this->first_name;
-        ])
-        */
+            DatoEstudiante::create([
+                'telefono' => $this->telefono,
+                'provincias' => $this->provincias,
+                'ciudad' => $this->ciudad,
+                'localidad' => $this->localidad,
+                'calle' => $this->calle,
+                'numeracion' => $this->numeracion,
+                'piso' => $this->piso,
+                'lugar_nacimiento' => $this->lugar_nacimiento,
+                'nombre_obra_social' => $this->nombreObraSocial,
+                'obra_social' => $this->obraSocial,
+                'fecha_ingreso' => $this->fecha_ingreso,
+                'medio_transporte' => json_encode($this->transporte),
+                'convivencia' => json_encode($this->convive),
+            ]);
+
+            Inscripcion::create([
+                'turno' => $this->turno,
+                'curso_inscripto' => $this->curso,
+                'modalidad' => $this->modalidad,
+                'escuela_proviene' => $this->escuelaProviene,
+                'fecha_inscripto' => now(),
+                'condicion_alumno' => $this->condicionAlumno,
+                'adeuda_materias' => $this->adeudaMaterias,
+                'nombre_materias' => $this->nombreMaterias,
+                'reconocimientos' => json_encode($this->reconocimientos),
+            ]);
+
+            Tutor::create([
+                'nombre' => $this->nombreTutor,
+                'apellido' => $this->apellidoTutor,
+                'cuil' => $this->cuilTutor,
+                'email' => $this->emailTutor,
+                'telefono' => $this->telefonoTutor,
+                'ocupacion' => $this->ocupacion,
+                'parentezco' => $this->parentezco,
+            ]);
+            } catch (\Exception $e){
+                return redirect()->back()->with('error', 'Error al guardar los datos: ' . $e->getMessage());
+            }
+
         dd([
             'Step 1' => [
                 'nombre' => $this->nombre,

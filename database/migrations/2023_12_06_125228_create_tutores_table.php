@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('cuil');
             $table->string('telefono');
+            $table->string('email');
             $table->string('nombre');
             $table->string('apellido');
             $table->string('ocupacion');
