@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('apellido');
             $table->string('ocupacion');
+            $table->string('parentezco');
             $table->timestamps();
         });
     }
