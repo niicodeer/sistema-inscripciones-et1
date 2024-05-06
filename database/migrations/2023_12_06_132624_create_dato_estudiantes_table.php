@@ -13,13 +13,20 @@ return new class extends Migration
     {
         Schema::create('dato_estudiantes', function (Blueprint $table) {
             $table->id();
-            $table->string('medioTransporte');
-            $table->string('domicilio');
-            $table->string('obraSocial');
-            $table->string('lugarNacimiento');
-            $table->date('fechaIngreso');
-            $table->string('convivencia');
-            $table->string('escuelaProviene');
+            $table->string('provincia');
+            $table->string('ciudad');
+            $table->string('localidad');
+            $table->json('medio_transporte');
+            $table->string('calle');
+            $table->unsignedInteger('numeracion');
+            $table->string('piso')->nullable();
+            $table->string('telefono');
+            $table->boolean('obra_social');
+            $table->string('nombre_obra_social')->nullable();
+            $table->string('lugar_nacimiento');
+            $table->date('fecha_ingreso');
+            $table->json('convivencia');
+            $table->string('escuela_proviene');
             $table->timestamps();
         });
     }

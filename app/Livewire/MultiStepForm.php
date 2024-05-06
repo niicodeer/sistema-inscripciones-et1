@@ -20,10 +20,14 @@ class MultiStepForm extends Component
     public $email;
     public $telefono;
     /* STEP 2 */
-    public $domicilio;
+    public $calle;
+    public $numeracion;
+    public $piso;
+    public $localidad;
     public $ciudad;
-    public $transporte = [];
-    public $convive = [];
+    public $provincia;
+    public $transporte=[];
+    public $convive=[];
     public $obraSocial;
     public $nombreObraSocial;
     /* STEP 3 */
@@ -110,7 +114,11 @@ class MultiStepForm extends Component
                 'telefono' => $this->telefono
             ],
             'Step 2' => [
-                'domicilio' => $this->domicilio,
+                'calle' => $this->calle,
+                'numeracion' => $this->numeracion,
+                'piso' => $this->piso,
+                'localidad' => $this->localidad,
+                'provincia' => $this->provincia,
                 'ciudad' => $this->ciudad,
                 'transporte' => $this->transporte,
                 'convive' => $this->convive,

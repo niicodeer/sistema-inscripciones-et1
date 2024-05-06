@@ -21,6 +21,7 @@ class TutorFactory extends Factory
             'telefono' => fake()->phoneNumber(),
             'nombre' => fake()->firstName(),
             'apellido' => fake()->lastName(),
+            'parentezco' => fake()->word(),
             'ocupacion' => fake()->word(),
         ];
     }
