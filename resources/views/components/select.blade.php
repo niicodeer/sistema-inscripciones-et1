@@ -8,4 +8,7 @@
             <option value="{{ $option }}">{{ $option }}</option>
         @endforeach
     </select>
+    @error($id)
+    <p class="text-red-700 text-sm">{{ $message }}</p>
+@enderror
 </div>

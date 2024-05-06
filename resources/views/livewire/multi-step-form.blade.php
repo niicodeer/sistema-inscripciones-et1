@@ -1,7 +1,6 @@
 {{-- @extends('layouts.forms-layout') --}}
 @section('title', 'Formulario Inscripción')
 
-{{-- @section('content') --}}
 <div class="px-2">
     <h1 class="text-2xl xl:text-3xl font-bold text-center mb-6 md:mb-14">Inscripción Ciclo Lectivo 2024</h1>
     @if ($currentStep <= 2)
@@ -51,36 +50,55 @@
                 <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full">
                     <x-input type="text" id="domicilio" label="Domicilio" placeholder="Domicilio"
                         wire:model="domicilio" />
-                    <x-input type="text" id="ciudad" label="Ciudad" placeholder="Ciudad" wire:model="ciudad" />
-
-                    <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
-                        <p class="text-[#2D3648] font-semibold text-sm">Medio de transporte</p>
-                        <x-input-check id="publico" label="Trasporte público" value="transporte-publico"
-                            wire:model="transporte" />
-                        <x-input-check id="auto" label="Auto / Camioneta" value="auto-camioneta"
-                            wire:model="transporte" />
-                        <x-input-check id="moto" label="Moto" value="moto" wire:model="transporte" />
-                        <x-input-check id="bicicleta" label="Bicicleta" value="bicicleta" wire:model="transporte" />
-                        <x-input-check id="otros" label="Otros" value="otros" wire:model="transporte" />
-                        <x-input-check id="no-utiliza" label="No utiliza" value="no-utiliza" wire:model="transporte" />
+                    <div class="w-[45%] flex gap-x-2">
+                        <x-input type="number" id="numeracion" label="Numeración" placeholder="Numeración"
+                            wire:model="numeracion" />
+                        <x-input type="text" id="piso" label="Piso dpto" placeholder="Piso" wire:model="piso" />
                     </div>
-
+                    {{-- <x-select id="provincia" label="Provincia" :options="json_encode(['Santiago del Estero', 'Córdoba', 'Otro'])" wire:model="provincia" /> --}}
+                    <x-input type="text" id="provincia" label="Provincia" placeholder="Provincia"
+                        wire:model="provincia" />
+                    <x-input type="text" id="localidad" label="Localidad" placeholder="Localidad"
+                        wire:model="localidad" />
+                    <x-input type="text" id="ciudad" label="Ciudad" placeholder="Ciudad" wire:model="ciudad" />
                     <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Convive con</p>
-                        <x-input-check id="madre" label="Madre" value="madre" wire:model="convive" />
-                        <x-input-check id="padre" label="Padre" value="padre" wire:model="convive" />
-                        <x-input-check id="hermanos" label="Hermano/a" value="hermanos" wire:model="convive" />
-                        <x-input-check id="tios" label="Tia/o" value="tios" wire:model="convive" />
-                        <x-input-check id="abuelos" label="Abuela/o" value="abuelos" wire:model="convive" />
+                        <div class="w-full grid grid-cols-2 gap-2">
+                            <x-input-check id="madre" label="Madre" value="madre" wire:model="convive" />
+                            <x-input-check id="padre" label="Padre" value="padre" wire:model="convive" />
+                            <x-input-check id="hermanos" label="Hermano/a" value="hermanos" wire:model="convive" />
+                            <x-input-check id="tios" label="Tia/o" value="tios" wire:model="convive" />
+                            <x-input-check id="abuelos" label="Abuela/o" value="abuelos" wire:model="convive" />
+                            <x-input-check id="otros" label="Otros" value="otros" wire:model="convive" />
+                        </div>
                     </div>
-                    <div class="w-full flex flex-col gap-y-2">
+                    <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
+                        <p class="text-[#2D3648] font-semibold text-sm">Medio de transporte</p>
+                        <div class="w-full grid grid-cols-2 gap-2">
+                            <x-input-check id="publico" label="Trasporte público" value="transporte-publico"
+                                wire:model="transporte" />
+                            <x-input-check id="auto" label="Auto / Camioneta" value="auto-camioneta"
+                                wire:model="transporte" />
+                            <x-input-check id="moto" label="Moto" value="moto" wire:model="transporte" />
+                            <x-input-check id="bicicleta" label="Bicicleta" value="bicicleta"
+                                wire:model="transporte" />
+                            <x-input-check id="otros" label="Otros" value="otros" wire:model="transporte" />
+                            <x-input-check id="no-utiliza" label="No utiliza" value="no-utiliza"
+                                wire:model="transporte" />
+                        </div>
+                    </div>
+
+
+                    <div class=" w-[45%] flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Obra Social / Prepaga</p>
                         <div class="flex md:max-w-[45%] w-full gap-6">
-                            <x-input-radio id="obra-social" label="Si" value="si" wire:model="obraSocial" />
-                            <x-input-radio id="obra-social" label="No" value="no" wire:model="obraSocial" />
+                            <x-input-radio id="obra-social" label="Si" value="si"
+                                wire:model.live="obraSocial" />
+                            <x-input-radio id="obra-social" label="No" value="no"
+                                wire:model.live="obraSocial" />
                         </div>
                         <x-input type="text" id="nombre-os" label="" placeholder="Obra Social / Prepaga"
-                            wire:model="nombreObraSocial" />
+                            wire:model="nombreObraSocial" :disabled="$obraSocial != 'si'" :value="$obraSocial == 'no' ? '' : $nombreObraSocial" />
                     </div>
                 </div>
             </div>
@@ -111,6 +129,8 @@
                         <x-input-radio id="tios" name="parentezco" label="Tia/o" value="tios"
                             wire:model="nombreTuparentezcotor" />
                         <x-input-radio id="abuelos" name="parentezco" label="Abuela/o" value="abuelos"
+                            wire:model="parentezco" />
+                        <x-input-radio id="otro" name="parentezco" label="Otro" value="otro"
                             wire:model="parentezco" />
                     </div>
                 </div>
@@ -160,13 +180,13 @@
                         <p class="text-[#2D3648] font-semibold text-sm">Adeuda Materias</p>
                         <div class="flex md:max-w-[45%] w-full gap-6">
                             <x-input-radio id="si" label="Si" value="si" name="adeuda-materia"
-                                wire:model="adeudaMaterias" />
+                                wire:model.live="adeudaMaterias" />
                             <x-input-radio id="no" label="No" value="no" name="adeuda-materia"
-                                wire:model="adeudaMaterias" />
+                                wire:model.live="adeudaMaterias" />
                         </div>
                         <div class="w-[220%]">
                             <x-input type="text" id="adeuda-materia-nombre" label=""
-                                placeholder="Nombres materias" wire:model="nombreMaterias" />
+                                placeholder="Nombres materias" wire:model="nombreMaterias" :disabled="$adeudaMaterias != 'si'" />
                         </div>
                     </div>
                 </div>
@@ -197,8 +217,9 @@
                     <input class="border border-gray-300 p-2 rounded h-5 w-5" id="terminos" name="terminos"
                         type="checkbox" wire:model="terminos">
                     <label for="terminos">
-                        He leído y acepto los términos del <a href="" class="italic underline">código de
-                            vestimenta.</a>
+                        He leído y acepto los términos del <span id="openModalBtn"
+                            class="italic underline hover:cursor-pointer">código de
+                            vestimenta.</span>
                     </label>
                 </div>
 
@@ -206,7 +227,7 @@
         @endif
         <div class="flex gap-4 w-full justify-center">
             @if ($currentStep == 1)
-                <x-secondary-button text="Volver" href="{{ route('verificar-cuil') }}"/>
+                <x-secondary-button text="Volver" href="{{ route('verificar-cuil') }}" />
             @endif
             @if ($currentStep > 1)
                 <x-secondary-button text="Volver" wire:click="decrementSteps" />
@@ -221,5 +242,45 @@
         </div>
 
     </form>
+{{-- MODAL --}}
+    <div id="myModal" class="modal justify-center items-center">
+        <div class="bg-white max-w-[70%] xl:max-w-screen-lg w-fit h-fit rounded-3xl p-5 py-7 md:p-16 relative">
+            <span class="close top-6 right-6">&times;</span>
+            <div class="flex flex-col gap-8 justify-center items-center w-full max-w-96">
+                <h1 class="text-2xl md:text-3xl font-bold">Registramos tu <br /> pre-inscripción!</h1>
+                <p class="">Gracias por pre-inscribirte! En los próximos meses te esteremos avisando las fechas
+                    de
+                    inscripción. ¡Estate
+                    atento a tu correo y a nuestro perfil de Facebook!</p>
+
+
+                <div class="flex gap-2 items-center">
+                    <div>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_96_3094)">
+                                <path
+                                    d="M21.8715 0.905273H2.12965C1.45344 0.905273 0.905273 1.45344 0.905273 2.12965V21.8715C0.905273 22.5477 1.45344 23.0959 2.12965 23.0959H21.8715C22.5477 23.0959 23.0959 22.5477 23.0959 21.8715V2.12965C23.0959 1.45344 22.5477 0.905273 21.8715 0.905273Z"
+                                    fill="#3D5A98" />
+                                <path
+                                    d="M16.215 23.0943V14.5012H19.0987L19.53 11.1524H16.215V9.01494C16.215 8.04557 16.485 7.38369 17.8743 7.38369H19.6481V4.38369C18.7892 4.29418 17.926 4.25161 17.0625 4.25619C14.5087 4.25619 12.75 5.81244 12.75 8.68307V11.1524H9.86621V14.5012H12.75V23.0943H16.215Z"
+                                    fill="white" />
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_96_3094">
+                                    <rect width="24" height="24" fill="white" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </div>
+                    <a href="#" class="underline">Escuela Técnica Nº 1</a>
+                </div>
+                <div class="flex gap-2 flex-col items-center">
+                    <x-primary-button text="Descargar comprobante" onclick="mostrarAlerta()" /> {{-- TODO: crear funcion para descargar comprobante pdf --}}
+                    <x-secondary-button text="Volver al inicio" href="{{ route('inicio') }}" />
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
-{{-- @endsection --}}
