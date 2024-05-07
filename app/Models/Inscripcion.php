@@ -12,7 +12,7 @@ class Inscripcion extends Model
 
     protected $fillable=[
         'aceptado',
-        'fechaInscripcion',
+        'fecha_inscripcion',
         'estudiante_id',
         'curso_id'
     ];
