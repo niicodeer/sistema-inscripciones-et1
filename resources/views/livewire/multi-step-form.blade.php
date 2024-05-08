@@ -145,9 +145,6 @@
                         @enderror
                     </div>
                 </div>
-                @error('parentezco')
-                    <p class="text-red-700 text-sm">{{ $message }}</p>
-                @enderror
             </div>
         @endif
         @if ($currentStep === 4)
@@ -161,7 +158,7 @@
                         'Quinto año',
                         'Sexto año',
                     ])" wire:model.live="curso" />
-                    <x-select id="modalidad" label="Modalidad a seguir" :options="json_encode(['Informatica', 'Economía', 'Industria'])" wire:model="modalidad"
+                    <x-select id="modalidad" label="Modalidad a seguir" :options="json_encode(['Informática', 'Economía', 'Industria'])" wire:model="modalidad"
                         :disabled="in_array($curso, ['Primer año', 'Segundo año', ''])" />
 
                     <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">

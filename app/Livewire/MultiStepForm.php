@@ -7,6 +7,7 @@ use App\Models\DatoEstudiante;
 use App\Models\Estudiante;
 use App\Models\Inscripcion;
 use App\Models\Tutor;
+use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
 class MultiStepForm extends Component
@@ -237,37 +238,21 @@ class MultiStepForm extends Component
         } elseif ($this->currentStep === 4) {
             $validated = $this->validate([
                 'curso' => 'required|in:"Primer año","Segundo año","Tercer año","Cuarto año","Quinto año","Sexto año"',
-                'modalidad' => function ($validator) {
-                    if (!in_array($validator->getValue('curso'), ['Primer año', 'Segundo año'])) {
-                        return 'required';
-                    }
-                    return null; // No validation rule for other curso values
-                },
+                'modalidad' => 'in:"Informática","Economía","Industria"',
                 'condicionAlumno' => 'required',
                 'turno' => 'required',
-                'escuelaProviene' => function ($validator) {
-                    if (!in_array($validator->getValue('condicionAlumno'), ['regular'])) {
-                        return 'required';
-                    }
-                    return null; // No validation rule for other condicionAlumno values
-                },
+                //'escuelaProviene' => 'required',
                 'adeudaMaterias' => 'required',
-                /* 'nombreMaterias' => function ($validator) {
-                    $adeudaValue = $validator->input('adeudaMaterias');
-                    if (in_array($adeudaValue, ['si'])) {
-                        return 'required';
-                    }
-                    return null; // No validation rule if adeudaMaterias is not 'si'
-                }, */
+                //'nombreMaterias' => 'required'
             ], [
                 'curso.required' => 'Debe seleccionar una opción.',
                 'curso.in' => 'El curso ingresado no es válido.',
-                'modalidad.required' => 'Debe seleccionar una opción.',
+                //'modalidad.required' => 'Debe seleccionar una opción.',
                 'modalidad.in' => 'La modalidad ingresada no es válida.',
                 'turno.required' => 'Debe seleccionar una opción.',
                 'adeudaMaterias.required' => 'Debe seleccionar una opción.',
                 'condicionAlumno.required' => 'Debe seleccionar una opción.',
-                'escuelaProviene.required' => 'Debe indicar una institución',
+                //'escuelaProviene.required' => 'Debe indicar una institución',
                 //'nombreMaterias.required' => 'Debe indicar las materias que adeuda',
             ]);
         } elseif ($this->currentStep === 5) {
