@@ -24,9 +24,8 @@ return new class extends Migration
             $table->boolean('obra_social');
             $table->string('nombre_obra_social')->nullable();
             $table->string('lugar_nacimiento');
-            $table->date('fecha_ingreso');
+            $table->date('fecha_ingreso')->nullable();
             $table->json('convivencia');
-            $table->string('escuela_proviene');
             $table->timestamps();
         });
     }

@@ -18,7 +18,7 @@ class Estudiante extends Model
         'email',
         'cuil',
         'fecha_nac',
-        'esAlumno'
+        'es_alumno'
     ];
 
     public function dato() : HasOne

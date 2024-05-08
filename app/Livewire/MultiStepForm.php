@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\Curso;
+
 use App\Models\DatoEstudiante;
 use App\Models\Estudiante;
 use App\Models\Inscripcion;
@@ -76,6 +76,7 @@ class MultiStepForm extends Component
     {
         $this->validateForm();
         /* try {
+
             Estudiante::create([
                 'nombre' => $this->nombre,
                 'apellido' => $this->apellido,

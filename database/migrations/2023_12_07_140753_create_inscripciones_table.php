@@ -17,11 +17,12 @@ return new class extends Migration
             $table->string('modalidad');
             $table->string('escuela_proviene');
             $table->string('condicion_alumno');
-            $table->boolean('aceptado');
+            $table->boolean('aceptado')->default(false);
             $table->boolean('adeuda_materia');
             $table->string('nombre_materias')->nullable();
             $table->json('reconocimientos');
             $table->date('fecha_inscripcion');
+            $table->string('curso_inscripto');
             $table->unsignedBigInteger('estudiante_id')->nullable();
             $table->unsignedBigInteger('curso_id')->nullable();
             $table->foreign('estudiante_id')->references('id')->on('estudiantes')->onUpdate('set null')->onDelete('set null');
