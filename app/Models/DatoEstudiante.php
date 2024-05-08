@@ -12,8 +12,14 @@ class DatoEstudiante extends Model
 
     protected $fillable=[
         'medio_transporte',
-        'domicilio',
+        'calle',
+        'numeracion',
+        'piso',
+        'provincia',
+        'ciudad',
+        'localidad',
         'obra_social',
+        'nombre_obra_social',
         'lugar_nacimiento',
         'fecha_ingreso',
         'convivencia',

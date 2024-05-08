@@ -14,8 +14,16 @@ class Inscripcion extends Model
         'aceptado',
         'fecha_inscripcion',
         'estudiante_id',
-        'curso_id'
-    ];
+        'curso_id',
+        'turno',
+        'curso_inscripto',
+        'modalidad',
+        'escuela_proviene',
+        'condicion_alumno',
+        'adeuda_materias',
+        'nombre_materias',
+        'reconocimientos'
+     ];
 
     protected $table = "inscripciones";
 

@@ -100,10 +100,10 @@ class MultiStepForm extends Component
                 'calle' => $this->calle,
                 'numeracion' => $this->numeracion,
                 'piso' => $this->piso,
-                'lugar_nacimiento' => $this->lugar_nacimiento,
+                'lugar_nacimiento' => '$this->lugar_nacimiento',
                 'nombre_obra_social' => $this->nombreObraSocial,
                 'obra_social' => $this->obraSocial,
-                'fecha_ingreso' => $this->fecha_ingreso,
+                'fecha_ingreso' => now(),
                 'medio_transporte' => json_encode($this->transporte),
                 'convivencia' => json_encode($this->convive),
             ]);
@@ -113,7 +113,7 @@ class MultiStepForm extends Component
                 'curso_inscripto' => $this->curso,
                 'modalidad' => $this->modalidad,
                 'escuela_proviene' => $this->escuelaProviene,
-                'fecha_inscripto' => now(),
+                'fecha_inscripcion' => now(),
                 'condicion_alumno' => $this->condicionAlumno,
                 'adeuda_materias' => $this->adeudaMaterias,
                 'nombre_materias' => $this->nombreMaterias,
@@ -133,11 +133,11 @@ class MultiStepForm extends Component
             return redirect()->route('inicio');
         } catch (\Exception $e) {
             print("errorOccurred");
-            print($e);
+            dd(['error'=>$e]);
             //$this->emitTo('multi-step-form', 'errorOccurred', ['message' => 'Error al guardar los datos: ' . $e->getMessage()]);
         }
 
-         dd([
+         /*dd([
             'Step 1' => [
                 'nombre' => $this->nombre,
                 'apellido' => $this->apellido,
@@ -180,7 +180,7 @@ class MultiStepForm extends Component
                 'reconocimientos' => $this->reconocimientos,
                 'terminos' => $this->terminos
             ]
-        ]);
+        ]);*/
 
         //$this->reset();
     }
@@ -243,6 +243,7 @@ class MultiStepForm extends Component
                 'emailTutor.required' => 'El campo email es obligatorio.',
                 'emailTutor.email' => 'El email debe ser una dirección de correo electrónico válida.',
                 'telefonoTutor.required' => 'El campo telefono es obligatorio',
+                'telefonoTutor.numeric'=>'El telefono debe contener números.',
                 'ocupacion.required' => 'El campo ocupación es obligatorio',
                 'parentezco.required' => 'Debe seleccionar una opción'
             ]);
