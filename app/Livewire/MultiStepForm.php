@@ -7,12 +7,13 @@ use App\Models\DatoEstudiante;
 use App\Models\Estudiante;
 use App\Models\Inscripcion;
 use App\Models\Tutor;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 use Livewire\Component;
+
 
 class MultiStepForm extends Component
 {
-    public $currentStep = 4;
+    public $currentStep = 1;
     public $total_steps = 5;
     /* STEP 1 */
     public $nombre;
@@ -21,6 +22,7 @@ class MultiStepForm extends Component
     public $fecha_nac;
     public $email;
     public $telefono;
+    public $cuil;
     /* STEP 2 */
     public $calle;
     public $numeracion;
@@ -56,6 +58,10 @@ class MultiStepForm extends Component
     {
         return view('livewire.multi-step-form');
     }
+    public function mount(Request $request)
+    {
+        $this->cuil = $request->input('cuil');
+    }
 
     public function incrementSteps()
     {
@@ -75,20 +81,20 @@ class MultiStepForm extends Component
     public function submit()
     {
         $this->validateForm();
-        /* try {
+        try {
 
             Estudiante::create([
                 'nombre' => $this->nombre,
                 'apellido' => $this->apellido,
                 'genero' => $this->genero,
                 'cuil' => $this->cuil,
+                'telefono' => $this->telefono,
                 'email' => $this->email,
                 'fecha_nac' => $this->fecha_nac,
             ]);
 
             DatoEstudiante::create([
-                'telefono' => $this->telefono,
-                'provincias' => $this->provincias,
+                'provincia' => $this->provincia,
                 'ciudad' => $this->ciudad,
                 'localidad' => $this->localidad,
                 'calle' => $this->calle,
@@ -123,11 +129,15 @@ class MultiStepForm extends Component
                 'ocupacion' => $this->ocupacion,
                 'parentezco' => $this->parentezco,
             ]);
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Error al guardar los datos: ' . $e->getMessage());
-        } */
 
-        dd([
+            return redirect()->route('inicio');
+        } catch (\Exception $e) {
+            print("errorOccurred");
+            print($e);
+            //$this->emitTo('multi-step-form', 'errorOccurred', ['message' => 'Error al guardar los datos: ' . $e->getMessage()]);
+        }
+
+         dd([
             'Step 1' => [
                 'nombre' => $this->nombre,
                 'apellido' => $this->apellido,
@@ -222,8 +232,8 @@ class MultiStepForm extends Component
                 'apellidoTutor' => 'required|string',
                 'cuilTutor' => 'required|numeric',
                 'emailTutor' => 'required|email',
-                'telefonoTutor' => 'required|nueric',
-                'ocupacion' => 'required|stringh',
+                'telefonoTutor' => 'required|numeric',
+                'ocupacion' => 'required|string',
                 'parentezco' => 'required',
             ], [
                 'nombreTutor.required' => 'El campo nombre es obligatorio.',

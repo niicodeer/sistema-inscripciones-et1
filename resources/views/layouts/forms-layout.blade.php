@@ -68,6 +68,12 @@
             }
         }
     </script>
+{{--     @livewireScripts
+    <script>
+        Livewire.on('errorOccurred', ({ message }) => {
+            alert(message); // Puedes cambiar esto por cualquier lógica de manejo de errores que desees
+        });
+    </script> --}}
 </body>
 
 </html>

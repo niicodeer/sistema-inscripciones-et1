@@ -42,6 +42,11 @@
                         wire:model="email" />
                     <x-input type="text" id="telefono" label="Teléfono" placeholder="Introduce un telefono"
                         wire:model="telefono" />
+                    @if (request()->has('cuil'))
+                        <x-input type="text" id="cuil" label="Cuil" name="cuil" value="{{ request('cuil') }}" wire:model="cuil" disabled />
+                    @endif
+                    {{-- <x-input type="hidden" id="cuil" label="Cuil" value="{{ $cuil }}" disabled
+                        wire:model="cuil" /> --}}
                 </div>
             </div>
         @endif
@@ -313,3 +318,11 @@
 
     </div>
 </div>
+@livewireScripts
+<script>
+    Livewire.on('errorOccurred', ({
+        message
+    }) => {
+        alert(message); // Puedes cambiar esto por cualquier lógica de manejo de errores que desees
+    });
+</script>
