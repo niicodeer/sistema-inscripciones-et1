@@ -23,6 +23,7 @@ class TutorFactory extends Factory
             'apellido' => fake()->lastName(),
             'parentezco' => fake()->word(),
             'ocupacion' => fake()->word(),
+            'email' => fake()->email(),
         ];
     }
 }
