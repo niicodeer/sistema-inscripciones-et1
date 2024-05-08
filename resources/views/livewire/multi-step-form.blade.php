@@ -48,8 +48,7 @@
         @if ($currentStep === 2)
             <div>
                 <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full">
-                    <x-input type="text" id="domicilio" label="Domicilio" placeholder="Domicilio"
-                        wire:model="domicilio" />
+                    <x-input type="text" id="calle" label="Calle" placeholder="Calle" wire:model="calle" />
                     <div class="w-[45%] flex gap-x-2">
                         <x-input type="number" id="numeracion" label="Numeración" placeholder="Numeración"
                             wire:model="numeracion" />
@@ -71,6 +70,9 @@
                             <x-input-check id="abuelos" label="Abuela/o" value="abuelos" wire:model="convive" />
                             <x-input-check id="otros" label="Otros" value="otros" wire:model="convive" />
                         </div>
+                        @error('convive')
+                            <p class="text-red-700 text-sm">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Medio de transporte</p>
@@ -86,9 +88,10 @@
                             <x-input-check id="no-utiliza" label="No utiliza" value="no-utiliza"
                                 wire:model="transporte" />
                         </div>
+                        @error('transporte')
+                            <p class="text-red-700 text-sm">{{ $message }}</p>
+                        @enderror
                     </div>
-
-
                     <div class=" w-[45%] flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Obra Social / Prepaga</p>
                         <div class="flex md:max-w-[45%] w-full gap-6">
@@ -99,6 +102,9 @@
                         </div>
                         <x-input type="text" id="nombre-os" label="" placeholder="Obra Social / Prepaga"
                             wire:model="nombreObraSocial" :disabled="$obraSocial != 'si'" :value="$obraSocial == 'no' ? '' : $nombreObraSocial" />
+                        @error('obraSocial')
+                            <p class="text-red-700 text-sm">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
             </div>
@@ -106,32 +112,37 @@
         @if ($currentStep === 3)
             <div>
                 <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full">
-                    <x-input type="text" id="nombre-tutor" label="Nombre" placeholder="Nombre"
+                    <x-input type="text" id="nombreTutor" label="Nombre" placeholder="Nombre"
                         wire:model="nombreTutor" />
-                    <x-input type="text" id="apellido-tutor" label="Apellido" placeholder="Apellido"
+                    <x-input type="text" id="apellidoTutor" label="Apellido" placeholder="Apellido"
                         wire:model="apellidoTutor" />
-                    <x-input type="text" id="cuil-tutor" label="CUIL" placeholder="Cuil sin guiones ni puntos"
+                    <x-input type="text" id="cuilTutor" label="CUIL" placeholder="Cuil sin guiones ni puntos"
                         wire:model="cuilTutor" />
-                    <x-input type="email" id="email-tutor" label="Email" placeholder="Introduce un correo"
+                    <x-input type="email" id="emailTutor" label="Email" placeholder="Introduce un correo"
                         wire:model="emailTutor" />
-                    <x-input type="text" id="telefono-tutor" label="Teléfono" placeholder="Introduce un telefono"
+                    <x-input type="text" id="telefonoTutor" label="Teléfono" placeholder="Introduce un telefono"
                         wire:model="telefonoTutor" />
                     <x-input type="text" id="ocupacion" label="Ocupación" placeholder="Ocupación"
                         wire:model="ocupacion" />
                     <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Parentezco</p>
-                        <x-input-radio id="madre" name="parentezco" label="Madre" value="madre"
-                            wire:model="parentezco" />
-                        <x-input-radio id="padre" name="parentezco" label="Padre" value="padre"
-                            wire:model="parentezco" />
-                        <x-input-radio id="hermanos" name="parentezco" label="Hermano/a" value="hermanos"
-                            wire:model="parentezco" />
-                        <x-input-radio id="tios" name="parentezco" label="Tia/o" value="tios"
-                            wire:model="nombreTuparentezcotor" />
-                        <x-input-radio id="abuelos" name="parentezco" label="Abuela/o" value="abuelos"
-                            wire:model="parentezco" />
-                        <x-input-radio id="otro" name="parentezco" label="Otro" value="otro"
-                            wire:model="parentezco" />
+                        <div class="grid grid-cols-2">
+                            <x-input-radio id="madre" name="parentezco" label="Madre" value="madre"
+                                wire:model="parentezco" />
+                            <x-input-radio id="padre" name="parentezco" label="Padre" value="padre"
+                                wire:model="parentezco" />
+                            <x-input-radio id="hermanos" name="parentezco" label="Hermano/a" value="hermanos"
+                                wire:model="parentezco" />
+                            <x-input-radio id="tios" name="parentezco" label="Tia/o" value="tios"
+                                wire:model="parentezco" />
+                            <x-input-radio id="abuelos" name="parentezco" label="Abuela/o" value="abuelos"
+                                wire:model="parentezco" />
+                            <x-input-radio id="otro" name="parentezco" label="Otro" value="otro"
+                                wire:model="parentezco" />
+                        </div>
+                        @error('parentezco')
+                            <p class="text-red-700 text-sm">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
             </div>
@@ -139,43 +150,52 @@
         @if ($currentStep === 4)
             <div>
                 <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full">
-                    <x-select id="curso-anio" label="Seleccione curso" :options="json_encode([
+                    <x-select id="curso" label="Seleccione curso" :options="json_encode([
                         'Primer año',
                         'Segundo año',
                         'Tercer año',
                         'Cuarto año',
                         'Quinto año',
                         'Sexto año',
-                    ])" wire:model="curso" />
-                    <x-select id="modalidad" label="Modalidad a seguir" :options="json_encode(['Informatica', 'Economía', 'Industria'])" wire:model="modalidad" />
-                    <x-input type="text" id="escuela-proviene" label="Escuela que proviene"
-                        placeholder="Nombre Escuela" wire:model="escuelaProviene" />
-                    <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
-                        <p class="text-[#2D3648] font-semibold text-sm">Turno</p>
-                        <div class="flex md:max-w-[45%] w-full gap-6">
-                            <x-input-radio id="maniana" label="Mañana" value="maniana" name="turno"
-                                wire:model="turno" />
-                            <x-input-radio id="tarde" label="Tarde" value="tarde" name="turno"
-                                wire:model="turno" />
-                        </div>
-                    </div>
+                    ])" wire:model.live="curso" />
+                    <x-select id="modalidad" label="Modalidad a seguir" :options="json_encode(['Informática', 'Economía', 'Industria'])" wire:model="modalidad"
+                        :disabled="in_array($curso, ['Primer año', 'Segundo año', ''])" />
+
                     <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Condición Alumno</p>
                         <div class="flex md:max-w-[45%] w-full gap-x-8">
                             <div class="flex flex-col gap-3">
                                 <x-input-radio id="ingresante" label="Ingresante" value="ingresante"
-                                    name="condicion-alumno" wire:model="condicionAlumno" />
+                                    name="condicion-alumno" wire:model.live="condicionAlumno" />
                                 <x-input-radio id="regular" label="Regular" value="regular"
-                                    name="condicion-alumno" wire:model="condicionAlumno" />
+                                    name="condicion-alumno" wire:model.live="condicionAlumno" />
                             </div>
                             <div class="flex flex-col gap-3">
                                 <x-input-radio id="traspaso" label="Traspaso" value="traspaso"
-                                    name="condicion-alumno" wire:model="condicionAlumno" />
+                                    name="condicion-alumno" wire:model.live="condicionAlumno" />
                                 <x-input-radio id="repitente" label="Repitente" value="repitente"
-                                    name="condicion-alumno" wire:model="condicionAlumno" />
+                                    name="condicion-alumno" wire:model.live="condicionAlumno" />
                             </div>
                         </div>
+                        @error('condicionAlumno')
+                            <p class="text-red-700 text-sm">{{ $message }}</p>
+                        @enderror
                     </div>
+
+                    <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
+                        <p class="text-[#2D3648] font-semibold text-sm">Turno</p>
+                        <div class="flex flex-col md:max-w-[45%] w-full gap-4">
+                            <x-input-radio id="maniana" label="Mañana" value="maniana" name="turno"
+                                wire:model="turno" />
+                            <x-input-radio id="tarde" label="Tarde" value="tarde" name="turno"
+                                wire:model="turno" />
+                        </div>
+                        @error('turno')
+                            <p class="text-red-700 text-sm">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <x-input type="text" id="escuelaProviene" label="Escuela que proviene"
+                        placeholder="Nombre Escuela" wire:model="escuelaProviene" :disabled="in_array($condicionAlumno, ['regular', ''])" />
                     <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Adeuda Materias</p>
                         <div class="flex md:max-w-[45%] w-full gap-6">
@@ -184,6 +204,9 @@
                             <x-input-radio id="no" label="No" value="no" name="adeuda-materia"
                                 wire:model.live="adeudaMaterias" />
                         </div>
+                        @error('adeudaMaterias')
+                            <p class="text-red-700 text-sm">{{ $message }}</p>
+                        @enderror
                         <div class="w-[220%]">
                             <x-input type="text" id="adeuda-materia-nombre" label=""
                                 placeholder="Nombres materias" wire:model="nombreMaterias" :disabled="$adeudaMaterias != 'si'" />
@@ -205,6 +228,9 @@
                         value="otros" wire:model="reconocimientos" />
                     <x-input-check id="ninguno" label="Ninguno" value="ninguno" wire:model="reconocimientos" />
                 </div>
+                @error('reconocimientos')
+                    <p class="text-red-700 text-sm">{{ $message }}</p>
+                @enderror
                 <div class="my-6">
                     <p class="text-[#2D3648] italic font-bold text-base">* En caso de cumplir con alguna opción debe
                         presentar en la institución una copia del certificado que lo respalde.</p>
@@ -221,6 +247,9 @@
                             class="italic underline hover:cursor-pointer">código de
                             vestimenta.</span>
                     </label>
+                    @error('terminos')
+                        <p class="text-red-700 text-sm">{{ $message }}</p>
+                    @enderror
                 </div>
 
             </div>
@@ -242,7 +271,7 @@
         </div>
 
     </form>
-{{-- MODAL --}}
+    {{-- MODAL --}}
     <div id="myModal" class="modal justify-center items-center">
         <div class="bg-white max-w-[70%] xl:max-w-screen-lg w-fit h-fit rounded-3xl p-5 py-7 md:p-16 relative">
             <span class="close top-6 right-6">&times;</span>
