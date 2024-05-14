@@ -2,7 +2,7 @@
 
 <div class="flex gap-1 justify-start items-center">
     <input
-        class="border border-gray-300 p-2 rounded h-4 w-4"
+        class="border border-gray-300 p-2 rounded h-4 w-4 disabled:bg-gray-300"
         id={{ $id }}
         name="{{ $id }}"
         type="radio"

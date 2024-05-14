@@ -89,10 +89,15 @@
                         svgCheck.classList.remove('hidden');
                         svgCross.classList.remove('block');
                         svgCross.classList.add('hidden');
+
+                        setTimeout(function() {
+                            window.location.href = "{{ route('inscripcion') }}?cuil=" + data.cuil;
+                        }, 2000);
                     } else {
                         svgCross.classList.add('block');
                         svgCross.classList.remove('hidden');
                     }
+
                 });
         });
     });

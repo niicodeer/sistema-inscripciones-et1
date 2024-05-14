@@ -61,7 +61,7 @@ class PreinscriptoController extends Controller
 
         if ($preinscripto) {
             // DNI encontrado
-            return response()->json(['mensaje' => 'Cuil encontrado', 'encontrado' => true]);
+            return response()->json(['mensaje' => 'Cuil encontrado', 'encontrado' => true, 'cuil' => $cuil]);
         } else {
             // DNI no encontrado
             return response()->json(['mensaje' => 'Cuil no encontrado', 'encontrado' => false]);

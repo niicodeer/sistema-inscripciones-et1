@@ -7,11 +7,13 @@ use App\Models\DatoEstudiante;
 use App\Models\Estudiante;
 use App\Models\Inscripcion;
 use App\Models\Tutor;
+use Illuminate\Http\Request;
 use Livewire\Component;
+
 
 class MultiStepForm extends Component
 {
-    public $currentStep = 5;
+    public $currentStep = 1;
     public $total_steps = 5;
     /* STEP 1 */
     public $nombre;
@@ -20,6 +22,7 @@ class MultiStepForm extends Component
     public $fecha_nac;
     public $email;
     public $telefono;
+    public $cuil;
     /* STEP 2 */
     public $calle;
     public $numeracion;
@@ -27,8 +30,8 @@ class MultiStepForm extends Component
     public $localidad;
     public $ciudad;
     public $provincia;
-    public $transporte=[];
-    public $convive=[];
+    public $transporte = [];
+    public $convive = [];
     public $obraSocial;
     public $nombreObraSocial;
     /* STEP 3 */
@@ -42,9 +45,9 @@ class MultiStepForm extends Component
     /* STEP 4 */
     public $curso = "";
     public $modalidad = "";
-    public $escuelaProviene;
+    public $escuelaProviene = "";
     public $turno;
-    public $condicionAlumno;
+    public $condicionAlumno = '';
     public $adeudaMaterias;
     public $nombreMaterias;
     /* STEP 5 */
@@ -54,6 +57,10 @@ class MultiStepForm extends Component
     public function render()
     {
         return view('livewire.multi-step-form');
+    }
+    public function mount(Request $request)
+    {
+        $this->cuil = $request->input('cuil');
     }
 
     public function incrementSteps()
@@ -73,28 +80,30 @@ class MultiStepForm extends Component
 
     public function submit()
     {
+        $this->validateForm();
         try {
+
             Estudiante::create([
                 'nombre' => $this->nombre,
                 'apellido' => $this->apellido,
                 'genero' => $this->genero,
                 'cuil' => $this->cuil,
+                'telefono' => $this->telefono,
                 'email' => $this->email,
                 'fecha_nac' => $this->fecha_nac,
             ]);
 
             DatoEstudiante::create([
-                'telefono' => $this->telefono,
-                'provincias' => $this->provincias,
+                'provincia' => $this->provincia,
                 'ciudad' => $this->ciudad,
                 'localidad' => $this->localidad,
                 'calle' => $this->calle,
                 'numeracion' => $this->numeracion,
                 'piso' => $this->piso,
-                'lugar_nacimiento' => $this->lugar_nacimiento,
+                'lugar_nacimiento' => '$this->lugar_nacimiento',
                 'nombre_obra_social' => $this->nombreObraSocial,
                 'obra_social' => $this->obraSocial,
-                'fecha_ingreso' => $this->fecha_ingreso,
+                'fecha_ingreso' => now(),
                 'medio_transporte' => json_encode($this->transporte),
                 'convivencia' => json_encode($this->convive),
             ]);
@@ -104,7 +113,7 @@ class MultiStepForm extends Component
                 'curso_inscripto' => $this->curso,
                 'modalidad' => $this->modalidad,
                 'escuela_proviene' => $this->escuelaProviene,
-                'fecha_inscripto' => now(),
+                'fecha_inscripcion' => now(),
                 'condicion_alumno' => $this->condicionAlumno,
                 'adeuda_materias' => $this->adeudaMaterias,
                 'nombre_materias' => $this->nombreMaterias,
@@ -120,11 +129,15 @@ class MultiStepForm extends Component
                 'ocupacion' => $this->ocupacion,
                 'parentezco' => $this->parentezco,
             ]);
-            } catch (\Exception $e){
-                return redirect()->back()->with('error', 'Error al guardar los datos: ' . $e->getMessage());
-            }
-      
-        dd([
+
+            return redirect()->route('inicio');
+        } catch (\Exception $e) {
+            print("errorOccurred");
+            dd(['error'=>$e]);
+            //$this->emitTo('multi-step-form', 'errorOccurred', ['message' => 'Error al guardar los datos: ' . $e->getMessage()]);
+        }
+
+         /*dd([
             'Step 1' => [
                 'nombre' => $this->nombre,
                 'apellido' => $this->apellido,
@@ -167,7 +180,7 @@ class MultiStepForm extends Component
                 'reconocimientos' => $this->reconocimientos,
                 'terminos' => $this->terminos
             ]
-        ]);
+        ]);*/
 
         //$this->reset();
     }
@@ -194,37 +207,73 @@ class MultiStepForm extends Component
                 'telefono.required' => 'El campo teléfono es obligatorio.',
             ]);
         } elseif ($this->currentStep === 2) {
-            //TODO: segun el ejemplo del paso 1, completar las validaciones de los campos restantes y agregar los campos si faltan
             $validated = $this->validate([
-                'domicilio' => 'required',
-                'ciudad' => 'required',
+                'calle' => 'required|string',
+                'provincia' => 'required|string',
+                'ciudad' => 'required|string',
+                'localidad' => 'required|string',
+                'numeracion' => 'required|numeric',
                 'transporte' => 'required',
                 'convive' => 'required',
                 'obraSocial' => 'required',
+            ], [
+                'calle.required' => 'El campo calle es obligatorio.',
+                'provincia.required' => 'El campo provincia es obligatorio.',
+                'ciudad.required' => 'El campo ciudad es obligatorio.',
+                'transporte.required' => 'Debe seleccionar una opción.',
+                'numeracion.required' => 'El campo numeración es obligatorio.',
+                'localidad.required' => 'El campo localidad es obligatorio.',
+                'convive.required' => 'Debe seleccionar una opción.',
+                'obraSocial.required' => 'Debe seleccionar una opción.'
             ]);
         } elseif ($this->currentStep === 3) {
             $validated = $this->validate([
-                'nombreTutor' => 'required',
-                'apellidoTutor' => 'required',
-                'cuilTutor' => 'required',
-                'emailTutor' => 'required',
-                'telefonoTutor' => 'required',
-                'ocupacion' => 'required',
+                'nombreTutor' => 'required|string',
+                'apellidoTutor' => 'required|string',
+                'cuilTutor' => 'required|numeric',
+                'emailTutor' => 'required|email',
+                'telefonoTutor' => 'required|numeric',
+                'ocupacion' => 'required|string',
                 'parentezco' => 'required',
+            ], [
+                'nombreTutor.required' => 'El campo nombre es obligatorio.',
+                'apellidoTutor.required' => 'El campo apellido es obligatorio.',
+                'cuilTutor.required' => 'El campo cuil es obligatorio.',
+                'cuilTutor.numeric' => 'El cuil debe ser numérico, sin puntos ni guiones.',
+                'emailTutor.required' => 'El campo email es obligatorio.',
+                'emailTutor.email' => 'El email debe ser una dirección de correo electrónico válida.',
+                'telefonoTutor.required' => 'El campo telefono es obligatorio',
+                'telefonoTutor.numeric'=>'El telefono debe contener números.',
+                'ocupacion.required' => 'El campo ocupación es obligatorio',
+                'parentezco.required' => 'Debe seleccionar una opción'
             ]);
         } elseif ($this->currentStep === 4) {
             $validated = $this->validate([
-                'curso' => 'required',
-                'modalidad' => 'required',
-                'escuelaProviene' => 'required',
-                'turno' => 'required',
+                'curso' => 'required|in:"Primer año","Segundo año","Tercer año","Cuarto año","Quinto año","Sexto año"',
+                'modalidad' => 'in:"Informática","Economía","Industria"',
                 'condicionAlumno' => 'required',
+                'turno' => 'required',
+                //'escuelaProviene' => 'required',
                 'adeudaMaterias' => 'required',
+                //'nombreMaterias' => 'required'
+            ], [
+                'curso.required' => 'Debe seleccionar una opción.',
+                'curso.in' => 'El curso ingresado no es válido.',
+                //'modalidad.required' => 'Debe seleccionar una opción.',
+                'modalidad.in' => 'La modalidad ingresada no es válida.',
+                'turno.required' => 'Debe seleccionar una opción.',
+                'adeudaMaterias.required' => 'Debe seleccionar una opción.',
+                'condicionAlumno.required' => 'Debe seleccionar una opción.',
+                //'escuelaProviene.required' => 'Debe indicar una institución',
+                //'nombreMaterias.required' => 'Debe indicar las materias que adeuda',
             ]);
         } elseif ($this->currentStep === 5) {
             $validated = $this->validate([
                 'reconocimientos' => 'required',
                 'terminos' => 'required',
+            ], [
+                'reconocimientos.required' => 'Debe seleccionar al menos una opción',
+                'terminos.required' => 'Debe seleccionar que leyó y está de acuerdo'
             ]);
         }
     }
