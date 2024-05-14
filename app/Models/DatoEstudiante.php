@@ -23,7 +23,7 @@ class DatoEstudiante extends Model
         'lugar_nacimiento',
         'fecha_ingreso',
         'convivencia',
-        'escuela_proviene',
+        'estudiante_id',
     ];
 
     public function estudiante(): BelongsTo

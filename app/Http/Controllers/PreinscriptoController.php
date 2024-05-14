@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Preinscripto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class PreinscriptoController extends Controller
 {
@@ -48,11 +49,6 @@ class PreinscriptoController extends Controller
         return redirect()->route('confirmacion-preinscripcion');
     }
 
-/*     public function verificacion()
-    {
-        return view('verificar-cuil');
-    }
- */
     public function verificarCUIL(Request $request)
     {
         $cuil = $request->input('cuil');
@@ -60,10 +56,9 @@ class PreinscriptoController extends Controller
         $preinscripto = Preinscripto::where('cuil', $cuil)->first();
 
         if ($preinscripto) {
-            // DNI encontrado
-            return response()->json(['mensaje' => 'Cuil encontrado', 'encontrado' => true, 'cuil' => $cuil]);
+            Session::put('preinscripto', $preinscripto->only($preinscripto->getFillable()));
+            return response()->json(['mensaje' => 'Cuil encontrado', 'encontrado' => true]);
         } else {
-            // DNI no encontrado
             return response()->json(['mensaje' => 'Cuil no encontrado', 'encontrado' => false]);
         }
     }

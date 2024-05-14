@@ -53,17 +53,17 @@ class EstudianteResource extends Resource
                 Fieldset::make('Más datos')
                     ->relationship('dato')
                     ->schema([
-                        TextInput::make('domicilio'),
-                        TextInput::make('medioTransporte')
+                        TextInput::make('calle'),
+                        TextInput::make('medio_transporte')
                             ->label('Medio de transporte'),
-                        TextInput::make('lugarNacimiento')
+                        TextInput::make('lugar_nacimiento')
                             ->label('Lugar de nacimiento'),
                         TextInput::make('convivencia')
                             ->label('Convive con'),
-                        TextInput::make('obraSocial'),
-                        TextInput::make('escuelaProviene')
-                            ->label('Escuela de la que proviente'),
-                        DatePicker::make('fechaIngreso'),
+                        TextInput::make('obra_social'),
+                        /* TextInput::make('escuela_proviene')
+                            ->label('Escuela de la que proviente'), */
+                        DatePicker::make('fecha_ingreso'),
                     ]),
                 Fieldset::make('Datos tutor')
                     ->relationship('tutor')

@@ -7,7 +7,10 @@ use App\Models\DatoEstudiante;
 use App\Models\Estudiante;
 use App\Models\Inscripcion;
 use App\Models\Tutor;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 
 
@@ -58,9 +61,16 @@ class MultiStepForm extends Component
     {
         return view('livewire.multi-step-form');
     }
-    public function mount(Request $request)
+    public function mount()
     {
-        $this->cuil = $request->input('cuil');
+        $preinscripto = Session::get('preinscripto');
+        $this->nombre = $preinscripto['nombre'];
+        $this->apellido = $preinscripto['apellido'];
+        $this->genero = $preinscripto['genero'];
+        $this->fecha_nac = $preinscripto['fecha_nac'];
+        $this->email = $preinscripto['email'];
+        $this->telefono = $preinscripto['telefono'];
+        $this->cuil = $preinscripto['cuil'];
     }
 
     public function incrementSteps()
@@ -81,9 +91,20 @@ class MultiStepForm extends Component
     public function submit()
     {
         $this->validateForm();
+        //TODO: Agregar logica en caso de que el alumno ya exista en la base de datos, es decir que ya sea alumno del colegio
         try {
+            DB::beginTransaction();
+            $tutor = Tutor::create([
+                'nombre' => $this->nombreTutor,
+                'apellido' => $this->apellidoTutor,
+                'cuil' => $this->cuilTutor,
+                'email' => $this->emailTutor,
+                'telefono' => $this->telefonoTutor,
+                'ocupacion' => $this->ocupacion,
+                'parentezco' => $this->parentezco,
+            ]);
 
-            Estudiante::create([
+            $estudiante = Estudiante::create([
                 'nombre' => $this->nombre,
                 'apellido' => $this->apellido,
                 'genero' => $this->genero,
@@ -91,6 +112,7 @@ class MultiStepForm extends Component
                 'telefono' => $this->telefono,
                 'email' => $this->email,
                 'fecha_nac' => $this->fecha_nac,
+                'tutor_id' => $tutor->id,
             ]);
 
             DatoEstudiante::create([
@@ -106,6 +128,7 @@ class MultiStepForm extends Component
                 'fecha_ingreso' => now(),
                 'medio_transporte' => json_encode($this->transporte),
                 'convivencia' => json_encode($this->convive),
+                'estudiante_id' => $estudiante->id,
             ]);
 
             Inscripcion::create([
@@ -118,26 +141,27 @@ class MultiStepForm extends Component
                 'adeuda_materias' => $this->adeudaMaterias,
                 'nombre_materias' => $this->nombreMaterias,
                 'reconocimientos' => json_encode($this->reconocimientos),
+                'estudiante_id' => $estudiante->id,
             ]);
-
-            Tutor::create([
-                'nombre' => $this->nombreTutor,
-                'apellido' => $this->apellidoTutor,
-                'cuil' => $this->cuilTutor,
-                'email' => $this->emailTutor,
-                'telefono' => $this->telefonoTutor,
-                'ocupacion' => $this->ocupacion,
-                'parentezco' => $this->parentezco,
-            ]);
+            DB::commit();
 
             return redirect()->route('inicio');
+        } catch (QueryException $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Error en la base de datos: ' . $e->getMessage());
         } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Error al guardar los datos: ' . $e->getMessage());
+            /* }
+        catch (\Exception $e) {
             print("errorOccurred");
-            dd(['error'=>$e]);
-            //$this->emitTo('multi-step-form', 'errorOccurred', ['message' => 'Error al guardar los datos: ' . $e->getMessage()]);
+            dd(['error' => $e]);
+          */   //$this->emitTo('multi-step-form', 'errorOccurred', ['message' => 'Error al guardar los datos: ' . $e->getMessage()]);
+        } finally {
+            Session::forget('preinscripto');
         }
 
-         /*dd([
+        /*dd([
             'Step 1' => [
                 'nombre' => $this->nombre,
                 'apellido' => $this->apellido,
@@ -243,7 +267,7 @@ class MultiStepForm extends Component
                 'emailTutor.required' => 'El campo email es obligatorio.',
                 'emailTutor.email' => 'El email debe ser una dirección de correo electrónico válida.',
                 'telefonoTutor.required' => 'El campo telefono es obligatorio',
-                'telefonoTutor.numeric'=>'El telefono debe contener números.',
+                'telefonoTutor.numeric' => 'El telefono debe contener números.',
                 'ocupacion.required' => 'El campo ocupación es obligatorio',
                 'parentezco.required' => 'Debe seleccionar una opción'
             ]);
