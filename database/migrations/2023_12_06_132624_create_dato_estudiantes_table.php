@@ -20,12 +20,13 @@ return new class extends Migration
             $table->string('calle');
             $table->unsignedInteger('numeracion');
             $table->string('piso')->nullable();
-            $table->string('telefono');
             $table->string('obra_social');
             $table->string('nombre_obra_social')->nullable();
             $table->string('lugar_nacimiento');
             $table->date('fecha_ingreso')->nullable();
             $table->json('convivencia');
+            $table->unsignedBigInteger('estudiante_id')->nullable();
+            $table->foreign('estudiante_id')->references('id')->on('estudiantes')->onUpdate('set null')->onDelete('set null');
             $table->timestamps();
         });
     }

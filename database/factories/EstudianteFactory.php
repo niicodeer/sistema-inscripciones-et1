@@ -25,7 +25,6 @@ class EstudianteFactory extends Factory
             'genero' => fake()->word(),
             'fecha_nac' => fake()->date(),
             'es_alumno' => fake()->boolean(),
-            'dato_id' => fake()->numberBetween(1, 30),
             'tutor_id' => fake()->unique()->numberBetween(1, 30),
         ];
     }

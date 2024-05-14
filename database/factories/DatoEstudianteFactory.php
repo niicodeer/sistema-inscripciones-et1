@@ -30,14 +30,15 @@ class DatoEstudianteFactory extends Factory
             'nombre_obra_social' => fake()->word(),
             'lugar_nacimiento' => fake()->city(),
             'fecha_ingreso' => fake()->date(),
-            'medio_transporte' => json_encode([
-                $this->faker->randomElement($relacionTransporte),
-                $this->faker->randomElement($relacionTransporte),
-            ]),
-            'convivencia' => json_encode([
-                $this->faker->randomElement($relacionConvivencia),
-                $this->faker->randomElement($relacionConvivencia),
-            ]),
+        'medio_transporte' => json_encode([
+            $this->faker->randomElement($relacionTransporte),
+            $this->faker->randomElement($relacionTransporte),
+        ]),
+        'convivencia' => json_encode([
+            $this->faker->randomElement($relacionConvivencia),
+            $this->faker->randomElement($relacionConvivencia),
+        ]),
+        'estudiante_id' => fake()->numberBetween(1, 30),
         ];
 
         return $data;

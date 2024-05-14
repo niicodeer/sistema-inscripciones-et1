@@ -20,12 +20,13 @@ class Estudiante extends Model
         'fecha_nac',
         'es_alumno',
         'telefono',
-        'genero'
+        'genero',
+        'tutor_id'
     ];
 
     public function dato() : HasOne
     {
-        return $this->hasOne(DatoEstudiante::class, 'id', 'dato_id');
+        return $this->hasOne(DatoEstudiante::class);
     }
 
     public function inscripciones() : HasMany

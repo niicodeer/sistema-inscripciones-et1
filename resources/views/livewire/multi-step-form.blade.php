@@ -33,7 +33,8 @@
         @if ($currentStep === 1)
             <div>
                 <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full">
-                    <x-input type="text" id="nombre" label="Nombre" placeholder="Nombre" wire:model="nombre" />
+                    <x-input type="text" id="nombre" label="Nombre" placeholder="Nombre"
+                        wire:model="nombre" />
                     <x-input type="text" id="apellido" label="Apellido" placeholder="Apellido"
                         wire:model="apellido" />
                     <x-select id="genero" label="Genero" :options="json_encode(['Femenino', 'Masculino', 'Otro'])" wire:model="genero" />
@@ -42,11 +43,7 @@
                         wire:model="email" />
                     <x-input type="text" id="telefono" label="Teléfono" placeholder="Introduce un telefono"
                         wire:model="telefono" />
-                    @if (request()->has('cuil'))
-                        <x-input type="text" id="cuil" label="Cuil" name="cuil" value="{{ request('cuil') }}" wire:model="cuil" disabled />
-                    @endif
-                    {{-- <x-input type="hidden" id="cuil" label="Cuil" value="{{ $cuil }}" disabled
-                        wire:model="cuil" /> --}}
+                    <x-input type="text" id="cuil" label="Cuil" name="cuil" wire:model="cuil" disabled />
                 </div>
             </div>
         @endif

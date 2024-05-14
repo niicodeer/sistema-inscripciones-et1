@@ -91,7 +91,7 @@
                         svgCross.classList.add('hidden');
 
                         setTimeout(function() {
-                            window.location.href = "{{ route('inscripcion') }}?cuil=" + data.cuil;
+                            window.location.href = "{{ route('inscripcion') }}";
                         }, 2000);
                     } else {
                         svgCross.classList.add('block');

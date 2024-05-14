@@ -22,7 +22,8 @@ class Inscripcion extends Model
         'condicion_alumno',
         'adeuda_materias',
         'nombre_materias',
-        'reconocimientos'
+        'reconocimientos',
+        'estudiante_id'
      ];
 
     protected $table = "inscripciones";

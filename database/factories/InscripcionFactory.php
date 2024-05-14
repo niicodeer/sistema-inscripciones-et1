@@ -31,7 +31,7 @@ class InscripcionFactory extends Factory
             'modalidad' => fake()->word(),
             'escuela_proviene' => fake()->word(),
             'condicion_alumno' => fake()->word(),
-            'adeuda_materia' => fake()->boolean(),
+            'adeuda_materias' => fake()->boolean(),
             'nombre_materias' => fake()->word(),
             'reconocimientos' => json_encode([
                 $this->faker->randomElement($relacionReconocimientos),
