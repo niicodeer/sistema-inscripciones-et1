@@ -27,20 +27,17 @@ class DatoEstudianteFactory extends Factory
             'localidad' => fake()->city(),
             'ciudad' => fake()->country(),
             'obra_social' => fake()->boolean(),
-            'telefono' => fake()->numberBetween(150000000, 159999999),
             'nombre_obra_social' => fake()->word(),
             'lugar_nacimiento' => fake()->city(),
             'fecha_ingreso' => fake()->date(),
-            'escuela_proviene' => fake()->word(),
-               // otros campos...
-        'medio_transporte' => json_encode([
-            $this->faker->randomElement($relacionTransporte),
-            $this->faker->randomElement($relacionTransporte),
-        ]),
-        'convivencia' => json_encode([
-            $this->faker->randomElement($relacionConvivencia),
-            $this->faker->randomElement($relacionConvivencia),
-        ]),
+            'medio_transporte' => json_encode([
+                $this->faker->randomElement($relacionTransporte),
+                $this->faker->randomElement($relacionTransporte),
+            ]),
+            'convivencia' => json_encode([
+                $this->faker->randomElement($relacionConvivencia),
+                $this->faker->randomElement($relacionConvivencia),
+            ]),
         ];
 
         return $data;
