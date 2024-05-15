@@ -145,7 +145,7 @@ class MultiStepForm extends Component
             ]);
             DB::commit();
 
-            return redirect()->route('inicio');
+            return redirect()->route('confirmacion-inscripcion');
         } catch (QueryException $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Error en la base de datos: ' . $e->getMessage());
