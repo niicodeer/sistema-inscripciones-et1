@@ -8,7 +8,7 @@
     <form class="flex flex-col gap-y-14 mt-6 items-center" action="{{ route('preinscripcion') }}" method="POST">
         @csrf
         <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full">
-            <x-input type="text" placeholder="Apellido" id="nombre" label="Apellido" />
+            <x-input type="text" placeholder="Nombre" id="nombre" label="Nombre" />
             <x-input type="text" id="apellido" label="Apellido" placeholder="Apellido" />
             <x-input type="text" id="cuil" label="Cuil"
                 placeholder="Introduce el cuil sin guiones ni puntos" />

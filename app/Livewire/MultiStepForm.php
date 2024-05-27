@@ -152,61 +152,11 @@ class MultiStepForm extends Component
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Error al guardar los datos: ' . $e->getMessage());
-            /* }
-        catch (\Exception $e) {
-            print("errorOccurred");
-            dd(['error' => $e]);
-          */   //$this->emitTo('multi-step-form', 'errorOccurred', ['message' => 'Error al guardar los datos: ' . $e->getMessage()]);
         } finally {
             Session::forget('preinscripto');
         }
 
-        /*dd([
-            'Step 1' => [
-                'nombre' => $this->nombre,
-                'apellido' => $this->apellido,
-                'genero' => $this->genero,
-                'fecha_nac' => $this->fecha_nac,
-                'email' => $this->email,
-                'telefono' => $this->telefono
-            ],
-            'Step 2' => [
-                'calle' => $this->calle,
-                'numeracion' => $this->numeracion,
-                'piso' => $this->piso,
-                'localidad' => $this->localidad,
-                'provincia' => $this->provincia,
-                'ciudad' => $this->ciudad,
-                'transporte' => $this->transporte,
-                'convive' => $this->convive,
-                'obraSocial' => $this->obraSocial,
-                'nombreObraSocial' => $this->nombreObraSocial
-            ],
-            'Step 3' => [
-                'nombreTutor' => $this->nombreTutor,
-                'apellidoTutor' => $this->apellidoTutor,
-                'cuilTutor' => $this->cuilTutor,
-                'emailTutor' => $this->emailTutor,
-                'telefonoTutor' => $this->telefonoTutor,
-                'ocupacion' => $this->ocupacion,
-                'parentezco' => $this->parentezco
-            ],
-            'Step 4' => [
-                'curso' => $this->curso,
-                'modalidad' => $this->modalidad,
-                'escuelaProviene' => $this->escuelaProviene,
-                'turno' => $this->turno,
-                'condicionAlumno' => $this->condicionAlumno,
-                'adeudaMaterias' => $this->adeudaMaterias,
-                'nombreMaterias' => $this->nombreMaterias
-            ],
-            'Step 5' => [
-                'reconocimientos' => $this->reconocimientos,
-                'terminos' => $this->terminos
-            ]
-        ]);*/
-
-        //$this->reset();
+        $this->reset();
     }
 
     public function validateForm()
