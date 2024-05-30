@@ -52,7 +52,7 @@ class PreinscriptoController extends Controller
     public function verificarCUIL(Request $request)
     {
         $cuil = $request->input('cuil');
-
+        $request->session()->put('cuilCheck', true);
         $preinscripto = Preinscripto::where('cuil', $cuil)->first();
 
         if ($preinscripto) {
