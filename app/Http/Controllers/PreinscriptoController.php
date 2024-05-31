@@ -52,11 +52,11 @@ class PreinscriptoController extends Controller
     public function verificarCUIL(Request $request)
     {
         $cuil = $request->input('cuil');
-        $request->session()->put('cuilCheck', true);
         $preinscripto = Preinscripto::where('cuil', $cuil)->first();
 
         if ($preinscripto) {
             Session::put('preinscripto', $preinscripto->only($preinscripto->getFillable()));
+            $request->session()->put('cuilCheck', true);
             return response()->json(['mensaje' => 'Cuil encontrado', 'encontrado' => true]);
         } else {
             return response()->json(['mensaje' => 'Cuil no encontrado', 'encontrado' => false]);

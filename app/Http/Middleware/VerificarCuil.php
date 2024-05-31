@@ -19,6 +19,7 @@ class VerificarCuil
         if ($request->session()->has('cuilCheck')) {
             return $next($request);
         }
+    session()->forget('cuilCheck');
     return redirect('/verificar-cuil');
     }
 }
