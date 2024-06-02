@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Estudiante;
 use App\Models\Preinscripto;
+use App\Models\Inscripcion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -53,13 +55,22 @@ class PreinscriptoController extends Controller
     {
         $cuil = $request->input('cuil');
         $preinscripto = Preinscripto::where('cuil', $cuil)->first();
+        $inscripto = Estudiante::where('cuil', $cuil)->first();
 
-        if ($preinscripto) {
-            Session::put('preinscripto', $preinscripto->only($preinscripto->getFillable()));
+        if ($inscripto || $preinscripto) {
+            if ($preinscripto) {
+                Session::put('preinscripto', $preinscripto->only($preinscripto->getFillable()));
+            }
+
+            if ($inscripto) {
+                Session::put('inscripto', $inscripto->toArray());
+            }
+
             $request->session()->put('cuilCheck', true);
             return response()->json(['mensaje' => 'Cuil encontrado', 'encontrado' => true]);
         } else {
             return response()->json(['mensaje' => 'Cuil no encontrado', 'encontrado' => false]);
         }
     }
+
 }

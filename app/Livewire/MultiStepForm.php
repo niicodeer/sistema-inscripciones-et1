@@ -64,13 +64,15 @@ class MultiStepForm extends Component
     public function mount()
     {
         $preinscripto = Session::get('preinscripto');
-        $this->nombre = $preinscripto['nombre'];
-        $this->apellido = $preinscripto['apellido'];
-        $this->genero = $preinscripto['genero'];
-        $this->fecha_nac = $preinscripto['fecha_nac'];
-        $this->email = $preinscripto['email'];
-        $this->telefono = $preinscripto['telefono'];
-        $this->cuil = $preinscripto['cuil'];
+        $inscripto = Session::get('inscripto');
+        $data = $inscripto ? $inscripto : $preinscripto;
+        $this->nombre = $data['nombre'];
+        $this->apellido = $data['apellido'];
+        $this->genero = $data['genero'];
+        $this->fecha_nac = $data['fecha_nac'];
+        $this->email = $data['email'];
+        $this->telefono = $data['telefono'];
+        $this->cuil = $data['cuil'];
     }
 
     public function incrementSteps()
@@ -92,69 +94,152 @@ class MultiStepForm extends Component
     {
         $this->validateForm();
         //TODO: Agregar logica en caso de que el alumno ya exista en la base de datos, es decir que ya sea alumno del colegio
-        try {
-            DB::beginTransaction();
-            $tutor = Tutor::create([
-                'nombre' => $this->nombreTutor,
-                'apellido' => $this->apellidoTutor,
-                'cuil' => $this->cuilTutor,
-                'email' => $this->emailTutor,
-                'telefono' => $this->telefonoTutor,
-                'ocupacion' => $this->ocupacion,
-                'parentezco' => $this->parentezco,
-            ]);
+        if ($inscripto = Session::get('inscripto')) {
+            try {
+                DB::beginTransaction();
 
-            $estudiante = Estudiante::create([
-                'nombre' => $this->nombre,
-                'apellido' => $this->apellido,
-                'genero' => $this->genero,
-                'cuil' => $this->cuil,
-                'telefono' => $this->telefono,
-                'email' => $this->email,
-                'fecha_nac' => $this->fecha_nac,
-                'tutor_id' => $tutor->id,
-            ]);
+                // Actualizar el tutor
+                $tutor = Tutor::where('id', $inscripto['tutor_id'])->firstOrFail();
+                $tutor->update([
+                    'nombre' => $this->nombreTutor,
+                    'apellido' => $this->apellidoTutor,
+                    'cuil' => $this->cuilTutor,
+                    'email' => $this->emailTutor,
+                    'telefono' => $this->telefonoTutor,
+                    'ocupacion' => $this->ocupacion,
+                    'parentezco' => $this->parentezco,
+                ]);
 
-            DatoEstudiante::create([
-                'provincia' => $this->provincia,
-                'ciudad' => $this->ciudad,
-                'localidad' => $this->localidad,
-                'calle' => $this->calle,
-                'numeracion' => $this->numeracion,
-                'piso' => $this->piso,
-                'lugar_nacimiento' => '$this->lugar_nacimiento',
-                'nombre_obra_social' => $this->nombreObraSocial,
-                'obra_social' => $this->obraSocial,
-                'fecha_ingreso' => now(),
-                'medio_transporte' => json_encode($this->transporte),
-                'convivencia' => json_encode($this->convive),
-                'estudiante_id' => $estudiante->id,
-            ]);
+                // Actualizar el estudiante
+                $estudiante = Estudiante::where('id', $inscripto['id'])->firstOrFail();
+                $estudiante->update([
+                    'nombre' => $this->nombre,
+                    'apellido' => $this->apellido,
+                    'genero' => $this->genero,
+                    'cuil' => $this->cuil,
+                    'telefono' => $this->telefono,
+                    'email' => $this->email,
+                    'fecha_nac' => $this->fecha_nac,
+                    'tutor_id' => $tutor->id,
+                ]);
 
-            Inscripcion::create([
-                'turno' => $this->turno,
-                'curso_inscripto' => $this->curso,
-                'modalidad' => $this->modalidad,
-                'escuela_proviene' => $this->escuelaProviene,
-                'fecha_inscripcion' => now(),
-                'condicion_alumno' => $this->condicionAlumno,
-                'adeuda_materias' => $this->adeudaMaterias,
-                'nombre_materias' => $this->nombreMaterias,
-                'reconocimientos' => json_encode($this->reconocimientos),
-                'estudiante_id' => $estudiante->id,
-            ]);
-            DB::commit();
+                // Actualizar los datos del estudiante
+                $datoEstudiante = DatoEstudiante::where('estudiante_id', $inscripto['id'])->firstOrFail();
+                $datoEstudiante->update([
+                    'provincia' => $this->provincia,
+                    'ciudad' => $this->ciudad,
+                    'localidad' => $this->localidad,
+                    'calle' => $this->calle,
+                    'numeracion' => $this->numeracion,
+                    'piso' => $this->piso,
+                    'lugar_nacimiento' => $this->lugar_nacimiento,
+                    'nombre_obra_social' => $this->nombreObraSocial,
+                    'obra_social' => $this->obraSocial,
+                    'fecha_ingreso' => now(),
+                    'medio_transporte' => json_encode($this->transporte),
+                    'convivencia' => json_encode($this->convive),
+                    'estudiante_id' => $estudiante->id,
+                ]);
 
-            return redirect()->route('confirmacion-inscripcion');
-        } catch (QueryException $e) {
-            DB::rollBack();
-            return redirect()->back()->with('error', 'Error en la base de datos: ' . $e->getMessage());
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->with('error', 'Error al guardar los datos: ' . $e->getMessage());
-        } finally {
-            Session::forget('preinscripto');
+                // Actualizar la inscripción
+                $inscripcion = Inscripcion::where('estudiante_id', $inscripto['id'])->firstOrFail();
+                $inscripcion->update([
+                    'turno' => $this->turno,
+                    'curso_inscripto' => $this->curso,
+                    'modalidad' => $this->modalidad,
+                    'escuela_proviene' => $this->escuelaProviene,
+                    'fecha_inscripcion' => now(),
+                    'condicion_alumno' => $this->condicionAlumno,
+                    'adeuda_materias' => $this->adeudaMaterias,
+                    'nombre_materias' => $this->nombreMaterias,
+                    'reconocimientos' => json_encode($this->reconocimientos),
+                    'estudiante_id' => $estudiante->id,
+                ]);
+
+                DB::commit();
+
+                return redirect()->route('confirmacion-inscripcion');
+            } catch (QueryException $e) {
+                DB::rollBack();
+                return redirect()->back()->with('error', 'Error en la base de datos: ' . $e->getMessage());
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return redirect()->back()->with('error', 'Error al guardar los datos: ' . $e->getMessage());
+            } finally {
+                Session::forget('preinscripto');
+                Session::forget('cuilCheck');
+                Session::forget('inscripto');
+            }
         }
+
+        if ($preinscripto = Session::get('preinscripto')) {
+            try {
+                DB::beginTransaction();
+                $tutor = Tutor::create([
+                    'nombre' => $this->nombreTutor,
+                    'apellido' => $this->apellidoTutor,
+                    'cuil' => $this->cuilTutor,
+                    'email' => $this->emailTutor,
+                    'telefono' => $this->telefonoTutor,
+                    'ocupacion' => $this->ocupacion,
+                    'parentezco' => $this->parentezco,
+                ]);
+
+                $estudiante = Estudiante::create([
+                    'nombre' => $this->nombre,
+                    'apellido' => $this->apellido,
+                    'genero' => $this->genero,
+                    'cuil' => $this->cuil,
+                    'telefono' => $this->telefono,
+                    'email' => $this->email,
+                    'fecha_nac' => $this->fecha_nac,
+                    'tutor_id' => $tutor->id,
+                ]);
+
+                DatoEstudiante::create([
+                    'provincia' => $this->provincia,
+                    'ciudad' => $this->ciudad,
+                    'localidad' => $this->localidad,
+                    'calle' => $this->calle,
+                    'numeracion' => $this->numeracion,
+                    'piso' => $this->piso,
+                    'lugar_nacimiento' => '$this->lugar_nacimiento',
+                    'nombre_obra_social' => $this->nombreObraSocial,
+                    'obra_social' => $this->obraSocial,
+                    'fecha_ingreso' => now(),
+                    'medio_transporte' => json_encode($this->transporte),
+                    'convivencia' => json_encode($this->convive),
+                    'estudiante_id' => $estudiante->id,
+                ]);
+
+                Inscripcion::create([
+                    'turno' => $this->turno,
+                    'curso_inscripto' => $this->curso,
+                    'modalidad' => $this->modalidad,
+                    'escuela_proviene' => $this->escuelaProviene,
+                    'fecha_inscripcion' => now(),
+                    'condicion_alumno' => $this->condicionAlumno,
+                    'adeuda_materias' => $this->adeudaMaterias,
+                    'nombre_materias' => $this->nombreMaterias,
+                    'reconocimientos' => json_encode($this->reconocimientos),
+                    'estudiante_id' => $estudiante->id,
+                ]);
+                DB::commit();
+
+                return redirect()->route('confirmacion-inscripcion');
+            } catch (QueryException $e) {
+                DB::rollBack();
+                return redirect()->back()->with('error', 'Error en la base de datos: ' . $e->getMessage());
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return redirect()->back()->with('error', 'Error al guardar los datos: ' . $e->getMessage());
+            } finally {
+                Session::forget('preinscripto');
+                Session::forget('cuilCheck');
+                Session::forget('inscripto');
+            }
+        }
+
 
         $this->reset();
     }
