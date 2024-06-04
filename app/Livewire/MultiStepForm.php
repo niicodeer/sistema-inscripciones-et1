@@ -73,6 +73,40 @@ class MultiStepForm extends Component
         $this->email = $data['email'];
         $this->telefono = $data['telefono'];
         $this->cuil = $data['cuil'];
+
+        if ($inscripto) {
+            $tutor = Tutor::where('id', $inscripto['tutor_id'])->firstOrFail();
+            $this->nombreTutor = $tutor['nombre'];
+            $this->apellidoTutor = $tutor['apellido'];
+            $this->cuilTutor = $tutor['cuil'];
+            $this->emailTutor = $tutor['email'];
+            $this->telefonoTutor = $tutor['telefono'];
+            $this->ocupacion = $tutor['ocupacion'];
+            $this->parentezco = $tutor['parentezco'];
+
+            $datoEstudiante = DatoEstudiante::where('estudiante_id', $inscripto['id'])->firstOrFail();
+            $this->provincia = $datoEstudiante['provincia'];
+            $this->ciudad = $datoEstudiante['ciudad'];
+            $this->localidad = $datoEstudiante['localidad'];
+            $this->calle = $datoEstudiante['calle'];
+            $this->numeracion = $datoEstudiante['numeracion'];
+            $this->piso = $datoEstudiante['piso'];
+            //$this->lugar_nacimiento=$datoEstudiante['lugar_nacimiento'];
+            $this->nombreObraSocial = $datoEstudiante['nombre_obra_social'];
+            $this->obraSocial = $datoEstudiante['obra_social'];
+            $this->transporte = json_decode($datoEstudiante['medio_transporte']);
+            $this->convive = json_decode($datoEstudiante['convivencia']);
+
+            $inscripcion = Inscripcion::where('estudiante_id', $inscripto['id'])->firstOrFail();
+            $this->turno = $inscripcion['turno'];
+            $this->curso = $inscripcion['curso_inscripto'];
+            $this->modalidad = $inscripcion['modalidad'];
+            $this->escuelaProviene = $inscripcion['escuela_proviene'];
+            $this->condicionAlumno = $inscripcion['condicion_alumno'];
+            $this->adeudaMaterias = $inscripcion['adeuda_materias'];
+            $this->nombreMaterias = $inscripcion['nombre_materias'];
+            $this->reconocimientos = json_decode($inscripcion['reconocimientos']);
+        }
     }
 
     public function incrementSteps()
@@ -99,7 +133,7 @@ class MultiStepForm extends Component
                 DB::beginTransaction();
 
                 // Actualizar el tutor
-                $tutor = Tutor::where('id', $inscripto['tutor_id'])->firstOrFail();
+                $tutor = Tutor::where('id', $inscripto['tutor_id']);
                 $tutor->update([
                     'nombre' => $this->nombreTutor,
                     'apellido' => $this->apellidoTutor,
@@ -111,7 +145,7 @@ class MultiStepForm extends Component
                 ]);
 
                 // Actualizar el estudiante
-                $estudiante = Estudiante::where('id', $inscripto['id'])->firstOrFail();
+                $estudiante = Estudiante::where('id', $inscripto['id']);
                 $estudiante->update([
                     'nombre' => $this->nombre,
                     'apellido' => $this->apellido,
@@ -124,7 +158,7 @@ class MultiStepForm extends Component
                 ]);
 
                 // Actualizar los datos del estudiante
-                $datoEstudiante = DatoEstudiante::where('estudiante_id', $inscripto['id'])->firstOrFail();
+                $datoEstudiante = DatoEstudiante::where('estudiante_id', $inscripto['id']);
                 $datoEstudiante->update([
                     'provincia' => $this->provincia,
                     'ciudad' => $this->ciudad,
@@ -135,14 +169,13 @@ class MultiStepForm extends Component
                     'lugar_nacimiento' => $this->lugar_nacimiento,
                     'nombre_obra_social' => $this->nombreObraSocial,
                     'obra_social' => $this->obraSocial,
-                    'fecha_ingreso' => now(),
                     'medio_transporte' => json_encode($this->transporte),
                     'convivencia' => json_encode($this->convive),
                     'estudiante_id' => $estudiante->id,
                 ]);
 
                 // Actualizar la inscripción
-                $inscripcion = Inscripcion::where('estudiante_id', $inscripto['id'])->firstOrFail();
+                $inscripcion = Inscripcion::where('estudiante_id', $inscripto['id']);
                 $inscripcion->update([
                     'turno' => $this->turno,
                     'curso_inscripto' => $this->curso,
@@ -172,7 +205,7 @@ class MultiStepForm extends Component
             }
         }
 
-        if ($preinscripto = Session::get('preinscripto')) {
+if ($preinscripto = Session::get('preinscripto')) {
             try {
                 DB::beginTransaction();
                 $tutor = Tutor::create([
