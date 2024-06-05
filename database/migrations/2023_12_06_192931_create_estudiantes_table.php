@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('estudiantes', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('cuil');
+            $table->bigInteger('cuil', 11);
             $table->string('nombre', 20);
-            $table->string('genero');
+            $table->string('genero', 10);
             $table->string('apellido', 20);
             $table->string('email', 100);
             $table->date('fecha_nac')->nullable();

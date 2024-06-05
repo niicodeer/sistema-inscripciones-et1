@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('inscripciones', function (Blueprint $table) {
             $table->id();
-            $table->string('turno');
-            $table->string('modalidad');
-            $table->string('escuela_proviene');
-            $table->string('condicion_alumno');
+            $table->string('turno', 10);
+            $table->string('modalidad', 15);
+            $table->string('escuela_proviene', 30);
+            $table->string('condicion_alumno', 10);
             $table->boolean('aceptado')->default(false);
             $table->boolean('adeuda_materia');
-            $table->string('nombre_materias')->nullable();
+            $table->string('nombre_materias', 50)->nullable();
             $table->json('reconocimientos');
             $table->date('fecha_inscripcion');
-            $table->string('curso_inscripto');
+            $table->string('curso_inscripto', 15);
             $table->unsignedBigInteger('estudiante_id')->nullable();
             $table->unsignedBigInteger('curso_id')->nullable();
             $table->foreign('estudiante_id')->references('id')->on('estudiantes')->onUpdate('set null')->onDelete('set null');

@@ -179,12 +179,12 @@ class MultiStepForm extends Component
     {
         if ($this->currentStep === 1) {
             $validated = $this->validate([
-                'nombre' => 'required|string|max:255', // Campo nombre es requerido, debe ser una cadena de caracteres y tener como máximo 255 caracteres
-                'apellido' => 'required|string|max:255', // Campo apellido es requerido, debe ser una cadena de caracteres y tener como máximo 255 caracteres
-                'genero' => 'required|in:Femenino,Masculino,Otro', // Campo género es requerido y debe ser uno de los valores especificados
+                'nombre' => 'required|string|min:3|max:20', // Campo nombre es requerido, debe ser una cadena de caracteres y tener como máximo 255 caracteres
+                'apellido' => 'required|string|min:3|max:20', // Campo apellido es requerido, debe ser una cadena de caracteres y tener como máximo 255 caracteres
+                'genero' => 'required|in:Femenino,Masculino,Otro|min:3|max:10', // Campo género es requerido y debe ser uno de los valores especificados
                 'fecha_nac' => 'required|date', // Campo fecha de nacimiento es requerido y debe ser una fecha válida
-                'email' => 'required|email|max:255', // Campo email es requerido, debe ser un email válido y tener como máximo 255 caracteres
-                'telefono' => 'required|string|max:20', // Campo teléfono es requerido, debe ser una cadena de caracteres y tener como máximo 20 caracteres
+                'email' => 'required|email|min:8|max:100', // Campo email es requerido, debe ser un email válido y tener como máximo 255 caracteres
+                'telefono' => 'required|string|min:8|max:15', // Campo teléfono es requerido, debe ser una cadena de caracteres y tener como máximo 20 caracteres
             ], [
                 'nombre.required' => 'El campo nombre es obligatorio.', //Estos son los mensajes que apareceran en caso de no cumplir
                 'apellido.required' => 'El campo apellido es obligatorio.',
@@ -198,10 +198,10 @@ class MultiStepForm extends Component
             ]);
         } elseif ($this->currentStep === 2) {
             $validated = $this->validate([
-                'calle' => 'required|string',
+                'calle' => 'required|string|min:5|max:30',
                 'provincia' => 'required|string',
-                'ciudad' => 'required|string',
-                'localidad' => 'required|string',
+                'ciudad' => 'required|string|min:5|max:20',
+                'barrio' => 'required|string|min:5|max:20',
                 'numeracion' => 'required|numeric',
                 'transporte' => 'required',
                 'convive' => 'required',
@@ -218,12 +218,12 @@ class MultiStepForm extends Component
             ]);
         } elseif ($this->currentStep === 3) {
             $validated = $this->validate([
-                'nombreTutor' => 'required|string',
-                'apellidoTutor' => 'required|string',
-                'cuilTutor' => 'required|numeric',
-                'emailTutor' => 'required|email',
-                'telefonoTutor' => 'required|nueric',
-                'ocupacion' => 'required|stringh',
+                'nombreTutor' => 'required|string|min:3|max:20',
+                'apellidoTutor' => 'required|string|min:3|max:20',
+                'cuilTutor' => 'required|numeric|max:11',
+                'emailTutor' => 'required|email|min:8|max:100',
+                'telefonoTutor' => 'required|numeric|max:15',
+                'ocupacion' => 'required|string|min:5|max:30',
                 'parentezco' => 'required',
             ], [
                 'nombreTutor.required' => 'El campo nombre es obligatorio.',
