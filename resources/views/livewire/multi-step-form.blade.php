@@ -487,11 +487,3 @@
 
 </div>
 
-{{-- @livewireScripts
-<script>
-    Livewire.on('errorOccurred', ({
-        message
-    }) => {
-        alert(message);
-    });
-</script> --}}
