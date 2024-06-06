@@ -26,6 +26,8 @@ return new class extends Migration
             $table->string('lugar_nacimiento', 20);
             $table->date('fecha_ingreso')->nullable();
             $table->json('convivencia');
+            $table->unsignedBigInteger('estudiante_id')->nullable();
+            $table->foreign('estudiante_id')->references('id')->on('estudiantes')->onUpdate('set null')->onDelete('set null');
             $table->timestamps();
         });
     }

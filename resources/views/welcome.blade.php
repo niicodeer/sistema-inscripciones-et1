@@ -18,7 +18,7 @@
     <body class="antialiased">
         <h1>PAGINA PRINCIPAL DE LA ESCUELA</h1>
         <a href={{ route('preinscripcion') }}>Preinscripcion</a>
-        <a href={{ route('inscripcion') }}>Inscripcion</a>
+        <a href={{ route('verificar-cuil') }}>Inscripcion</a>
         {{-- <a href={{ route('admin') }}>Administrador</a> --}}
     </body>
 </html>

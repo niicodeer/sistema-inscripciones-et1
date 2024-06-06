@@ -18,10 +18,9 @@ return new class extends Migration
             $table->string('genero', 10);
             $table->string('apellido', 20);
             $table->string('email', 100);
+            $table->string('telefono');
             $table->date('fecha_nac')->nullable();
             $table->boolean('es_alumno')->default(false);
-            $table->unsignedBigInteger('dato_id')->nullable();
-            $table->foreign('dato_id')->references('id')->on('dato_estudiantes')->onUpdate('set null')->onDelete('set null');
             $table->unsignedBigInteger('tutor_id')->nullable();
             $table->foreign('tutor_id')->references('id')->on('tutores')->onUpdate('set null')->onDelete('set null');
             $table->timestamps();

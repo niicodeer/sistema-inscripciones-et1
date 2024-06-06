@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('escuela_proviene', 30);
             $table->string('condicion_alumno', 10);
             $table->boolean('aceptado')->default(false);
-            $table->boolean('adeuda_materia');
+            $table->boolean('adeuda_materias')->nullable();
             $table->string('nombre_materias', 50)->nullable();
             $table->json('reconocimientos');
             $table->date('fecha_inscripcion');

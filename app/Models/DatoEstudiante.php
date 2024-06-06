@@ -12,12 +12,18 @@ class DatoEstudiante extends Model
 
     protected $fillable=[
         'medio_transporte',
-        'domicilio',
+        'calle',
+        'numeracion',
+        'piso',
+        'provincia',
+        'ciudad',
+        'barrio',
         'obra_social',
+        'nombre_obra_social',
         'lugar_nacimiento',
         'fecha_ingreso',
         'convivencia',
-        'escuela_proviene',
+        'estudiante_id',
     ];
 
     public function estudiante(): BelongsTo
