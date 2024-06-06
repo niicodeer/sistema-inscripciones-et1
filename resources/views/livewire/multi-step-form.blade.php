@@ -28,7 +28,7 @@
                 Si están correctos continúa a la siguiente sección o edita/completa algún campo si hace falta.</p>
         @endif
     </div>
-    <form class="flex flex-col gap-y-14 mt-6 items-center" wire:submit="submit">
+    <form method="POST" class="flex flex-col gap-y-14 mt-6 items-center" wire:submit="submit">
         @csrf
         @if ($currentStep === 1)
             <div>
@@ -487,11 +487,3 @@
 
 </div>
 
-{{-- @livewireScripts
-<script>
-    Livewire.on('errorOccurred', ({
-        message
-    }) => {
-        alert(message);
-    });
-</script> --}}
