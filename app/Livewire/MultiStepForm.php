@@ -31,7 +31,7 @@ class MultiStepForm extends Component
     public $calle;
     public $numeracion;
     public $piso;
-    public $localidad;
+    public $barrio;
     public $ciudad;
     public $provincia;
     public $transporte = [];
@@ -89,7 +89,7 @@ class MultiStepForm extends Component
             $datoEstudiante = DatoEstudiante::where('estudiante_id', $inscripto['id'])->firstOrFail();
             $this->provincia = $datoEstudiante['provincia'];
             $this->ciudad = $datoEstudiante['ciudad'];
-            $this->localidad = $datoEstudiante['localidad'];
+            $this->barrio = $datoEstudiante['barrio'];
             $this->calle = $datoEstudiante['calle'];
             $this->numeracion = $datoEstudiante['numeracion'];
             $this->piso = $datoEstudiante['piso'];
@@ -158,7 +158,7 @@ class MultiStepForm extends Component
                 $datoEstudiante->update([
                     'provincia' => $this->provincia,
                     'ciudad' => $this->ciudad,
-                    'localidad' => $this->localidad,
+                    'barrio' => $this->barrio,
                     'calle' => $this->calle,
                     'numeracion' => $this->numeracion,
                     'piso' => $this->piso,
@@ -225,7 +225,7 @@ class MultiStepForm extends Component
                 DatoEstudiante::create([
                     'provincia' => $this->provincia,
                     'ciudad' => $this->ciudad,
-                    'localidad' => $this->localidad,
+                    'barrio' => $this->barrio,
                     'calle' => $this->calle,
                     'numeracion' => $this->numeracion,
                     'piso' => $this->piso,
@@ -273,15 +273,19 @@ class MultiStepForm extends Component
     {
         if ($this->currentStep === 1) {
             $validated = $this->validate([
-                'nombre' => 'required|string|max:255', // Campo nombre es requerido, debe ser una cadena de caracteres y tener como máximo 255 caracteres
-                'apellido' => 'required|string|max:255', // Campo apellido es requerido, debe ser una cadena de caracteres y tener como máximo 255 caracteres
-                'genero' => 'required|in:Femenino,Masculino,Otro', // Campo género es requerido y debe ser uno de los valores especificados
-                'fecha_nac' => 'required|date', // Campo fecha de nacimiento es requerido y debe ser una fecha válida
-                'email' => 'required|email|max:255', // Campo email es requerido, debe ser un email válido y tener como máximo 255 caracteres
-                'telefono' => 'required|string|max:20', // Campo teléfono es requerido, debe ser una cadena de caracteres y tener como máximo 20 caracteres
+                'nombre' => 'required|string|min:3|max:20',
+                'apellido' => 'required|string|min:3|max:20',
+                'genero' => 'required|in:Femenino,Masculino,Otro|min:3|max:10',
+                'fecha_nac' => 'required|date',
+                'email' => 'required|email|min:8|max:100',
+                'telefono' => 'required|string|min:8|max:15',
             ], [
-                'nombre.required' => 'El campo nombre es obligatorio.', //Estos son los mensajes que apareceran en caso de no cumplir
+                'nombre.required' => 'El campo nombre es obligatorio.',
+                'nombre.min' => 'Nombre debe tener un mínimo de 3 caracteres',
+                'nombre.max' => 'Nombre debe tener un máximo de 20 caracteres',
                 'apellido.required' => 'El campo apellido es obligatorio.',
+                'apellido.min' => 'Apellido debe tener un mínimo de 3 caracteres',
+                'apellido.max' => 'Apellido debe tener un máximo de 20 caracteres',
                 'genero.required' => 'Debe seleccionar un género.',
                 'genero.in' => 'El género seleccionado no es válido.',
                 'fecha_nac.required' => 'El campo fecha de nacimiento es obligatorio.',
@@ -289,46 +293,59 @@ class MultiStepForm extends Component
                 'email.required' => 'El campo email es obligatorio.',
                 'email.email' => 'El campo email debe ser una dirección de correo electrónico válida.',
                 'telefono.required' => 'El campo teléfono es obligatorio.',
+                'telefono.max' => 'Teléfono debe tener un máximo de 15 caracteres'
             ]);
         } elseif ($this->currentStep === 2) {
             $validated = $this->validate([
-                'calle' => 'required|string',
+                'calle' => 'required|string|min:5|max:30',
                 'provincia' => 'required|string',
-                'ciudad' => 'required|string',
-                'localidad' => 'required|string',
+                'ciudad' => 'required|string|min:5|max:20',
+                'barrio' => 'required|string|min:5|max:20',
                 'numeracion' => 'required|numeric',
                 'transporte' => 'required',
                 'convive' => 'required',
                 'obraSocial' => 'required',
             ], [
                 'calle.required' => 'El campo calle es obligatorio.',
+                'calle.min' => 'Calle debe tener un mínimo de 5 caracteres',
+                'calle.max' => 'Calle debe tener un máximo de 20 caracteres',
                 'provincia.required' => 'El campo provincia es obligatorio.',
                 'ciudad.required' => 'El campo ciudad es obligatorio.',
+                'ciudad.min' => 'Ciudad debe tener un mínimo de 5 caracteres',
+                'ciudad.max' => 'Ciudad debe tener un máximo de 20 caracteres',
+                'barrio.min' => 'Barrio debe tener un mínimo de 5 caracteres',
+                'barrio.max' => 'Barrio debe tener un máximo de 20 caracteres',
                 'transporte.required' => 'Debe seleccionar una opción.',
                 'numeracion.required' => 'El campo numeración es obligatorio.',
-                'localidad.required' => 'El campo localidad es obligatorio.',
                 'convive.required' => 'Debe seleccionar una opción.',
                 'obraSocial.required' => 'Debe seleccionar una opción.'
             ]);
         } elseif ($this->currentStep === 3) {
             $validated = $this->validate([
-                'nombreTutor' => 'required|string',
-                'apellidoTutor' => 'required|string',
-                'cuilTutor' => 'required|numeric',
-                'emailTutor' => 'required|email',
-                'telefonoTutor' => 'required|numeric',
-                'ocupacion' => 'required|string',
+                'nombreTutor' => 'required|string|min:3|max:20',
+                'apellidoTutor' => 'required|string|min:3|max:20',
+                'cuilTutor' => 'required|numeric|max:11',
+                'emailTutor' => 'required|email|min:8|max:100',
+                'telefonoTutor' => 'required|numeric|max:15',
+                'ocupacion' => 'required|string|min:5|max:30',
                 'parentezco' => 'required',
             ], [
                 'nombreTutor.required' => 'El campo nombre es obligatorio.',
+                'nombre.min' => 'Nombre debe tener un mínimo de 3 caracteres',
+                'nombre.max' => 'Nombre debe tener un máximo de 20 caracteres',
                 'apellidoTutor.required' => 'El campo apellido es obligatorio.',
+                'apellido.min' => 'Apellido debe tener un mínimo de 3 caracteres',
+                'apellido.max' => 'Apellido debe tener un máximo de 20 caracteres',
                 'cuilTutor.required' => 'El campo cuil es obligatorio.',
                 'cuilTutor.numeric' => 'El cuil debe ser numérico, sin puntos ni guiones.',
+                'cuilTutor.max' => 'El cuil debe contener 11 caracteres sin espacios',
                 'emailTutor.required' => 'El campo email es obligatorio.',
                 'emailTutor.email' => 'El email debe ser una dirección de correo electrónico válida.',
                 'telefonoTutor.required' => 'El campo telefono es obligatorio',
-                'telefonoTutor.numeric' => 'El telefono debe contener números.',
+                'telefonoTutor.max' => 'Teléfono debe tener un máximo de 15 caracteres',
                 'ocupacion.required' => 'El campo ocupación es obligatorio',
+                'ocupacion.min' => 'Ocupación debe tener un mínimo de 5 caracteres',
+                'ocupacion.max' => 'Ocupación debe tener un máximo de 30 caracteres',
                 'parentezco.required' => 'Debe seleccionar una opción'
             ]);
         } elseif ($this->currentStep === 4) {

@@ -56,10 +56,9 @@
                         <x-input type="text" id="piso" label="Piso dpto" placeholder="Piso" wire:model="piso" />
                     </div>
                     {{-- <x-select id="provincia" label="Provincia" :options="json_encode(['Santiago del Estero', 'Córdoba', 'Otro'])" wire:model="provincia" /> --}}
+                    <x-input type="text" id="barrio" label="Barrio" placeholder="Barrio" wire:model="barrio" />
                     <x-input type="text" id="provincia" label="Provincia" placeholder="Provincia"
                         wire:model="provincia" />
-                    <x-input type="text" id="localidad" label="Localidad" placeholder="Localidad"
-                        wire:model="localidad" />
                     <x-input type="text" id="ciudad" label="Ciudad" placeholder="Ciudad" wire:model="ciudad" />
                     <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Convive con</p>

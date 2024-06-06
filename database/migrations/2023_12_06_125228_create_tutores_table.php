@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('tutores', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('cuil');
-            $table->string('telefono');
-            $table->string('email');
-            $table->string('nombre');
-            $table->string('apellido');
-            $table->string('ocupacion');
-            $table->string('parentezco');
+            $table->bigInteger('cuil', 11);
+            $table->string('telefono', 15);
+            $table->string('email', 100);
+            $table->string('nombre', 20);
+            $table->string('apellido', 20);
+            $table->string('ocupacion', 30);
+            $table->string('parentezco', 15);
             $table->timestamps();
         });
     }

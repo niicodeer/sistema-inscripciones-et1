@@ -17,7 +17,7 @@ class DatoEstudiante extends Model
         'piso',
         'provincia',
         'ciudad',
-        'localidad',
+        'barrio',
         'obra_social',
         'nombre_obra_social',
         'lugar_nacimiento',
