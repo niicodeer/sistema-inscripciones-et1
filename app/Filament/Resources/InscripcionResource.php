@@ -56,13 +56,29 @@ class InscripcionResource extends Resource
                     })->all())
                     ->label('Curso')
                     ->searchable(),
-                DatePicker::make('fechaInscripcion'),
+                Select::make('curso_inscripto')
+                    ->options([
+                        'primer año'=>'Primer Año',
+                        'segundo año'=>'Segundo Año',
+                        'tercer año'=>'Tercer Año',
+                        'cuarto año'=>'Cuarto Año',
+                        'quinto año'=>'Quinto Año',
+                        'sexto año'=>'Sexto Año',
+                    ]),
+                DatePicker::make('fecha_inscripcion'),
                 Radio::make('aceptado')
                     ->options([
                         0 => 'No aceptado',
                         1 => 'Aceptado',
                     ])
-                    ->label('Estado inscripción')
+                    ->label('Estado inscripción'),
+                Radio::make('adeuda_materias')
+                    ->options([
+                        0 => 'No',
+                        1 => 'Si'
+                    ]),
+                TextInput::make('nombre_materias'),
+                TextInput::make('reconocimientos'),
             ]);
     }
 

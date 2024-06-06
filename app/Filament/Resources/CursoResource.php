@@ -30,7 +30,7 @@ class CursoResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('añoCurso')
+                Forms\Components\Select::make('año_curso')
                 ->options([
                     '1' => '1',
                     '2' => '2',
@@ -57,7 +57,7 @@ class CursoResource extends Resource
                     'Tarde' => 'Tarde',
                 ])
                 ->required(),
-                Forms\Components\TextInput::make('cantidadMaxima')
+                Forms\Components\TextInput::make('cantidad_maxima')
                 ->required()
                 ->numeric()
                 ->maxValue(25)
@@ -71,13 +71,13 @@ class CursoResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('turno')
                 ->sortable(),
-                Tables\Columns\TextColumn::make('añoCurso')
+                Tables\Columns\TextColumn::make('año_curso')
                 ->sortable(),
                 Tables\Columns\TextColumn::make('division')
                 ->sortable(),
-                Tables\Columns\TextColumn::make('cantidadAlumnos')
+                Tables\Columns\TextColumn::make('cantidad_alumnos')
                 ->sortable(),
-                Tables\Columns\TextColumn::make('cantidadMaxima'),
+                Tables\Columns\TextColumn::make('cantidad_maxima'),
                 ])
             ->filters([
                 SelectFilter::make('turno')
@@ -85,7 +85,7 @@ class CursoResource extends Resource
                     'tarde' => 'Tarde',
                     'mañana' => 'Mañana',
                 ]),
-                SelectFilter::make('añoCurso')
+                SelectFilter::make('año_curso')
                 ->options([
                     '1' => '1',
                     '2' => '2',
