@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('preinscriptos', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('cuil', 11);
+            $table->string('cuil', 11);
             $table->string('nombre', 20);
             $table->string('apellido', 20);
             $table->string('email', 100);

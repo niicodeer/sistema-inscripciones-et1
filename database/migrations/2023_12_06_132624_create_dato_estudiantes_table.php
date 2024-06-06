@@ -14,16 +14,15 @@ return new class extends Migration
         Schema::create('dato_estudiantes', function (Blueprint $table) {
             $table->id();
             $table->string('provincia');
-            $table->string('ciudad', 20);
-            $table->string('barrio', 20);
+            $table->string('ciudad', 50);
+            $table->string('barrio', 50);
             $table->json('medio_transporte');
-            $table->string('calle', 30);
+            $table->string('calle', 100);
             $table->unsignedInteger('numeracion');
             $table->string('piso')->nullable();
-            $table->string('telefono', 15);
             $table->boolean('obra_social');
-            $table->string('nombre_obra_social', 15)->nullable();
-            $table->string('lugar_nacimiento', 20);
+            $table->string('nombre_obra_social', 30)->nullable();
+            $table->string('lugar_nacimiento', 50);
             $table->date('fecha_ingreso')->nullable();
             $table->json('convivencia');
             $table->unsignedBigInteger('estudiante_id')->nullable();

@@ -2,7 +2,7 @@
 @section('title', 'Formulario Inscripción')
 
 <div class="px-2">
-    <h1 class="text-2xl xl:text-3xl font-bold text-center mb-6 md:mb-14">Inscripción Ciclo Lectivo 2024</h1>
+    <h1 class="text-2xl xl:text-3xl font-bold text-center mb-6 md:mb-14">Inscripción Ciclo Lectivo {{ date('Y') + 1 }}</h1>
     @if ($currentStep <= 2)
         <h3 class="text-center text-xl my-4">Datos Alumno</h3>
     @endif

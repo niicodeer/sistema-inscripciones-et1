@@ -55,9 +55,9 @@ class PreinscriptoResource extends Resource
                 Select::make('genero')
                 ->required()
                 ->options([
-                    'femenino'=>'Femenino',
-                    'masculino'=>'Masculino',
-                    'otro'=>'Otro'
+                    'Femenino'=>'Femenino',
+                    'Masculino'=>'Masculino',
+                    'Otro'=>'Otro'
                 ]),
             ]);
     }

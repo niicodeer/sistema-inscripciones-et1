@@ -92,7 +92,7 @@
 
                         setTimeout(function() {
                             window.location.href = "{{ route('inscripcion') }}";
-                        }, 2000);
+                        }, 1000);
                     } else {
                         svgCross.classList.add('block');
                         svgCross.classList.remove('hidden');

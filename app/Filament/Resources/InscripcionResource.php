@@ -52,18 +52,18 @@ class InscripcionResource extends Resource
                     ->searchable(),
                 Select::make('curso_id')
                     ->options(Curso::all()->mapWithKeys(function ($curso) {
-                        return [$curso->id => "{$curso->id} - {$curso->añoCurso}º {$curso->division}º"];
+                        return [$curso->id => "{$curso->id} - {$curso->año_curso}º {$curso->division}º"];
                     })->all())
                     ->label('Curso')
                     ->searchable(),
                 Select::make('curso_inscripto')
                     ->options([
-                        'primer año'=>'Primer Año',
-                        'segundo año'=>'Segundo Año',
-                        'tercer año'=>'Tercer Año',
-                        'cuarto año'=>'Cuarto Año',
-                        'quinto año'=>'Quinto Año',
-                        'sexto año'=>'Sexto Año',
+                        'Primer año'=>'Primer Año',
+                        'Segundo año'=>'Segundo Año',
+                        'Tercer año'=>'Tercer Año',
+                        'Cuarto año'=>'Cuarto Año',
+                        'Quinto año'=>'Quinto Año',
+                        'Sexto año'=>'Sexto Año',
                     ]),
                 DatePicker::make('fecha_inscripcion'),
                 Radio::make('aceptado')
@@ -94,8 +94,8 @@ class InscripcionResource extends Resource
                 TextColumn::make('estudiante.fullname')
                     ->searchable(['nombre', 'apellido']),
                 TextColumn::make('curso.fullcurso')
-                    ->sortable(['añoCurso']),
-                TextColumn::make('fechaInscripcion')
+                    ->sortable(['año_curso']),
+                TextColumn::make('fecha_inscripcion')
                     ->sortable()
                     ->dateTime("d-M-y  H:m"),
                 ToggleColumn::make('aceptado')

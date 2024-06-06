@@ -25,12 +25,13 @@ class InscripcionFactory extends Factory
             'Quinto año',
             'Sexto año',
         ];
+        $condicionAlumno=['regular','ingresante', 'repitente', 'traspaso'];
         return [
             'aceptado' => fake()->boolean(),
-            'turno' => fake()->word(),
+            'turno' => fake()->randomElement(['mañana', 'tarde']),
             'modalidad' => fake()->word(),
             'escuela_proviene' => fake()->word(),
-            'condicion_alumno' => fake()->word(),
+            'condicion_alumno' => fake()->randomElement($condicionAlumno),
             'adeuda_materias' => fake()->boolean(),
             'nombre_materias' => fake()->word(),
             'reconocimientos' => json_encode([
