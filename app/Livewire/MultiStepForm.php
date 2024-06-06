@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 
+use function Laravel\Prompts\alert;
 
 class MultiStepForm extends Component
 {
@@ -74,6 +75,7 @@ class MultiStepForm extends Component
         $this->telefono = $data['telefono'];
         $this->cuil = $data['cuil'];
 
+        //Relleno con los datos del estudiante que hay en la bd
         if ($inscripto) {
             $tutor = Tutor::where('id', $inscripto['tutor_id'])->firstOrFail();
             $this->nombreTutor = $tutor['nombre'];
@@ -104,7 +106,7 @@ class MultiStepForm extends Component
             $this->escuelaProviene = $inscripcion['escuela_proviene'];
             $this->condicionAlumno = $inscripcion['condicion_alumno'];
             $this->adeudaMaterias = $inscripcion['adeuda_materias'];
-            $this->nombreMaterias = $inscripcion['nombre_materias'];
+            $this->nombreMaterias = json_decode($inscripcion['nombre_materias']);
             $this->reconocimientos = json_decode($inscripcion['reconocimientos']);
         }
     }
@@ -127,12 +129,9 @@ class MultiStepForm extends Component
     public function submit()
     {
         $this->validateForm();
-        //TODO: Agregar logica en caso de que el alumno ya exista en la base de datos, es decir que ya sea alumno del colegio
         if ($inscripto = Session::get('inscripto')) {
             try {
                 DB::beginTransaction();
-
-                // Actualizar el tutor
                 $tutor = Tutor::where('id', $inscripto['tutor_id']);
                 $tutor->update([
                     'nombre' => $this->nombreTutor,
@@ -144,7 +143,6 @@ class MultiStepForm extends Component
                     'parentezco' => $this->parentezco,
                 ]);
 
-                // Actualizar el estudiante
                 $estudiante = Estudiante::where('id', $inscripto['id']);
                 $estudiante->update([
                     'nombre' => $this->nombre,
@@ -154,10 +152,8 @@ class MultiStepForm extends Component
                     'telefono' => $this->telefono,
                     'email' => $this->email,
                     'fecha_nac' => $this->fecha_nac,
-                    'tutor_id' => $tutor->id,
                 ]);
 
-                // Actualizar los datos del estudiante
                 $datoEstudiante = DatoEstudiante::where('estudiante_id', $inscripto['id']);
                 $datoEstudiante->update([
                     'provincia' => $this->provincia,
@@ -166,27 +162,24 @@ class MultiStepForm extends Component
                     'calle' => $this->calle,
                     'numeracion' => $this->numeracion,
                     'piso' => $this->piso,
-                    'lugar_nacimiento' => $this->lugar_nacimiento,
+                    'lugar_nacimiento' => 'lugar_nacimiento',
                     'nombre_obra_social' => $this->nombreObraSocial,
                     'obra_social' => $this->obraSocial,
                     'medio_transporte' => json_encode($this->transporte),
                     'convivencia' => json_encode($this->convive),
-                    'estudiante_id' => $estudiante->id,
                 ]);
 
-                // Actualizar la inscripción
                 $inscripcion = Inscripcion::where('estudiante_id', $inscripto['id']);
                 $inscripcion->update([
                     'turno' => $this->turno,
                     'curso_inscripto' => $this->curso,
                     'modalidad' => $this->modalidad,
                     'escuela_proviene' => $this->escuelaProviene,
-                    'fecha_inscripcion' => now(),
+                    //'fecha_inscripcion' => now(),
                     'condicion_alumno' => $this->condicionAlumno,
                     'adeuda_materias' => $this->adeudaMaterias,
-                    'nombre_materias' => $this->nombreMaterias,
+                    'nombre_materias' => json_encode($this->nombreMaterias),
                     'reconocimientos' => json_encode($this->reconocimientos),
-                    'estudiante_id' => $estudiante->id,
                 ]);
 
                 DB::commit();
@@ -194,10 +187,10 @@ class MultiStepForm extends Component
                 return redirect()->route('confirmacion-inscripcion');
             } catch (QueryException $e) {
                 DB::rollBack();
-                return redirect()->back()->with('error', 'Error en la base de datos: ' . $e->getMessage());
+                abort(500, 'Error en la base de datos: ' . $e->getMessage());
             } catch (\Exception $e) {
                 DB::rollBack();
-                return redirect()->back()->with('error', 'Error al guardar los datos: ' . $e->getMessage());
+                abort(500, 'Error al guadar de datos: ' . $e->getMessage());
             } finally {
                 Session::forget('preinscripto');
                 Session::forget('cuilCheck');
@@ -205,7 +198,7 @@ class MultiStepForm extends Component
             }
         }
 
-if ($preinscripto = Session::get('preinscripto')) {
+        if ($preinscripto = Session::get('preinscripto')) {
             try {
                 DB::beginTransaction();
                 $tutor = Tutor::create([
@@ -262,17 +255,16 @@ if ($preinscripto = Session::get('preinscripto')) {
                 return redirect()->route('confirmacion-inscripcion');
             } catch (QueryException $e) {
                 DB::rollBack();
-                return redirect()->back()->with('error', 'Error en la base de datos: ' . $e->getMessage());
+                abort(500, 'Error en la base de datos: ' . $e->getMessage());
             } catch (\Exception $e) {
                 DB::rollBack();
-                return redirect()->back()->with('error', 'Error al guardar los datos: ' . $e->getMessage());
+                abort(500, 'Error al guadar de datos: ' . $e->getMessage());
             } finally {
                 Session::forget('preinscripto');
                 Session::forget('cuilCheck');
                 Session::forget('inscripto');
             }
         }
-
 
         $this->reset();
     }
