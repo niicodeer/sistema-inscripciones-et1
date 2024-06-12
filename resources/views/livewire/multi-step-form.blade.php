@@ -77,15 +77,15 @@
                     <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Medio de transporte</p>
                         <div class="w-full grid grid-cols-2 gap-2">
-                            <x-input-check id="publico" label="Trasporte público" value="transporte-publico"
+                            <x-input-check id="publico" label="Trasporte público" value="transporte_publico"
                                 wire:model="transporte" />
-                            <x-input-check id="auto" label="Auto / Camioneta" value="auto-camioneta"
+                            <x-input-check id="auto" label="Auto / Camioneta" value="auto_camioneta"
                                 wire:model="transporte" />
                             <x-input-check id="moto" label="Moto" value="moto" wire:model="transporte" />
                             <x-input-check id="bicicleta" label="Bicicleta" value="bicicleta"
                                 wire:model="transporte" />
                             <x-input-check id="otros" label="Otros" value="otros" wire:model="transporte" />
-                            <x-input-check id="no-utiliza" label="No utiliza" value="no-utiliza"
+                            <x-input-check id="no-utiliza" label="No utiliza" value="no_utiliza"
                                 wire:model="transporte" />
                         </div>
                         @error('transporte')
@@ -95,12 +95,12 @@
                     <div class=" w-[45%] flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Obra Social / Prepaga</p>
                         <div class="flex md:max-w-[45%] w-full gap-6">
-                            <x-input-radio id="obra-social" label="Si" value="si"
+                            <x-input-radio id="obra_social" label="Si" value="si"
                                 wire:model.live="obraSocial" />
-                            <x-input-radio id="obra-social" label="No" value="no"
+                            <x-input-radio id="obra_social" label="No" value="no"
                                 wire:model.live="obraSocial" />
                         </div>
-                        <x-input type="text" id="nombre-os" label="" placeholder="Obra Social / Prepaga"
+                        <x-input type="text" id="nombre_os" label="" placeholder="Obra Social / Prepaga"
                             wire:model="nombreObraSocial" :disabled="$obraSocial != 'si'" :value="$obraSocial == 'no' ? '' : $nombreObraSocial" />
                         @error('obraSocial')
                             <p class="text-red-700 text-sm">{{ $message }}</p>
@@ -112,15 +112,15 @@
         @if ($currentStep === 3)
             <div>
                 <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full">
-                    <x-input type="text" id="nombreTutor" label="Nombre" placeholder="Nombre"
+                    <x-input type="text" id="nombre_tutor" label="Nombre" placeholder="Nombre"
                         wire:model="nombreTutor" />
-                    <x-input type="text" id="apellidoTutor" label="Apellido" placeholder="Apellido"
+                    <x-input type="text" id="apellido_tutor" label="Apellido" placeholder="Apellido"
                         wire:model="apellidoTutor" />
-                    <x-input type="text" id="cuilTutor" label="CUIL" placeholder="Cuil sin guiones ni puntos"
+                    <x-input type="text" id="cuil_tutor" label="CUIL" placeholder="Cuil sin guiones ni puntos"
                         wire:model="cuilTutor" />
-                    <x-input type="email" id="emailTutor" label="Email" placeholder="Introduce un correo"
+                    <x-input type="email" id="email_tutor" label="Email" placeholder="Introduce un correo"
                         wire:model="emailTutor" />
-                    <x-input type="text" id="telefonoTutor" label="Teléfono" placeholder="Introduce un telefono"
+                    <x-input type="text" id="telefono_tutor" label="Teléfono" placeholder="Introduce un telefono"
                         wire:model="telefonoTutor" />
                     <x-input type="text" id="ocupacion" label="Ocupación" placeholder="Ocupación"
                         wire:model="ocupacion" />
@@ -166,15 +166,15 @@
                         <div class="flex md:max-w-[45%] w-full gap-x-8">
                             <div class="flex flex-col gap-3">
                                 <x-input-radio id="ingresante" label="Ingresante" value="ingresante"
-                                    name="condicion-alumno" wire:model.live="condicionAlumno" />
+                                    name="condicion_alumno" wire:model.live="condicionAlumno" />
                                 <x-input-radio id="regular" label="Regular" value="regular"
-                                    name="condicion-alumno" wire:model.live="condicionAlumno" />
+                                    name="condicion_alumno" wire:model.live="condicionAlumno" />
                             </div>
                             <div class="flex flex-col gap-3">
                                 <x-input-radio id="traspaso" label="Traspaso" value="traspaso"
-                                    name="condicion-alumno" wire:model.live="condicionAlumno" />
+                                    name="condicion_alumno" wire:model.live="condicionAlumno" />
                                 <x-input-radio id="repitente" label="Repitente" value="repitente"
-                                    name="condicion-alumno" wire:model.live="condicionAlumno" />
+                                    name="condicion_alumno" wire:model.live="condicionAlumno" />
                             </div>
                         </div>
                         @error('condicionAlumno')
@@ -185,7 +185,7 @@
                     <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Turno</p>
                         <div class="flex flex-col md:max-w-[45%] w-full gap-4">
-                            <x-input-radio id="maniana" label="Mañana" value="maniana" name="turno"
+                            <x-input-radio id="mañana" label="Mañana" value="mañana" name="turno"
                                 wire:model="turno" />
                             <x-input-radio id="tarde" label="Tarde" value="tarde" name="turno"
                                 wire:model="turno" />
@@ -194,22 +194,22 @@
                             <p class="text-red-700 text-sm">{{ $message }}</p>
                         @enderror
                     </div>
-                    <x-input type="text" id="escuelaProviene" label="Escuela que proviene"
+                    <x-input type="text" id="escuela_proviene" label="Escuela que proviene"
                         placeholder="Nombre Escuela" wire:model="escuelaProviene" :disabled="in_array($condicionAlumno, ['regular', ''])" />
                     <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Adeuda Materias</p>
                         <div class="flex md:max-w-[45%] w-full gap-6">
                             <x-input-radio id="si" label="Si" value="si" name="adeuda-materia"
-                                wire:model.live="adeudaMaterias" />
+                                wire:model.live="adeuda_materias" />
                             <x-input-radio id="no" label="No" value="no" name="adeuda-materia"
-                                wire:model.live="adeudaMaterias" />
+                                wire:model.live="adeuda_materias" />
                         </div>
                         @error('adeudaMaterias')
                             <p class="text-red-700 text-sm">{{ $message }}</p>
                         @enderror
                         <div class="w-[220%]">
                             <x-input type="text" id="adeuda-materia-nombre" label=""
-                                placeholder="Nombres materias" wire:model="nombreMaterias" :disabled="$adeudaMaterias != 'si'" />
+                                placeholder="Nombres materias" wire:model="nombre_materias" :disabled="$adeudaMaterias != 'si'" />
                         </div>
                     </div>
                 </div>
