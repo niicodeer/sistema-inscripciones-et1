@@ -55,7 +55,6 @@
                             wire:model="numeracion" />
                         <x-input type="text" id="piso" label="Piso dpto" placeholder="Piso" wire:model="piso" />
                     </div>
-                    {{-- <x-select id="provincia" label="Provincia" :options="json_encode(['Santiago del Estero', 'Córdoba', 'Otro'])" wire:model="provincia" /> --}}
                     <x-input type="text" id="barrio" label="Barrio" placeholder="Barrio" wire:model="barrio" />
                     <x-input type="text" id="provincia" label="Provincia" placeholder="Provincia"
                         wire:model="provincia" />
@@ -95,13 +94,13 @@
                     <div class=" w-[45%] flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Obra Social / Prepaga</p>
                         <div class="flex md:max-w-[45%] w-full gap-6">
-                            <x-input-radio id="obra_social" label="Si" value="si"
+                            <x-input-radio id="obra_social" label="Si" value=1
                                 wire:model.live="obraSocial" />
-                            <x-input-radio id="obra_social" label="No" value="no"
+                            <x-input-radio id="obra_social" label="No" value=0
                                 wire:model.live="obraSocial" />
                         </div>
                         <x-input type="text" id="nombre_os" label="" placeholder="Obra Social / Prepaga"
-                            wire:model="nombreObraSocial" :disabled="$obraSocial != 'si'" :value="$obraSocial == 'no' ? '' : $nombreObraSocial" />
+                            wire:model="nombreObraSocial" :disabled="$obraSocial != 1" :value="$obraSocial == 0 ? '' : $nombreObraSocial" />
                         @error('obraSocial')
                             <p class="text-red-700 text-sm">{{ $message }}</p>
                         @enderror
@@ -199,17 +198,17 @@
                     <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Adeuda Materias</p>
                         <div class="flex md:max-w-[45%] w-full gap-6">
-                            <x-input-radio id="si" label="Si" value="si" name="adeuda-materia"
-                                wire:model.live="adeuda_materias" />
-                            <x-input-radio id="no" label="No" value="no" name="adeuda-materia"
-                                wire:model.live="adeuda_materias" />
+                            <x-input-radio id="si" label="Si" value=1 name="adeuda-materia"
+                                wire:model.live="adeudaMaterias" />
+                            <x-input-radio id="no" label="No" value=0 name="adeuda-materia"
+                                wire:model.live="adeudaMaterias" />
                         </div>
                         @error('adeudaMaterias')
                             <p class="text-red-700 text-sm">{{ $message }}</p>
                         @enderror
                         <div class="w-[220%]">
                             <x-input type="text" id="adeuda-materia-nombre" label=""
-                                placeholder="Nombres materias" wire:model="nombre_materias" :disabled="$adeudaMaterias != 'si'" />
+                                placeholder="Nombres materias" wire:model="nombreMaterias" :disabled="$adeudaMaterias != 'si'" />
                         </div>
                     </div>
                 </div>
