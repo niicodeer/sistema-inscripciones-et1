@@ -24,12 +24,18 @@ class EditInscripcion extends EditRecord
     }
     protected function beforeSave(): void
     {
-        if (($this->data['aceptado'] === (1 | "1") && $this->record['curso_id'] != $this->data['curso_id']) || ($this->record['curso_id'] === $this->data['curso_id'] && $this->record['aceptado'] != $this->data['aceptado'])) {
-            $cursoNuevo = Curso::find($this->data['curso_id']);
-            $cursoAnterior = Curso::find($this->record['curso_id']);
+        $cursoNuevo = Curso::find($this->data['curso_id']);
+        $cursoAnterior = Curso::find($this->record['curso_id']);
+        if ($cursoNuevo->id === $cursoAnterior->id && ($this->data['aceptado'] === "0" && $this->record['aceptado'] === 1)) {
+            $cursoAnterior->cantidad_alumnos--;
+            $cursoAnterior->save();
+        }
+        if ($this->data['aceptado'] === "1" || $this->data['aceptado'] === 1) {
             if ($cursoNuevo->cantidad_alumnos < $cursoNuevo->cantidad_maxima) {
+                if($cursoNuevo->id != $cursoAnterior->id){
+                    $cursoAnterior->cantidad_alumnos--;
+                }
                 $cursoNuevo->cantidad_alumnos++;
-                $cursoAnterior->cantidad_alumnos--;
                 $this->data['aceptado'] = 1;
                 $cursoNuevo->save();
                 $cursoAnterior->save();
