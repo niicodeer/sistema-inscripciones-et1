@@ -23,7 +23,7 @@ class PreinscriptoController extends Controller
             'apellido' => 'required|min:3|max:20|string',
             'cuil' => 'required|min:10|max:12|regex:/^[0-9]{11,12}$/',
             'email' => 'required|email',
-            'telefono' => 'required|regex:/^[0-9\s\-]+$/',
+            'telefono' => 'required|min:8|max:15|regex:/^[0-9\s\-]+$/',
             'genero' => 'required',
             'fecha_nac' => 'required'
         ], /* [
