@@ -94,9 +94,9 @@
                     <div class=" w-[45%] flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Obra Social / Prepaga</p>
                         <div class="flex md:max-w-[45%] w-full gap-6">
-                            <x-input-radio id="obra_social" label="Si" value=1
+                            <x-input-radio id="obra-social" label="Si" value="1"
                                 wire:model.live="obraSocial" />
-                            <x-input-radio id="obra_social" label="No" value=0
+                            <x-input-radio id="obra-social" label="No" value="0"
                                 wire:model.live="obraSocial" />
                         </div>
                         <x-input type="text" id="nombre_os" label="" placeholder="Obra Social / Prepaga"
@@ -198,9 +198,9 @@
                     <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Adeuda Materias</p>
                         <div class="flex md:max-w-[45%] w-full gap-6">
-                            <x-input-radio id="si" label="Si" value=1 name="adeuda-materia"
+                            <x-input-radio id="si" label="Si" value="1" name="adeuda-materia"
                                 wire:model.live="adeudaMaterias" />
-                            <x-input-radio id="no" label="No" value=0 name="adeuda-materia"
+                            <x-input-radio id="no" label="No" value="0" name="adeuda-materia"
                                 wire:model.live="adeudaMaterias" />
                         </div>
                         @error('adeudaMaterias')

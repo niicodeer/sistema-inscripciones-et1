@@ -324,9 +324,9 @@ class MultiStepForm extends Component
             $validated = $this->validate([
                 'nombreTutor' => 'required|string|min:3|max:20',
                 'apellidoTutor' => 'required|string|min:3|max:20',
-                'cuilTutor' => 'required|numeric|max:11',
+                'cuilTutor' => 'required|string|min:8|max:11',
                 'emailTutor' => 'required|email|min:8|max:100',
-                'telefonoTutor' => 'required|numeric|max:15',
+                'telefonoTutor' => 'required|string|min:8|max:15',
                 'ocupacion' => 'required|string|min:5|max:30',
                 'parentezco' => 'required',
             ], [
