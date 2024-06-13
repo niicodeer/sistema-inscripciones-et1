@@ -60,6 +60,7 @@
 
         </style>
     </head>
+
     <body class="body">
         <h1 class="title">PAGINA PRINCIPAL DE LA ESCUELA</h1>
         <div class="links-container">
