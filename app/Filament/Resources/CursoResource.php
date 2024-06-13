@@ -39,6 +39,7 @@ class CursoResource extends Resource
                     '5' => '5',
                     '6' => '6',
                 ])
+                ->hiddenOn('edit')
                 ->required(),
                 Forms\Components\Select::make('division')
                 ->options([
@@ -50,6 +51,7 @@ class CursoResource extends Resource
                     '6' => '6',
 
                 ])
+                ->hiddenOn('edit')
                 ->required(),
                 Forms\Components\Select::make('turno')
                 ->options([
@@ -60,7 +62,7 @@ class CursoResource extends Resource
                 Forms\Components\TextInput::make('cantidad_maxima')
                 ->required()
                 ->numeric()
-                ->maxValue(25)
+                ->maxValue(50)
                 ->minValue(0)
             ]);
     }
