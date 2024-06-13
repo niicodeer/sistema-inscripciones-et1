@@ -17,7 +17,7 @@ use function Laravel\Prompts\alert;
 
 class MultiStepForm extends Component
 {
-    public $currentStep = 1;
+    public $currentStep = 4;
     public $total_steps = 5;
     /* STEP 1 */
     public $nombre;
@@ -62,7 +62,22 @@ class MultiStepForm extends Component
     {
         return view('livewire.multi-step-form');
     }
-    public function mount()
+        public function updatedCurso(){
+
+            $elijeModalidad = !($this->curso == 'Tercer año'||$this->curso == 'Cuarto año'||$this->curso == 'Quinto año'||$this->curso == 'Sexto año');
+
+            if($elijeModalidad){
+                $this->modalidad='';
+            }
+            if($this->condicionAlumno =='regular'){
+                $this->escuelaProviene = "";
+            }
+        }
+        public function updateEscuela(){
+
+        }
+
+        public function mount()
     {
         $preinscripto = Session::get('preinscripto');
         $inscripto = Session::get('inscripto');
@@ -125,6 +140,7 @@ class MultiStepForm extends Component
             $this->currentStep--;
         }
     }
+
 
     public function submit()
     {

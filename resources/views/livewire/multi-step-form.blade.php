@@ -156,13 +156,13 @@
                         'Cuarto año',
                         'Quinto año',
                         'Sexto año',
-                    ])" wire:model.live="curso" />
-                    <x-select id="modalidad" label="Modalidad a seguir" :options="json_encode(['Informática', 'Economía', 'Industria'])" wire:model="modalidad"
-                        :disabled="in_array($curso, ['Primer año', 'Segundo año', ''])" />
+                    ])" wire:model.live="curso" wire:model.blur="updatedCurso"/>
+                    <x-select id="modalidad" label="Modalidad a seguir" :options="json_encode(['Informática', 'Economía', 'Industria'])" wire:model.live="modalidad"
+                        :disabled="in_array($curso, ['Primer año', 'Segundo año', ''])"/>
 
                     <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Condición Alumno</p>
-                        <div class="flex md:max-w-[45%] w-full gap-x-8">
+                        <div class="flex md:max-w-[45%] w-full gap-x-8" wire:model.blur="updatedCurso">
                             <div class="flex flex-col gap-3">
                                 <x-input-radio id="ingresante" label="Ingresante" value="ingresante"
                                     name="condicion_alumno" wire:model.live="condicionAlumno" />
