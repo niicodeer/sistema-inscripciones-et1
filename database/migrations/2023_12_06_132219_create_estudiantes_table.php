@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('estudiantes', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('cuil');
+            $table->string('cuil', 11);
             $table->string('nombre', 20);
+            $table->string('genero', 10);
             $table->string('apellido', 20);
             $table->string('email', 100);
+            $table->string('telefono',15);
             $table->date('fecha_nac')->nullable();
-            $table->boolean('esAlumno')->default(false);
-            $table->unsignedBigInteger('dato_id')->nullable();
-            $table->foreign('dato_id')->references('id')->on('dato_estudiantes')->onUpdate('set null')->onDelete('set null');
+            $table->boolean('es_alumno')->default(false);
             $table->unsignedBigInteger('tutor_id')->nullable();
             $table->foreign('tutor_id')->references('id')->on('tutores')->onUpdate('set null')->onDelete('set null');
             $table->timestamps();
@@ -34,7 +34,6 @@ return new class extends Migration
     {
         // Eliminar restricciones de clave externa antes de eliminar la tabla
         Schema::table('estudiantes', function (Blueprint $table) {
-            $table->dropForeign(['dato_id']);
             $table->dropForeign(['tutor_id']);
         });
         Schema::dropIfExists('estudiantes');

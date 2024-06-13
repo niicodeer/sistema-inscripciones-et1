@@ -18,12 +18,15 @@ class Estudiante extends Model
         'email',
         'cuil',
         'fecha_nac',
-        'esAlumno'
+        'es_alumno',
+        'telefono',
+        'genero',
+        'tutor_id'
     ];
 
     public function dato() : HasOne
     {
-        return $this->hasOne(DatoEstudiante::class, 'id', 'dato_id');
+        return $this->hasOne(DatoEstudiante::class);
     }
 
     public function inscripciones() : HasMany

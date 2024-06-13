@@ -19,8 +19,8 @@ class DatabaseSeeder extends Seeder
             PreinscriptoSeeder::class,
             CursoSeeder::class,
             TutorSeeder::class,
-            DatoEstudianteSeeder::class,
             EstudianteSeeder::class,
+            DatoEstudianteSeeder::class,
             InscripcionSeeder::class,
             PermissionSeeder::class
             //RolSeeder::class,

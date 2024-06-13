@@ -14,6 +14,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -22,7 +23,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-
+use Illuminate\Support\Facades\Request;
 
 class InscripcionResource extends Resource
 {
@@ -50,19 +51,41 @@ class InscripcionResource extends Resource
                     ->label('Estudiante')
                     ->hiddenOn('edit')
                     ->searchable(),
+                Select::make('curso_inscripto')
+                    ->options([
+                        'Primer año' => 'Primer Año',
+                        'Segundo año' => 'Segundo Año',
+                        'Tercer año' => 'Tercer Año',
+                        'Cuarto año' => 'Cuarto Año',
+                        'Quinto año' => 'Quinto Año',
+                        'Sexto año' => 'Sexto Año',
+                    ]),
+
+                Select::make('turno')
+                    ->options([
+                        'mañana' => 'Mañana',
+                        'tarde' => 'Tarde'
+                    ]),
                 Select::make('curso_id')
                     ->options(Curso::all()->mapWithKeys(function ($curso) {
-                        return [$curso->id => "{$curso->id} - {$curso->añoCurso}º {$curso->division}º"];
+                        return [$curso->id => "{$curso->id} - {$curso->año_curso}º {$curso->division}º"];
                     })->all())
                     ->label('Curso')
                     ->searchable(),
-                DatePicker::make('fechaInscripcion'),
+                DatePicker::make('fecha_inscripcion'),
                 Radio::make('aceptado')
                     ->options([
                         0 => 'No aceptado',
                         1 => 'Aceptado',
                     ])
-                    ->label('Estado inscripción')
+                    ->label('Estado inscripción'),
+                Radio::make('adeuda_materias')
+                    ->options([
+                        0 => 'No',
+                        1 => 'Si'
+                    ]),
+                TextInput::make('nombre_materias'),
+                TextInput::make('reconocimientos'),
             ]);
     }
 
@@ -78,8 +101,8 @@ class InscripcionResource extends Resource
                 TextColumn::make('estudiante.fullname')
                     ->searchable(['nombre', 'apellido']),
                 TextColumn::make('curso.fullcurso')
-                    ->sortable(['añoCurso']),
-                TextColumn::make('fechaInscripcion')
+                    ->sortable(['año_curso']),
+                TextColumn::make('fecha_inscripcion')
                     ->sortable()
                     ->dateTime("d-M-y  H:m"),
                 ToggleColumn::make('aceptado')
@@ -88,13 +111,13 @@ class InscripcionResource extends Resource
             ->filters([
                 SelectFilter::make('aceptado')
                     ->options([
-                        '0' => 'No aceptado',
-                        '1' => 'Aceptado',
+                        0 => 'No aceptado',
+                        1 => 'Aceptado',
                     ])
                     ->label('Estado inscripción'),
                 SelectFilter::make('curso_id')
                     ->options(Curso::all()->mapWithKeys(function ($curso) {
-                        return [$curso->id => "{$curso->id} - {$curso->añoCurso}º {$curso->division}º"];
+                        return [$curso->id => "{$curso->id} - {$curso->año_curso}º {$curso->division}º"];
                     })->all())
                     ->label('Curso')
             ])

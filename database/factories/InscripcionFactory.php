@@ -16,9 +16,30 @@ class InscripcionFactory extends Factory
      */
     public function definition(): array
     {
+        $relacionReconocimientos = ['familiar','meritos','otros'];
+        $cursoInscripto = [
+            'Primer año',
+            'Segundo año',
+            'Tercer año',
+            'Cuarto año',
+            'Quinto año',
+            'Sexto año',
+        ];
+        $condicionAlumno=['regular','ingresante', 'repitente', 'traspaso'];
         return [
             'aceptado' => fake()->boolean(),
-            'fechaInscripcion' => fake()->date(),
+            'turno' => fake()->randomElement(['mañana', 'tarde']),
+            'modalidad' => fake()->word(),
+            'escuela_proviene' => fake()->word(),
+            'condicion_alumno' => fake()->randomElement($condicionAlumno),
+            'adeuda_materias' => fake()->boolean(),
+            'nombre_materias' => fake()->word(),
+            'reconocimientos' => json_encode([
+                $this->faker->randomElement($relacionReconocimientos),
+                $this->faker->randomElement($relacionReconocimientos),
+            ]),
+            'curso_inscripto'=> fake()->randomElement($cursoInscripto),
+            'fecha_inscripcion' => fake()->date(),
             'estudiante_id' => fake()->numberBetween(1,30),
             'curso_id' => fake()->numberBetween(1,36),
         ];

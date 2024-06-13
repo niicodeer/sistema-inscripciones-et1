@@ -7,11 +7,13 @@ use App\Filament\Resources\PreinscriptoResource\RelationManagers;
 use App\Models\Preinscripto;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -48,6 +50,15 @@ class PreinscriptoResource extends Resource
                 ->format('d-M-y')
                 ->label("Fecha de nacimiento")
                 ->required(),
+                TextInput::make('telefono')
+                ->required(),
+                Select::make('genero')
+                ->required()
+                ->options([
+                    'Femenino'=>'Femenino',
+                    'Masculino'=>'Masculino',
+                    'Otro'=>'Otro'
+                ]),
             ]);
     }
 
@@ -63,6 +74,8 @@ class PreinscriptoResource extends Resource
                 ->searchable()->sortable(),
                 TextColumn::make('email')
                 ->searchable()->sortable(),
+                TextColumn::make('genero'),
+                TextColumn::make('telefono'),
                 TextColumn::make('fecha_nac')
                 ->dateTime('d-M-y')
                 ->label("Fecha de nacimiento")->sortable(),
@@ -70,7 +83,12 @@ class PreinscriptoResource extends Resource
                 ->label("Fecha de preinscripcion")->sortable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('genero')
+                ->options([
+                    'femenino' => 'Femenino',
+                    'masculino' => 'Masculino',
+                    'otro' => 'Otro'
+                ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

@@ -11,13 +11,19 @@ class DatoEstudiante extends Model
     use HasFactory;
 
     protected $fillable=[
-        'medioTransporte',
-        'domicilio',
-        'obraSocial',
-        'lugarNacimiento',
-        'fechaIngreso',
+        'medio_transporte',
+        'calle',
+        'numeracion',
+        'piso',
+        'provincia',
+        'ciudad',
+        'barrio',
+        'obra_social',
+        'nombre_obra_social',
+        'lugar_nacimiento',
+        'fecha_ingreso',
         'convivencia',
-        'escuelaProviene',
+        'estudiante_id',
     ];
 
     public function estudiante(): BelongsTo

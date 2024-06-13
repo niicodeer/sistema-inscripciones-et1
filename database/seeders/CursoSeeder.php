@@ -27,10 +27,10 @@ class CursoSeeder extends Seeder
 
                 $data[] = [
                     'turno' => $j < 3 ? 'Mañana' : 'Tarde',
-                    'añoCurso' => $añoCursoValue,
+                    'año_curso' => $añoCursoValue,
                     'division' => $añoDivisionValue,
-                    'cantidadAlumnos' => fake()->numberBetween(1, 22),
-                    'cantidadMaxima' => fake()->numberBetween(20, 25),
+                    'cantidad_alumnos' => fake()->numberBetween(1, 22),
+                    'cantidad_maxima' => fake()->numberBetween(20, 25),
                 ];
             }
         }

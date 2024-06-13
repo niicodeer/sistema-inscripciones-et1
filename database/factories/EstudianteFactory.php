@@ -21,9 +21,10 @@ class EstudianteFactory extends Factory
             'apellido' => fake()->lastName(),
             'email' => fake()->unique()->safeEmail(),
             'cuil' => fake()->numberBetween(1000000, 2000000),
+            'telefono' => fake()->numberBetween(1500000000, 1599999990),
+            'genero' => fake()->randomElement(['Femenino', 'Masculino', 'Otro']),
             'fecha_nac' => fake()->date(),
-            'esAlumno' => fake()->boolean(),
-            'dato_id' => fake()->numberBetween(1, 30),
+            'es_alumno' => fake()->boolean(),
             'tutor_id' => fake()->unique()->numberBetween(1, 30),
         ];
     }

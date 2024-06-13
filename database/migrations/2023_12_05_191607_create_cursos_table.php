@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('cursos', function (Blueprint $table) {
             $table->id();
             $table->enum('turno', ['Mañana','Tarde']);
-            $table->integer('añoCurso');
+            $table->integer('año_curso');
             $table->integer('division');
-            $table->integer('cantidadAlumnos');
-            $table->integer('cantidadMaxima');
+            $table->integer('cantidad_alumnos');
+            $table->integer('cantidad_maxima');
             $table->timestamps();
         });
     }

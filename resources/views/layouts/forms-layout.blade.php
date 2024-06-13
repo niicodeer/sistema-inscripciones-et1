@@ -7,12 +7,28 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
     <title>@yield('title')</title>
+    <style>
+        .close {
+            position: absolute;
+            color: #aaaaaa;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+
 </head>
 
 <body
-    class="w-full h-screen bg-gradient-to-t from-[rgba(62,86,34,1)] to-[rgba(47,117,15,0.1)] flex justify-center items-center pt-10">
+    class="w-full h-full min-h-screen bg-gradient-to-t from-[rgba(62,86,34,1)] to-[rgba(47,117,15,0.1)] flex justify-center items-center pt-10 py-10">
     <div class="bg-white max-w-[80%] xl:max-w-screen-lg w-fit h-fit rounded-3xl p-5 py-7 md:p-16">
-        @yield('content')
+        {{ $slot }}
     </div>
 </body>
 

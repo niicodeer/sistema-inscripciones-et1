@@ -12,10 +12,10 @@ class Curso extends Model
 
     protected $fillable=[
         'turno',
-        'añoCurso',
+        'año_curso',
         'division',
-        'cantidadAlumnos',
-        'cantidadMaxima',
+        'cantidad_alumnos',
+        'cantidad_maxima',
     ];
 
     public function inscripciones() : HasMany
@@ -25,7 +25,7 @@ class Curso extends Model
 
     public function getFullcursoAttribute()
     {
-        return $this->añoCurso.'º '.$this->division.'º';
+        return $this->año_curso.'º '.$this->division.'º';
     }
 
 }

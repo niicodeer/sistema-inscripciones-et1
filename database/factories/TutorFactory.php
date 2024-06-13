@@ -18,10 +18,12 @@ class TutorFactory extends Factory
     {
         return [
             'cuil' => fake()->numberBetween(1000000, 2000000),
-            'telefono' => fake()->phoneNumber(),
+            'telefono' => fake()->numerify('###########'),
             'nombre' => fake()->firstName(),
             'apellido' => fake()->lastName(),
+            'parentezco' => fake()->word(),
             'ocupacion' => fake()->word(),
+            'email' => fake()->email(),
         ];
     }
 }

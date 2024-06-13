@@ -11,11 +11,13 @@ class Tutor extends Model
     use HasFactory;
 
     protected $fillable=[
-        'cuit',
+        'cuil',
         'telefono',
         'nombre',
         'apellido',
         'ocupacion',
+        'email',
+        'parentezco'
     ];
 
     protected $table = "tutores";

@@ -8,6 +8,7 @@ use App\Models\Estudiante;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
@@ -39,12 +40,22 @@ class EstudianteResource extends Resource
                     ->required()
                     ->minLength(3)
                     ->maxLength(20),
-                TextInput::make('nombre'),
-                TextInput::make('apellido'),
-                TextInput::make('email'),
+                TextInput::make('nombre')
+                ->required(),
+                TextInput::make('apellido')
+                ->required(),
+                TextInput::make('email')
+                ->required()
+                ->email(),
+                Select::make('genero')
+                ->required()
+                ->options([
+                    'femenino'=>'Femenino',
+                    'masculino'=>'Masculino',
+                    'otro'=>'Otro']),
                 DatePicker::make('fecha_nac')
                     ->label('Fecha Nacimiento'),
-                Radio::make('esAlumno')
+                Radio::make('es_alumno')
                     ->options([
                         0 => 'No es alumno',
                         1 => 'Si es alumno',
@@ -53,22 +64,32 @@ class EstudianteResource extends Resource
                 Fieldset::make('Más datos')
                     ->relationship('dato')
                     ->schema([
-                        TextInput::make('domicilio'),
-                        TextInput::make('medioTransporte')
+                        TextInput::make('calle'),
+                        TextInput::make('numeracion'),
+                        TextInput::make('piso'),
+                        TextInput::make('barrio'),
+                        TextInput::make('medio_transporte')
                             ->label('Medio de transporte'),
-                        TextInput::make('lugarNacimiento')
+                        TextInput::make('lugar_nacimiento')
                             ->label('Lugar de nacimiento'),
                         TextInput::make('convivencia')
                             ->label('Convive con'),
-                        TextInput::make('obraSocial'),
-                        TextInput::make('escuelaProviene')
-                            ->label('Escuela de la que proviente'),
-                        DatePicker::make('fechaIngreso'),
+                        Radio::make('obra_social')
+                            ->options([
+                                0 => 'No',
+                                1 => 'Si',
+                            ]),
+                            TextInput::make('nombre_obra_social'),
+                        /* TextInput::make('escuela_proviene')
+                            ->label('Escuela de la que proviente'), */
+                        DatePicker::make('fecha_ingreso'),
                     ]),
                 Fieldset::make('Datos tutor')
                     ->relationship('tutor')
                     ->schema([
                         TextInput::make('cuil'),
+                        TextInput::make('email'),
+                        TextInput::make('parentezco'),
                         TextInput::make('nombre'),
                         TextInput::make('apellido'),
                         TextInput::make('telefono'),
@@ -90,17 +111,20 @@ class EstudianteResource extends Resource
                 TextColumn::make('apellido')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('genero')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('email')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('fecha_nac')
                     ->dateTime('d-M-y')
                     ->sortable(),
-                ToggleColumn::make('esAlumno')
+                ToggleColumn::make('es_alumno')
                     ->sortable(),
             ])
             ->filters([
-                SelectFilter::make('esAlumno')
+                SelectFilter::make('es_alumno')
                     ->options([
                         '0' => 'No es alumno',
                         '1' => 'Es alumno',
