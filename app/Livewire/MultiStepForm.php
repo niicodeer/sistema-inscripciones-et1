@@ -17,7 +17,7 @@ use function Laravel\Prompts\alert;
 
 class MultiStepForm extends Component
 {
-    public $currentStep = 4;
+    public $currentStep = 5;
     public $total_steps = 5;
     /* STEP 1 */
     public $nombre;
@@ -57,6 +57,8 @@ class MultiStepForm extends Component
     /* STEP 5 */
     public $reconocimientos = [];
     public $terminos;
+    public $derechoImagen;
+
 
 
     public function updatedCurso()
@@ -402,9 +404,11 @@ class MultiStepForm extends Component
             $validated = $this->validate([
                 'reconocimientos' => 'required',
                 'terminos' => 'required',
+                'derechoImagen' => 'required'
             ], [
                 'reconocimientos.required' => 'Debe seleccionar al menos una opción',
-                'terminos.required' => 'Debe seleccionar que leyó y está de acuerdo'
+                'terminos.required' => 'Debe seleccionar que leyó y está de acuerdo',
+                'derechoImagen.required' => 'Debe seleccionar que está de acuerdo'
             ]);
         }
     }

@@ -236,15 +236,34 @@
                     <p class="text-[#2D3648] italic font-bold text-base">* Además, recuerde que debe proporcionar una
                         foto 4x4 y fotocopia del DNI del inscripto.</p>
                 </div>
-                <p class="text-[#2D3648] font-semibold text-base pt-6">Por último, indique que leyó nuestro código de
-                    vestimenta y está de acuerdo.</p>
+                <p class="text-[#2D3648] font-semibold text-base pt-6">Por último, indique que está de acuerdo con los siguientes términos.</p>
+                    <div class="w-full flex gap-2 justify-start items-center mt-2">
+                        <input class="border border-gray-300 p-2 rounded h-5 w-5" id="terminos" name="terminos"
+                            type="checkbox" wire:model="derechoImagen">
+                        {{-- <p>
+                            He leído y acepto los términos del <span id="openModalBtn"
+                                class="italic underline hover:cursor-pointer" @click="open = ! open">código de
+                                vestimenta.</span>
+                        </p> --}}
+                        <p>
+                            Acepto el uso de producciones, imágenes, videos y sonido del alumno 
+                            
+                        </p>
+                        @error('terminos')
+                            <p class="text-red-700 text-sm">{{ $message }}</p>
+                        @enderror
+                    </div>
                 <div class="w-full flex gap-2 justify-start items-center mt-2">
                     <input class="border border-gray-300 p-2 rounded h-5 w-5" id="terminos" name="terminos"
                         type="checkbox" wire:model="terminos">
-                    <p>
+                    {{-- <p>
                         He leído y acepto los términos del <span id="openModalBtn"
                             class="italic underline hover:cursor-pointer" @click="open = ! open">código de
                             vestimenta.</span>
+                    </p> --}}
+                    <p>
+                        He leído y estoy de acuerdo con el <a class='underline' href="{{route("convivencia.pdf")}}" target="_blank">código de convivencia de la institución</a>
+
                     </p>
                     @error('terminos')
                         <p class="text-red-700 text-sm">{{ $message }}</p>
