@@ -95,12 +95,12 @@
                         <p class="text-[#2D3648] font-semibold text-sm">Obra Social / Prepaga</p>
                         <div class="flex md:max-w-[45%] w-full gap-6">
                             <x-input-radio id="obra-social" label="Si" value="1"
-                                wire:model.live="obraSocial" />
+                                wire:model.live="obraSocial" wire:click="updateObraSocial"/>
                             <x-input-radio id="obra-social" label="No" value="0"
-                                wire:model.live="obraSocial" />
+                                wire:model.live="obraSocial" wire:click="updateObraSocial"/>
                         </div>
                         <x-input type="text" id="nombre_os" label="" placeholder="Obra Social / Prepaga"
-                            wire:model="nombreObraSocial" :disabled="$obraSocial != 1" :value="$obraSocial == 0 ? '' : $nombreObraSocial" />
+                            wire:model.live="nombreObraSocial" :disabled="$obraSocial != '1'"/>
                         @error('obraSocial')
                             <p class="text-red-700 text-sm">{{ $message }}</p>
                         @enderror
@@ -156,24 +156,24 @@
                         'Cuarto año',
                         'Quinto año',
                         'Sexto año',
-                    ])" wire:model.live="curso" wire:model.blur="updatedCurso"/>
+                    ])" wire:model.live="curso" wire.mode.blur="updatedCurso"/>
                     <x-select id="modalidad" label="Modalidad a seguir" :options="json_encode(['Informática', 'Economía', 'Industria'])" wire:model.live="modalidad"
                         :disabled="in_array($curso, ['Primer año', 'Segundo año', ''])"/>
 
                     <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Condición Alumno</p>
-                        <div class="flex md:max-w-[45%] w-full gap-x-8" wire:model.blur="updatedCurso">
-                            <div class="flex flex-col gap-3">
+                        <div class="flex md:max-w-[45%] w-full gap-x-8">
+                            <div class="flex flex-col gap-3" >
                                 <x-input-radio id="ingresante" label="Ingresante" value="ingresante"
-                                    name="condicion_alumno" wire:model.live="condicionAlumno" />
+                                    name="condicion_alumno" wire:model.live="condicionAlumno" wire:click="updateEscuela"/>
                                 <x-input-radio id="regular" label="Regular" value="regular"
-                                    name="condicion_alumno" wire:model.live="condicionAlumno" />
+                                    name="condicion_alumno" wire:model.live="condicionAlumno" wire:click="updateEscuela"/>
                             </div>
-                            <div class="flex flex-col gap-3">
+                            <div class="flex flex-col gap-3" >
                                 <x-input-radio id="traspaso" label="Traspaso" value="traspaso"
-                                    name="condicion_alumno" wire:model.live="condicionAlumno" />
+                                    name="condicion_alumno" wire:model.live="condicionAlumno" wire:click="updateEscuela"/>
                                 <x-input-radio id="repitente" label="Repitente" value="repitente"
-                                    name="condicion_alumno" wire:model.live="condicionAlumno" />
+                                    name="condicion_alumno" wire:model.live="condicionAlumno" wire:click="updateEscuela"/>
                             </div>
                         </div>
                         @error('condicionAlumno')
@@ -194,21 +194,21 @@
                         @enderror
                     </div>
                     <x-input type="text" id="escuela_proviene" label="Escuela que proviene"
-                        placeholder="Nombre Escuela" wire:model="escuelaProviene" :disabled="in_array($condicionAlumno, ['regular', ''])" />
+                        placeholder="Nombre Escuela" wire:model.live="escuelaProviene" :disabled="in_array($condicionAlumno, ['regular', ''])" />
                     <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Adeuda Materias</p>
                         <div class="flex md:max-w-[45%] w-full gap-6">
-                            <x-input-radio id="si" label="Si" value="1" name="adeuda-materia"
-                                wire:model.live="adeudaMaterias" />
-                            <x-input-radio id="no" label="No" value="0" name="adeuda-materia"
-                                wire:model.live="adeudaMaterias" />
+                            <x-input-radio id="si" label="Si" value="1" name="adeuda_materia"
+                                wire:model.live="adeudaMaterias" wire:click="updateAdeudaMaterias" />
+                            <x-input-radio id="no" label="No" value="0" name="adeuda_materia"
+                                wire:model.live="adeudaMaterias" wire:click="updateAdeudaMaterias"/>
                         </div>
                         @error('adeudaMaterias')
                             <p class="text-red-700 text-sm">{{ $message }}</p>
                         @enderror
                         <div class="w-[220%]">
                             <x-input type="text" id="adeuda-materia-nombre" label=""
-                                placeholder="Nombres materias" wire:model="nombreMaterias" :disabled="$adeudaMaterias != 'si'" />
+                                placeholder="Nombres materias" wire:model.live="nombreMaterias" :disabled="$adeudaMaterias != '1'" />
                         </div>
                     </div>
                 </div>

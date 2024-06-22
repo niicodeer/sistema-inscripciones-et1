@@ -1,7 +1,7 @@
-@section('title', 'Formulario Preinscripción')
+@section('title', 'Verificar Cuil')
 <div class="px-2 w-[60%] mx-auto">
     <div>
-        <h1 class="text-2xl xl:text-3xl font-bold text-center mb-6 md:mb-14">Inscripciones 2024</h1>
+        <h1 class="text-2xl xl:text-3xl font-bold text-center mb-6 md:mb-14">Inscripciones {{ date('Y') + 1 }}</h1>
         <p class="text-base text-center text-[#202020]">Ingrese su número de CUIL para comprobar si se encuentra
             pre-inscripto o es alumno de la institución</p>
     </div>

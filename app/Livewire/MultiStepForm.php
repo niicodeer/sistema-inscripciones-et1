@@ -58,26 +58,40 @@ class MultiStepForm extends Component
     public $reconocimientos = [];
     public $terminos;
 
+
+    public function updatedCurso()
+    {
+
+        $elijeModalidad = !($this->curso == 'Tercer año' || $this->curso == 'Cuarto año' || $this->curso == 'Quinto año' || $this->curso == 'Sexto año');
+
+        if ($elijeModalidad) {
+            $this->modalidad = '';
+        }
+    }
+    public function updateEscuela()
+    {
+        if ($this->condicionAlumno === 'regular') {
+            return $this->escuelaProviene = '';
+        }
+    }
+    public function updateObraSocial()
+    {
+        if ($this->obraSocial==='0') {
+            return $this->nombreObraSocial = '';
+        }
+    }
+    public function updateAdeudaMaterias()
+    {
+        if ($this->adeudaMaterias==='0') {
+            return $this->nombreMaterias = '';
+        }
+    }
+
     public function render()
     {
         return view('livewire.multi-step-form');
     }
-        public function updatedCurso(){
-
-            $elijeModalidad = !($this->curso == 'Tercer año'||$this->curso == 'Cuarto año'||$this->curso == 'Quinto año'||$this->curso == 'Sexto año');
-
-            if($elijeModalidad){
-                $this->modalidad='';
-            }
-            if($this->condicionAlumno =='regular'){
-                $this->escuelaProviene = "";
-            }
-        }
-        public function updateEscuela(){
-
-        }
-
-        public function mount()
+    public function mount()
     {
         $preinscripto = Session::get('preinscripto');
         $inscripto = Session::get('inscripto');
