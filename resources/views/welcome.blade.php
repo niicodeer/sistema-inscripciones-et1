@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>SIA</title>
+        <title>SIA - ETN1</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+        <link href="https://fonts.bunny.net/css?family=figtree:400,600,700&display=swap" rel="stylesheet" />
 
         <!-- Styles -->
         <style>
@@ -19,54 +19,121 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    gap: 80px;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(to top, rgba(62, 86, 34, 1), rgba(47, 117, 15, 0.1));
+    /* background: linear-gradient(to top, rgba(62, 86, 34, 1), rgba(47, 117, 15, 0.1)); */
 }
 
 .title {
     font-size: 2.5rem; /* text-6xl */
     font-weight: bold;
+    margin-bottom: 4.5rem;
 }
+
 
 .links-container {
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 3rem;
 }
 
 .link {
-    height: 2.5rem; /* h-10 */
-    min-width: 20rem; /* min-w-80 */
-    padding: 2rem; /* p-8 */
-    font-size: 1.25rem; /* text-xl */
+    min-width: 15rem;
+    padding: 1rem;
+    font-size: 1.25rem;
     text-align: center;
     text-decoration: none;
     cursor: pointer;
     display:flex;
     justify-content: center;
     align-items: center;
-    background-color: #f1f5f9; /* bg-slate-100 */
-    color: #000000; /* text-black */
-    border: 1px solid #64748b;
+    background-color: #EA9010;
+    color: #202020;
+    /* border: 1px solid #bf7205; */
     border-radius: 8px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
 }
 .link:hover{
-    background: #EA9010;
+    background: #e2a54e;
+    transform: scale(1.1);
+}
+.bg-gradient {
+/*     background-image: url('images/etn1_web.webp');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover; */
+    background: linear-gradient(214deg, #49602f, #1b5227, #445c29, #93a283);
+    background-size: 400% 400%;
+    -webkit-animation: animatedBg 7s ease infinite;
+    -moz-animation: animatedBg 7s ease infinite;
+    animation: animatedBg 7s ease infinite;
 }
 
+@-webkit-keyframes animatedBg {
+    0%{background-position:0% 70%}
+    50%{background-position:100% 31%}
+    100%{background-position:0% 70%}
+}
+@-moz-keyframes animatedBg {
+    0%{background-position:0% 70%}
+    50%{background-position:100% 31%}
+    100%{background-position:0% 70%}
+}
+@keyframes animatedBg {
+    0%{background-position:0% 70%}
+    50%{background-position:100% 31%}
+    100%{background-position:0% 70%}
+}
+.inner-container{
+    min-width: 320px;
+    max-width: 750px;
+    width: 50%;
+    min-height: 500px;
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4.9px);
+    -webkit-backdrop-filter: blur(4.9px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+/* background-color: #fff; */
+    padding: 80px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius:12px;
+    text-align: center;
+}
+@media (max-width:645px){
+    .title{
+        font-size: 2rem;
+        margin-bottom: 3.5rem;
+    }
+}
+footer{
+    position: absolute;
+    bottom:0;
+    margin:0.5rem;
+}
+footer p{
+    font-style: italic;
+    color:#9ca3af;
+    font-size: 1rem;
+}
 
         </style>
     </head>
 
-    <body class="body">
-        <h1 class="title">PAGINA PRINCIPAL DE LA ESCUELA</h1>
+    <body class="bg-gradient">
+        <div class="inner-container">
+        <h1 class="title">ESCUELA TECNICA Nº 1</h1>
         <div class="links-container">
             <a href="{{ route('preinscripcion') }}" class="link">Preinscripción {{ date('Y') + 1 }}</a>
             <a href="{{ route('verificar-cuil') }}" class="link">Inscripción {{ date('Y') + 1 }}</a>
         </div>
-        {{-- <a href="{{ route('admin') }}">Administrador</a> --}}
+        </div>
+        <footer><p>Desarrollado por Alumnos del Instituto Tecnológico Santiago del Estero - 2024</p></footer>
     </body>
 </html>
