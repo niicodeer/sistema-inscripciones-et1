@@ -12,12 +12,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 use function Laravel\Prompts\alert;
 
 class MultiStepForm extends Component
 {
-    public $currentStep = 5;
+    public $currentStep = 1;
     public $total_steps = 5;
     /* STEP 1 */
     public $nombre;
@@ -213,8 +214,8 @@ class MultiStepForm extends Component
                     'nombre_materias' => json_encode($this->nombreMaterias),
                     'reconocimientos' => json_encode($this->reconocimientos),
                 ]);
-
                 DB::commit();
+                Session::put('data-inscripcion', $inscripcion->toArray());
 
                 return redirect()->route('confirmacion-inscripcion');
             } catch (QueryException $e) {
@@ -270,7 +271,7 @@ class MultiStepForm extends Component
                     'estudiante_id' => $estudiante->id,
                 ]);
 
-                Inscripcion::create([
+                $inscripcion = Inscripcion::create([
                     'turno' => $this->turno,
                     'curso_inscripto' => $this->curso,
                     'modalidad' => $this->modalidad,
@@ -283,6 +284,7 @@ class MultiStepForm extends Component
                     'estudiante_id' => $estudiante->id,
                 ]);
                 DB::commit();
+                Session::put('data-inscripcion', $inscripcion->toArray());
 
                 return redirect()->route('confirmacion-inscripcion');
             } catch (QueryException $e) {
@@ -291,10 +293,6 @@ class MultiStepForm extends Component
             } catch (\Exception $e) {
                 DB::rollBack();
                 abort(500, 'Error al guadar de datos: ' . $e->getMessage());
-            } finally {
-                Session::forget('preinscripto');
-                Session::forget('cuilCheck');
-                Session::forget('inscripto');
             }
         }
 
@@ -411,5 +409,16 @@ class MultiStepForm extends Component
                 'derechoImagen.required' => 'Debe seleccionar que está de acuerdo'
             ]);
         }
+    }
+
+    public function generarPdf(){
+        $preinscripto = Session::get('preinscripto');
+        $inscripcion = Session::get('data-inscripcion');
+        $inscripto = Session::get('inscripto');
+        $data = $inscripto ? $inscripto : $preinscripto;
+
+        $pdf = Pdf::loadView('comprobantes.comprobante-inscripto', compact('inscripcion', 'data'));
+        return $pdf->stream();
+        //return $pdf->download('comprobante-preinscripcion.pdf');
     }
 }

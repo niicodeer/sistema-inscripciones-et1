@@ -28,13 +28,8 @@
         <a href="#" class="underline">Escuela Técnica Nº 1</a>
     </div>
     <div class="flex gap-2 flex-col items-center">
-        <x-primary-button text="Descargar comprobante" onclick="mostrarAlerta()" /> {{-- TODO: crear funcion para descargar comprobante pdf --}}
-        <x-secondary-button text="Volver al inicio" href="{{ route('inicio') }}" />
+        <a href="{{route('generarPdfPreinscripto')}}" target="_blank">Descargar</a>
+        {{-- <x-primary-button text="Descargar comprobante" onclick="mostrarAlerta()" /> --}} {{-- TODO: crear funcion para descargar comprobante pdf --}}
+        <x-secondary-button text="Finalizar" href="{{ route('finalizar') }}" />
     </div>
 </div>
-
-<script>
-    function mostrarAlerta() {
-        alert('¡Haz hecho clic en Descargar comprobante!');
-    }
-</script>

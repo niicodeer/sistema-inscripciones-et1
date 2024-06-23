@@ -14,8 +14,9 @@
         Puedes cerrar la ventana o inscribir a otra persona en caso que lo necesites
     </p>
     <div class="flex gap-2 flex-col items-center">
+        <a href="{{route('generarPdfInscripto')}}"></a>
         <a class="p-4 text-base font-bold text-[#202020] bg-[#EA9010] max-w-80 w-full rounded-md hover:bg-opacity-80 shadow-md "
-            href="{{ route('inicio') }}">
+            href="{{ route('finalizar') }}">
             Volver al inicio
         </a>
     </div>
