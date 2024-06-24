@@ -73,10 +73,11 @@ class InscripcionResource extends Resource
                     ->label('Curso')
                     ->searchable(),
                 DatePicker::make('fecha_inscripcion'),
-                Radio::make('aceptado')
+                Radio::make('estado_inscripcion')
                     ->options([
-                        0 => 'No aceptado',
-                        1 => 'Aceptado',
+                        'pendiente' => 'Pendiente',
+                        'no aceptado' => 'No aceptado',
+                        'aceptado' => 'Aceptado',
                     ])
                     ->label('Estado inscripción'),
                 Radio::make('adeuda_materias')
@@ -105,14 +106,21 @@ class InscripcionResource extends Resource
                 TextColumn::make('fecha_inscripcion')
                     ->sortable()
                     ->dateTime("d-M-y  H:m"),
-                ToggleColumn::make('aceptado')
+                TextColumn::make('estado_inscripcion')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'pendiente' => 'warning',
+                        'aceptado' => 'success',
+                        'no aceptado' => 'danger',
+                    })
                     ->sortable(),
             ])
             ->filters([
-                SelectFilter::make('aceptado')
+                SelectFilter::make('estado_inscripcion')
                     ->options([
-                        0 => 'No aceptado',
-                        1 => 'Aceptado',
+                        'pendiente' => 'Pendiente',
+                        'no aceptado' => 'No aceptado',
+                        'aceptado' => 'Aceptado',
                     ])
                     ->label('Estado inscripción'),
                 SelectFilter::make('curso_id')

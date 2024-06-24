@@ -27,9 +27,9 @@ class InscripcionFactory extends Factory
         ];
         $condicionAlumno=['regular','ingresante', 'repitente', 'traspaso'];
         return [
-            'aceptado' => fake()->boolean(),
+            'estado_inscripcion' => fake()->randomElement(['pendiente', 'aceptado', 'no aceptado']),
             'turno' => fake()->randomElement(['mañana', 'tarde']),
-            'modalidad' => fake()->word(),
+            'modalidad' => fake()->randomElement(['Informática', 'Economía', 'Industria']),
             'escuela_proviene' => fake()->word(),
             'condicion_alumno' => fake()->randomElement($condicionAlumno),
             'adeuda_materias' => fake()->boolean(),

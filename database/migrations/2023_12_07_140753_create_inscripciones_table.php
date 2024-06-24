@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('modalidad', 15);
             $table->string('escuela_proviene', 30);
             $table->string('condicion_alumno', 10);
-            $table->boolean('aceptado')->default(false);
+            $table->string('estado_inscripcion')->default('pendiente');
             $table->boolean('adeuda_materias')->nullable();
             $table->string('nombre_materias', 50)->nullable();
             $table->json('reconocimientos');

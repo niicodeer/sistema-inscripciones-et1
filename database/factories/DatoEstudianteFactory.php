@@ -25,7 +25,7 @@ class DatoEstudianteFactory extends Factory
             'numeracion' => fake()->numberBetween(0, 999),
             'provincia' => fake()->state(),
             'barrio' => fake()->city(),
-            'ciudad' => fake()->country(),
+            'ciudad' => fake()->city(),
             'obra_social' => fake()->boolean(),
             'nombre_obra_social' => fake()->word(),
             'lugar_nacimiento' => fake()->city(),
