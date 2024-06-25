@@ -7,6 +7,7 @@ use App\Models\Preinscripto;
 use App\Models\Inscripcion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PreinscriptoController extends Controller
 {
@@ -36,7 +37,7 @@ class PreinscriptoController extends Controller
             'fecha_nac.required' => 'El campo fecha de nacimiento es requerido.',
             'fecha_nac.date' => 'El formato de fecha de nacimiento no es válido.',
         ] */);
-        Preinscripto::create(
+        $preinscripto = Preinscripto::create(
             [
                 'cuil' => $req->input('cuil'),
                 'nombre' => $req->input('nombre'),
@@ -47,6 +48,7 @@ class PreinscriptoController extends Controller
                 'fecha_nac' => $req->input('fecha_nac'),
             ]
         );
+        $req->session()->put('preinscripto', $preinscripto->toArray());
         $req->session()->put('preinscripcion_submitted', true);
         return redirect()->route('confirmacion-preinscripcion');
     }
@@ -71,6 +73,13 @@ class PreinscriptoController extends Controller
         } else {
             return response()->json(['mensaje' => 'Cuil no encontrado', 'encontrado' => false]);
         }
+    }
+
+    public function generarPdf(){
+        $preinscripto = Session::get('preinscripto');
+        $pdf = Pdf::loadView('comprobantes.comprobante-preinscripto', compact('preinscripto'));
+        return $pdf->stream();
+        //return $pdf->download('comprobante-preinscripcion.pdf');
     }
 
 }

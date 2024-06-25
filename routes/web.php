@@ -8,6 +8,7 @@ use App\Livewire\PreinscripcionConfirm;
 use App\Livewire\PreinscripcionForm;
 use App\Livewire\VerificarCuilForm;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 
 Route::get('/', function () {
@@ -25,3 +26,11 @@ Route::post('/verificar-cuil', [PreinscriptoController::class, 'verificarCUIL'])
 Route::get('/convivenciaPDF', [InscripcionController::class, 'convivenciaPdf'])->name('convivencia.pdf');
 /* Route::get('/admin')->name('admin');
  */
+
+Route::get('/preinscripcion/pdf', [PreinscriptoController::class, 'generarPdf'])->name('generarPdfPreinscripto');
+Route::get('/inscripcion/pdf', [MultiStepForm::class, 'generarPdf'])->name('generarPdfInscripto');
+
+Route::get('/finalizar', function () {
+    Session::flush();
+    return redirect()->route('inicio');
+})->name('finalizar');

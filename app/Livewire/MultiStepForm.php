@@ -12,12 +12,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 use function Laravel\Prompts\alert;
 
 class MultiStepForm extends Component
 {
-    public $currentStep = 5;
+    public $currentStep = 1;
     public $total_steps = 5;
     /* STEP 1 */
     public $nombre;
@@ -164,7 +165,7 @@ class MultiStepForm extends Component
         if ($inscripto = Session::get('inscripto')) {
             try {
                 DB::beginTransaction();
-                $tutor = Tutor::where('id', $inscripto['tutor_id']);
+                $tutor = Tutor::where('id', $inscripto['tutor_id'])->firstOrFail();
                 $tutor->update([
                     'nombre' => $this->nombreTutor,
                     'apellido' => $this->apellidoTutor,
@@ -175,7 +176,7 @@ class MultiStepForm extends Component
                     'parentezco' => $this->parentezco,
                 ]);
 
-                $estudiante = Estudiante::where('id', $inscripto['id']);
+                $estudiante = Estudiante::where('id', $inscripto['id'])->firstOrFail();
                 $estudiante->update([
                     'nombre' => $this->nombre,
                     'apellido' => $this->apellido,
@@ -186,7 +187,7 @@ class MultiStepForm extends Component
                     'fecha_nac' => $this->fecha_nac,
                 ]);
 
-                $datoEstudiante = DatoEstudiante::where('estudiante_id', $inscripto['id']);
+                $datoEstudiante = DatoEstudiante::where('estudiante_id', $inscripto['id'])->firstOrFail();
                 $datoEstudiante->update([
                     'provincia' => $this->provincia,
                     'ciudad' => $this->ciudad,
@@ -201,7 +202,7 @@ class MultiStepForm extends Component
                     'convivencia' => json_encode($this->convive),
                 ]);
 
-                $inscripcion = Inscripcion::where('estudiante_id', $inscripto['id']);
+                $inscripcion = Inscripcion::where('estudiante_id', $inscripto['id'])->firstOrFail();
                 $inscripcion->update([
                     'turno' => $this->turno,
                     'curso_inscripto' => $this->curso,
@@ -213,7 +214,6 @@ class MultiStepForm extends Component
                     'nombre_materias' => json_encode($this->nombreMaterias),
                     'reconocimientos' => json_encode($this->reconocimientos),
                 ]);
-
                 DB::commit();
 
                 return redirect()->route('confirmacion-inscripcion');
@@ -224,9 +224,9 @@ class MultiStepForm extends Component
                 DB::rollBack();
                 abort(500, 'Error al guadar de datos: ' . $e->getMessage());
             } finally {
-                Session::forget('preinscripto');
-                Session::forget('cuilCheck');
-                Session::forget('inscripto');
+                if ($inscripcion) { // Verifica que $inscripcion no sea null
+                    Session::put('data-inscripcion', $inscripcion->toArray());
+                }
             }
         }
 
@@ -270,7 +270,7 @@ class MultiStepForm extends Component
                     'estudiante_id' => $estudiante->id,
                 ]);
 
-                Inscripcion::create([
+                $inscripcion = Inscripcion::create([
                     'turno' => $this->turno,
                     'curso_inscripto' => $this->curso,
                     'modalidad' => $this->modalidad,
@@ -292,9 +292,9 @@ class MultiStepForm extends Component
                 DB::rollBack();
                 abort(500, 'Error al guadar de datos: ' . $e->getMessage());
             } finally {
-                Session::forget('preinscripto');
-                Session::forget('cuilCheck');
-                Session::forget('inscripto');
+                if ($inscripcion) { // Verifica que $inscripcion no sea null
+                    Session::put('data-inscripcion', $inscripcion->toArray());
+                }
             }
         }
 
@@ -411,5 +411,16 @@ class MultiStepForm extends Component
                 'derechoImagen.required' => 'Debe seleccionar que está de acuerdo'
             ]);
         }
+    }
+
+    public function generarPdf(){
+        $preinscripto = Session::get('preinscripto');
+        $inscripcion = Session::get('data-inscripcion');
+        $inscripto = Session::get('inscripto');
+        $data = $inscripto ? $inscripto : $preinscripto;
+
+        $pdf = Pdf::loadView('comprobantes.comprobante-inscripto', compact('inscripcion', 'data'));
+        return $pdf->stream();
+        //return $pdf->download('comprobante-preinscripcion.pdf');
     }
 }
