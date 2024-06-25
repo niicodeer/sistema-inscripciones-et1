@@ -46,7 +46,7 @@ class PreinscriptoController extends Controller
                 'telefono' => $req->input('telefono'),
                 'genero' => $req->input('genero'),
                 'fecha_nac' => $req->input('fecha_nac'),
-                'comprobante_inscripcion' => generarCodigoComprobante(),
+                'comprobante_preinscripcion' => $this->generarCodigoComprobante($req->input('cuil'),$req->input('fecha_nac')),
             ]
         );
         $req->session()->put('preinscripto', $preinscripto->toArray());
@@ -74,6 +74,11 @@ class PreinscriptoController extends Controller
         } else {
             return response()->json(['mensaje' => 'Cuil no encontrado', 'encontrado' => false]);
         }
+    }
+
+    public function generarCodigoComprobante($cuil, $fecha_insc){
+        $codigoComprobante = $cuil . $fecha_insc;
+        return $codigoComprobante;
     }
 
     public function generarPdf(){

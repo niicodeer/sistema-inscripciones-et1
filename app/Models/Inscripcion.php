@@ -39,10 +39,6 @@ class Inscripcion extends Model
         return $this->belongsTo(Curso::class, 'curso_id', 'id');
     }
 
-    public function generarCodigoComprobante(){
-        $codigoComprobante = $this->cuil . $this->fecha_insc;
-        return $codigoComprobante;
-    }
 
 
 }
