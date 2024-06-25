@@ -4,6 +4,7 @@ namespace App\Filament\Resources\InscripcionResource\Pages;
 
 use App\Filament\Resources\InscripcionResource;
 use App\Models\Curso;
+use App\Models\Estudiante;
 use App\Models\Inscripcion;
 use Filament\Actions;
 use Filament\Notifications\Notification;
@@ -26,21 +27,29 @@ class EditInscripcion extends EditRecord
     {
         $cursoNuevo = Curso::find($this->data['curso_id']);
         $cursoAnterior = Curso::find($this->record['curso_id']);
-        if ($cursoNuevo->id === $cursoAnterior->id && ($this->data['aceptado'] === "0" && $this->record['aceptado'] === 1)) {
+        $estudiante = Estudiante::find($this->data['estudiante_id']);
+        if (
+            $cursoNuevo->id === $cursoAnterior->id &&
+            (($this->data['estado_inscripcion'] === "pendiente" || $this->data['estado_inscripcion'] === "no aceptado") &&
+                $this->record['estado_inscripcion'] === "aceptado")
+            //Deberia cambiaar el estado de es_alumno a 0??
+        ) {
             $cursoAnterior->cantidad_alumnos--;
             $cursoAnterior->save();
         }
-        if ($this->data['aceptado'] === "1" || $this->data['aceptado'] === 1) {
+        if ($this->data['estado_inscripcion'] === "aceptado") {
             if ($cursoNuevo->cantidad_alumnos < $cursoNuevo->cantidad_maxima) {
-                if($cursoNuevo->id != $cursoAnterior->id){
+                if ($cursoNuevo->id != $cursoAnterior->id) {
                     $cursoAnterior->cantidad_alumnos--;
                 }
                 $cursoNuevo->cantidad_alumnos++;
-                $this->data['aceptado'] = 1;
+                $this->data['estado_inscripcion'] = "aceptado";
+                $estudiante->es_alumno = 1;
+                $estudiante->save();
                 $cursoNuevo->save();
                 $cursoAnterior->save();
             } else {
-                $this->data['aceptado'] = 0;
+                $this->data['estado_inscripcion'] = "pendiente";
                 $errorMessage = 'No hay cupos disponibles para el curso seleccionado! Revisa el límite de alumnos por curso';
                 Notification::make()
                     ->title($errorMessage)

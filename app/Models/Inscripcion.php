@@ -11,7 +11,7 @@ class Inscripcion extends Model
     use HasFactory;
 
     protected $fillable=[
-        'aceptado',
+        'estado_inscripcion',
         'fecha_inscripcion',
         'estudiante_id',
         'curso_id',
