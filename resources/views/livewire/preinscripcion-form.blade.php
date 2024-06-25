@@ -12,7 +12,7 @@
             <x-input type="text" id="apellido" label="Apellido" placeholder="Apellido" />
             <x-input type="text" id="cuil" label="Cuil"
                 placeholder="Introduce el cuil sin guiones ni puntos" />
-            <x-select id="genero" label="Genero" :options="json_encode(['Femenino', 'Masculino', 'Otro'])" />
+            <x-select id="genero" label="Género" :options="json_encode(['Femenino', 'Masculino', 'Otro'])" />
             <x-input type="date" id="fecha_nac" label="Fecha Nacimiento" />
             <x-input type="email" id="email" label="Email" placeholder="Introduce un correo" />
             <x-input type="text" id="telefono" label="Teléfono" placeholder="Introduce un telefono" />
