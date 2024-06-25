@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 use function Laravel\Prompts\alert;
 
@@ -308,7 +309,17 @@ class MultiStepForm extends Component
                 'nombre' => 'required|string|min:3|max:20',
                 'apellido' => 'required|string|min:3|max:20',
                 'genero' => 'required|in:Femenino,Masculino,Otro|min:3|max:10',
-                'fecha_nac' => 'required|date',
+                'fecha_nac' => [
+                'required',
+                'date',
+                function ($attribute, $value, $fail) {
+                    $date = Carbon::parse($value);
+                    if ($date->diffInYears(Carbon::now()) < 12) {
+                        $fail('La fecha de nacimiento debe ser al menos 12 años menor al año actual.');
+                    }
+                }
+            ]
+        ,
                 'email' => 'required|email|min:8|max:100',
                 'telefono' => 'required|string|min:8|max:15',
             ], [
