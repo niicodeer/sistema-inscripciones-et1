@@ -13,7 +13,7 @@ class PreInscriptoPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('ver estudiante');
+        return $user->hasPermissionTo('ver preinscripto');
 
     }
 
@@ -22,7 +22,7 @@ class PreInscriptoPolicy
      */
     public function view(User $user, PreInscripto $preInscripto): bool
     {
-        return $user->hasPermissionTo('ver estudiante');
+        return $user->hasPermissionTo('ver preinscripto');
 
     }
 
@@ -31,7 +31,7 @@ class PreInscriptoPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('crear estudiante');
+        return $user->hasPermissionTo('crear preinscripto');
     }
 
     /**
@@ -39,7 +39,7 @@ class PreInscriptoPolicy
      */
     public function update(User $user, PreInscripto $preInscripto): bool
     {
-        return $user->hasPermissionTo('editar estudiante');
+        return $user->hasPermissionTo('editar preinscripto');
     }
 
     /**
@@ -47,7 +47,7 @@ class PreInscriptoPolicy
      */
     public function delete(User $user, PreInscripto $preInscripto): bool
     {
-        return $user->hasPermissionTo('borrar estudiante');
+        return $user->hasPermissionTo('borrar preinscripto');
     }
 
     /**
