@@ -24,8 +24,6 @@ Route::get('/inscripcion-correcta', InscripcionConfirm::class)->name('confirmaci
 Route::get('/verificar-cuil', VerificarCuilForm::class)->name('verificar-cuil');
 Route::post('/verificar-cuil', [PreinscriptoController::class, 'verificarCUIL'])->name('verificar-cuil');
 Route::get('/convivenciaPDF', [InscripcionController::class, 'convivenciaPdf'])->name('convivencia.pdf');
-/* Route::get('/admin')->name('admin');
- */
 
 Route::get('/preinscripcion/pdf', [PreinscriptoController::class, 'generarPdf'])->name('generarPdfPreinscripto');
 Route::get('/inscripcion/pdf', [MultiStepForm::class, 'generarPdf'])->name('generarPdfInscripto');

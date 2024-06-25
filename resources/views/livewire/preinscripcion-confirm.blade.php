@@ -28,8 +28,7 @@
         <a href="#" class="underline">Escuela Técnica Nº 1</a>
     </div>
     <div class="flex gap-2 flex-col items-center">
-        <a href="{{route('generarPdfPreinscripto')}}" target="_blank">Descargar</a>
-        {{-- <x-primary-button text="Descargar comprobante" onclick="mostrarAlerta()" /> --}} {{-- TODO: crear funcion para descargar comprobante pdf --}}
+        <a href="{{route('generarPdfPreinscripto')}}" target="_blank" class="btn bg-primary-color text-text-title">Descargar Comprobante</a>
         <x-secondary-button text="Finalizar" href="{{ route('finalizar') }}" />
     </div>
 </div>

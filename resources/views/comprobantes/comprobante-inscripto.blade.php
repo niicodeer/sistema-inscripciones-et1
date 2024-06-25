@@ -1,30 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Comprobante Inscripción {{ date('Y') + 1 }}</title>
     <style>
-        /* TODO: Agregar estilos al comprobante */
+        * {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            padding: 2rem;
+        }
+
+        h2 {
+            margin: 3rem 0;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .header-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .td {
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
     </style>
 </head>
-<body>
-    <h1>Inscripción</h1>
-    <h3>Código inscripcion: {{$data['cuil'] .date('YmdHis')}}</h3>
-    <p><strong>Nombre:</strong> {{ $data['nombre'] }}</p>
-    <p><strong>Apellido:</strong> {{ $data['apellido'] }}</p>
-    <p><strong>CUIL:</strong> {{ $data['cuil'] }}</p>
-    <p><strong>Email:</strong> {{ $data['email'] }}</p>
-    <p><strong>Teléfono:</strong> {{ $data['telefono'] }}</p>
-    <p><strong>Género:</strong> {{ $data['genero'] }}</p>
-    <p><strong>Fecha de Nacimiento:</strong> {{ $data['fecha_nac'] }}</p>
 
-    <p><strong>Turno</strong> {{ $inscripcion['turno'] }}</p>
-    <p><strong>Curso:</strong> {{ $inscripcion['curso_inscripto'] }}</p>
-    <p><strong>Modalidad:</strong> {{ $inscripcion['modalidad'] }}</p>
-    <p><strong>Fecha:</strong> {{ $inscripcion['fecha_inscripcion'] }}</p>
-    <p><strong>Condicion:</strong> {{ $inscripcion['condicion_alumno'] }}</p>
+<body>
+    @include('comprobantes.comprobante-header')
+    <h2>Comprobante Inscripción Ciclo Lectivo {{ date('Y') + 1 }}</h2>
+    <table class="header-table">
+        <tr>
+            <td class="td"><strong>Código inscripción:</strong></td>
+            <td class="td">{{ $data['cuil'] . date('YmdHis') }}</td>
+        </tr>
+        <tr>
+            <td class="td"><strong>Nombre:</strong></td>
+            <td class="td">{{ $data['nombre'] }}</td>
+        </tr>
+        <tr>
+            <td class="td"><strong>Apellido:</strong></td>
+            <td class="td">{{ $data['apellido'] }}</td>
+        </tr>
+        <tr>
+            <td class="td"><strong>CUIL:</strong></td>
+            <td class="td">{{ $data['cuil'] }}</td>
+        </tr>
+        <tr>
+            <td class="td"><strong>Email:</strong></td>
+            <td class="td">{{ $data['email'] }}</td>
+        </tr>
+        <tr>
+            <td class="td"><strong>Teléfono:</strong></td>
+            <td class="td">{{ $data['telefono'] }}</td>
+        </tr>
+        <br>
+        <br>
+        <tr>
+            <td class="td"><strong>Curso elegido:</strong></td>
+            <td class="td">{{ $inscripcion['curso_inscripto'] }}</td>
+        </tr>
+        <tr>
+            <td class="td"><strong>Turno:</strong></td>
+            <td class="td">{{ $inscripcion['turno'] }}</td>
+        </tr>
+        <tr>
+            <td class="td"><strong>Modalidad elegida:</strong></td>
+            <td class="td">{{ $inscripcion['modalidad'] }}</td>
+        </tr>
+        <tr>
+            <td class="td"><strong>Condicion del alumno:</strong></td>
+            <td class="td">{{ $inscripcion['condicion_alumno'] }}</td>
+        </tr>
+        <tr>
+            <td class="td"><strong>Fecha de inscripción:</strong></td>
+            <td class="td">{{ $inscripcion['fecha_inscripcion'] }}</td>
+        </tr>
+
+    </table>
 
 </body>
+
 </html>

@@ -28,7 +28,7 @@
 
 <body
     class="bg-gradient {{-- w-full h-full min-h-screen bg-gradient-to-t from-[rgba(62,86,34,1)] to-[rgba(47,117,15,0.1)] flex justify-center items-center pt-10 py-10 --}}">
-    <div class="bg-white max-w-[80%] xl:max-w-screen-lg w-fit h-fit rounded-3xl p-5 py-7 md:p-16">
+    <div class="bg-white max-w-[80%] xl:max-w-screen-lg w-fit h-fit rounded-3xl p-5 py-7 md:p-16 shadow-xl">
         {{ $slot }}
     </div>
 </body>
