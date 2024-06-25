@@ -79,8 +79,7 @@ class PreinscriptoController extends Controller
     public function generarPdf(){
         $preinscripto = Session::get('preinscripto');
         $pdf = Pdf::loadView('comprobantes.comprobante-preinscripto', compact('preinscripto'));
-        return $pdf->stream();
-        //return $pdf->download('comprobante-preinscripcion.pdf');
+        return $pdf->download('comprobante-preinscripcion.pdf');
     }
 
 }

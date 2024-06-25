@@ -422,7 +422,6 @@ class MultiStepForm extends Component
         $data = $inscripto ? $inscripto : $preinscripto;
 
         $pdf = Pdf::loadView('comprobantes.comprobante-inscripto', compact('inscripcion', 'data'));
-        return $pdf->stream();
-        //return $pdf->download('comprobante-preinscripcion.pdf');
+        return $pdf->download('comprobante-inscripcion.pdf');
     }
 }
