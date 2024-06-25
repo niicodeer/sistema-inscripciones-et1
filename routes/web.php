@@ -8,6 +8,7 @@ use App\Livewire\PreinscripcionConfirm;
 use App\Livewire\PreinscripcionForm;
 use App\Livewire\VerificarCuilForm;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 
 Route::get('/', function () {
