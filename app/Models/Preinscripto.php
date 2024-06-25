@@ -16,5 +16,8 @@ class Preinscripto extends Model
         'genero',
         'cuil',
         'fecha_nac',
+        'comprobante_preinscripcion'
     ];
+
+    
 }

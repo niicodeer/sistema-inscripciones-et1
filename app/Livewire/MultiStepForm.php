@@ -214,6 +214,7 @@ class MultiStepForm extends Component
                     'adeuda_materias' => $this->adeudaMaterias,
                     'nombre_materias' => json_encode($this->nombreMaterias),
                     'reconocimientos' => json_encode($this->reconocimientos),
+                    'comprobante_inscripcion' => $this->generarCodigoComprobante($this->cuil,$this->fecha_nac),
                 ]);
                 DB::commit();
 
@@ -282,6 +283,7 @@ class MultiStepForm extends Component
                     'nombre_materias' => $this->nombreMaterias,
                     'reconocimientos' => json_encode($this->reconocimientos),
                     'estudiante_id' => $estudiante->id,
+                    'comprobante_inscripcion' => $this->generarCodigoComprobante($this->cuil,$this->fecha_nac),
                 ]);
                 DB::commit();
 
@@ -424,6 +426,11 @@ class MultiStepForm extends Component
         }
     }
 
+    public function generarCodigoComprobante($cuil, $fecha_insc){
+        $codigoComprobante = $cuil . $fecha_insc;
+        return $codigoComprobante;
+    }
+
     public function generarPdf(){
         $preinscripto = Session::get('preinscripto');
         $inscripcion = Session::get('data-inscripcion');
@@ -431,7 +438,6 @@ class MultiStepForm extends Component
         $data = $inscripto ? $inscripto : $preinscripto;
 
         $pdf = Pdf::loadView('comprobantes.comprobante-inscripto', compact('inscripcion', 'data'));
-        return $pdf->stream();
-        //return $pdf->download('comprobante-preinscripcion.pdf');
+        return $pdf->download('comprobante-inscripcion.pdf');
     }
 }

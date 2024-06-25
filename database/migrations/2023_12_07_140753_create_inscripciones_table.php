@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('curso_inscripto', 15);
             $table->unsignedBigInteger('estudiante_id')->nullable();
             $table->unsignedBigInteger('curso_id')->nullable();
+            $table->string('comprobante_inscripcion')->unique();
             $table->foreign('estudiante_id')->references('id')->on('estudiantes')->onUpdate('set null')->onDelete('set null');
             $table->foreign('curso_id')->references('id')->on('cursos')->onUpdate('set null')->onDelete('set null');
             $table->timestamps();

@@ -23,8 +23,9 @@ class Inscripcion extends Model
         'adeuda_materias',
         'nombre_materias',
         'reconocimientos',
-        'estudiante_id'
-     ];
+        'estudiante_id',
+        'comprobante_inscripcion'
+    ];
 
     protected $table = "inscripciones";
 
@@ -37,6 +38,7 @@ class Inscripcion extends Model
     {
         return $this->belongsTo(Curso::class, 'curso_id', 'id');
     }
+
 
 
 }
