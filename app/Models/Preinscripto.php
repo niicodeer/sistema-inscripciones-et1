@@ -16,5 +16,11 @@ class Preinscripto extends Model
         'genero',
         'cuil',
         'fecha_nac',
+        'comprobante_preinscripcion'
     ];
+
+    public function generarCodigoComprobante(){
+        $codigoComprobante = $this->cuil . $this->fecha_insc;
+        return $codigoComprobante;
+    }
 }

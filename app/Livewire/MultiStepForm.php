@@ -213,6 +213,7 @@ class MultiStepForm extends Component
                     'adeuda_materias' => $this->adeudaMaterias,
                     'nombre_materias' => json_encode($this->nombreMaterias),
                     'reconocimientos' => json_encode($this->reconocimientos),
+                    'comprobante_inscripcion' => generarCodigoComprobante(),
                 ]);
                 DB::commit();
 
@@ -281,6 +282,7 @@ class MultiStepForm extends Component
                     'nombre_materias' => $this->nombreMaterias,
                     'reconocimientos' => json_encode($this->reconocimientos),
                     'estudiante_id' => $estudiante->id,
+                    'comprobante_inscripcion' => generarCodigoComprobante(),
                 ]);
                 DB::commit();
 

@@ -46,6 +46,7 @@ class PreinscriptoController extends Controller
                 'telefono' => $req->input('telefono'),
                 'genero' => $req->input('genero'),
                 'fecha_nac' => $req->input('fecha_nac'),
+                'comprobante_inscripcion' => generarCodigoComprobante(),
             ]
         );
         $req->session()->put('preinscripto', $preinscripto->toArray());

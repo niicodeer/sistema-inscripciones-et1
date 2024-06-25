@@ -23,8 +23,9 @@ class Inscripcion extends Model
         'adeuda_materias',
         'nombre_materias',
         'reconocimientos',
-        'estudiante_id'
-     ];
+        'estudiante_id',
+        'comprobante_inscripcion'
+    ];
 
     protected $table = "inscripciones";
 
@@ -36,6 +37,11 @@ class Inscripcion extends Model
     public function curso() : BelongsTo
     {
         return $this->belongsTo(Curso::class, 'curso_id', 'id');
+    }
+
+    public function generarCodigoComprobante(){
+        $codigoComprobante = $this->cuil . $this->fecha_insc;
+        return $codigoComprobante;
     }
 
 
