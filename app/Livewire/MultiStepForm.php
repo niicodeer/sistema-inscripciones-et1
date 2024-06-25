@@ -165,7 +165,7 @@ class MultiStepForm extends Component
         if ($inscripto = Session::get('inscripto')) {
             try {
                 DB::beginTransaction();
-                $tutor = Tutor::where('id', $inscripto['tutor_id']);
+                $tutor = Tutor::where('id', $inscripto['tutor_id'])->firstOrFail();
                 $tutor->update([
                     'nombre' => $this->nombreTutor,
                     'apellido' => $this->apellidoTutor,
@@ -176,7 +176,7 @@ class MultiStepForm extends Component
                     'parentezco' => $this->parentezco,
                 ]);
 
-                $estudiante = Estudiante::where('id', $inscripto['id']);
+                $estudiante = Estudiante::where('id', $inscripto['id'])->firstOrFail();
                 $estudiante->update([
                     'nombre' => $this->nombre,
                     'apellido' => $this->apellido,
@@ -187,7 +187,7 @@ class MultiStepForm extends Component
                     'fecha_nac' => $this->fecha_nac,
                 ]);
 
-                $datoEstudiante = DatoEstudiante::where('estudiante_id', $inscripto['id']);
+                $datoEstudiante = DatoEstudiante::where('estudiante_id', $inscripto['id'])->firstOrFail();
                 $datoEstudiante->update([
                     'provincia' => $this->provincia,
                     'ciudad' => $this->ciudad,
@@ -202,7 +202,7 @@ class MultiStepForm extends Component
                     'convivencia' => json_encode($this->convive),
                 ]);
 
-                $inscripcion = Inscripcion::where('estudiante_id', $inscripto['id']);
+                $inscripcion = Inscripcion::where('estudiante_id', $inscripto['id'])->firstOrFail();
                 $inscripcion->update([
                     'turno' => $this->turno,
                     'curso_inscripto' => $this->curso,
@@ -215,7 +215,6 @@ class MultiStepForm extends Component
                     'reconocimientos' => json_encode($this->reconocimientos),
                 ]);
                 DB::commit();
-                Session::put('data-inscripcion', $inscripcion->toArray());
 
                 return redirect()->route('confirmacion-inscripcion');
             } catch (QueryException $e) {
@@ -225,9 +224,9 @@ class MultiStepForm extends Component
                 DB::rollBack();
                 abort(500, 'Error al guadar de datos: ' . $e->getMessage());
             } finally {
-                Session::forget('preinscripto');
-                Session::forget('cuilCheck');
-                Session::forget('inscripto');
+                if ($inscripcion) { // Verifica que $inscripcion no sea null
+                    Session::put('data-inscripcion', $inscripcion->toArray());
+                }
             }
         }
 
@@ -284,7 +283,6 @@ class MultiStepForm extends Component
                     'estudiante_id' => $estudiante->id,
                 ]);
                 DB::commit();
-                Session::put('data-inscripcion', $inscripcion->toArray());
 
                 return redirect()->route('confirmacion-inscripcion');
             } catch (QueryException $e) {
@@ -293,6 +291,10 @@ class MultiStepForm extends Component
             } catch (\Exception $e) {
                 DB::rollBack();
                 abort(500, 'Error al guadar de datos: ' . $e->getMessage());
+            } finally {
+                if ($inscripcion) { // Verifica que $inscripcion no sea null
+                    Session::put('data-inscripcion', $inscripcion->toArray());
+                }
             }
         }
 
