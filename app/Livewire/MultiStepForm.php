@@ -163,6 +163,7 @@ class MultiStepForm extends Component
     public function submit()
     {
         $this->validateForm();
+        Session::put('check-inscripcion', true);
         if ($inscripto = Session::get('inscripto')) {
             try {
                 DB::beginTransaction();
@@ -298,8 +299,10 @@ class MultiStepForm extends Component
                 if ($inscripcion) { // Verifica que $inscripcion no sea null
                     Session::put('data-inscripcion', $inscripcion->toArray());
                 }
+
             }
         }
+
 
         $this->reset();
     }
