@@ -15,7 +15,7 @@
 
     <body class="bg-gradient">
         <div class="inner-container">
-        <h1 class="title">ESCUELA TECNICA Nº 1</h1>
+        <h1 class="title">ESCUELA TÉCNICA Nº 1</h1>
         <div class="links-container">
             <a href="{{ route('preinscripcion') }}" class="link">Preinscripción {{ date('Y') + 1 }}</a>
             <a href="{{ route('verificar-cuil') }}" class="link">Inscripción {{ date('Y') + 1 }}</a>
