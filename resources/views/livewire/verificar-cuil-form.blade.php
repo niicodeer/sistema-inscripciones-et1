@@ -10,7 +10,7 @@
         <div class="w-full flex flex-col gap-2">
             <label for="cuil" class="text-[#2D3648] font-semibold text-sm">CUIL</label>
             <input class="border border-gray-300 p-2 rounded h-10" id= "cuil" name= "cuil"
-                placeholder="20-12345678-2" />
+                placeholder="20123456782" />
             @error('cuil')
                 <p class="text-red-700 text-sm">{{ $message }}</p>
             @enderror
