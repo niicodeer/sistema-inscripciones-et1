@@ -23,7 +23,7 @@ class PreinscriptoController extends Controller
         $req->validate([
             'nombre' => 'required|min:3|max:20|string',
             'apellido' => 'required|min:3|max:20|string',
-            'cuil' => 'required|min:11|max:11|regex:/^[0-9]{11}$/',
+            'cuil' => 'required|unique:preinscriptos,cuil|min:11|max:11|regex:/^[0-9]{11}$/',
             'email' => 'required|email|max:100',
             'telefono' => 'required|min:8|max:15|regex:/^[0-9\s\-]+$/',
             'genero' => 'required|in:Femenino,Masculino,Otro|min:3|max:10',
@@ -39,6 +39,7 @@ class PreinscriptoController extends Controller
             ]
         ],  [
             'cuil.required' => 'El campo cuil es obligatorio',
+            'cuil.unique' =>'El cuil ya existe.',
             'cuil.min'=>'El cuil debe tener 11 caracteres',
             'cuil.max'=>'El cuil debe tener 11 caracteres',
             'nombre.required' => 'El campo nombre es obligatorio.',
