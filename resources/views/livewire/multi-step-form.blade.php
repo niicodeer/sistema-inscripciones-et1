@@ -33,15 +33,15 @@
         @if ($currentStep === 1)
             <div>
                 <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full">
-                    <x-input type="text" id="nombre" label="Nombre" placeholder="Nombre" wire:model="nombre" />
+                    <x-input type="text" id="nombre" label="Nombre" placeholder="Nombre" wire:model="nombre" require value="{{ old('nombre') }}"/>
                     <x-input type="text" id="apellido" label="Apellido" placeholder="Apellido"
-                        wire:model="apellido" />
-                    <x-select id="genero" label="Genero" :options="json_encode(['Femenino', 'Masculino', 'Otro'])" wire:model="genero" />
-                    <x-input type="date" id="fecha_nac" label="Fecha Nacimiento" wire:model="fecha_nac" />
+                        wire:model="apellido" require value="{{ old('apellido') }}"/>
+                    <x-select id="genero" label="Genero" :options="json_encode(['Femenino', 'Masculino', 'Otro'])" wire:model="genero" require value="{{ old('genero') }}"/>
+                    <x-input type="date" id="fecha_nac" label="Fecha Nacimiento" wire:model="fecha_nac" require value="{{ old('fecha_nac') }}"/>
                     <x-input type="email" id="email" label="Email" placeholder="Introduce un correo"
-                        wire:model="email" />
+                        wire:model="email" require value="{{ old('email') }}"/>
                     <x-input type="text" id="telefono" label="Teléfono" placeholder="Introduce un telefono"
-                        wire:model="telefono" />
+                        wire:model="telefono" require value="{{ old('telefono') }}"/>
                     <x-input type="text" id="cuil" label="Cuil" name="cuil" wire:model="cuil" disabled />
                 </div>
             </div>
@@ -49,16 +49,16 @@
         @if ($currentStep === 2)
             <div>
                 <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full">
-                    <x-input type="text" id="calle" label="Calle" placeholder="Calle" wire:model="calle" />
+                    <x-input type="text" id="calle" label="Calle" placeholder="Calle" wire:model="calle" require value="{{ old('calle') }}"/>
                     <div class="w-[45%] flex gap-x-2">
                         <x-input type="number" id="numeracion" label="Numeración" placeholder="Numeración"
-                            wire:model="numeracion" />
-                        <x-input type="text" id="piso" label="Piso dpto" placeholder="Piso" wire:model="piso" />
+                            wire:model="numeracion" min=0 value="{{ old('numeracion') }}"/>
+                        <x-input type="text" id="piso" label="Piso dpto" placeholder="Piso" wire:model="piso" value="{{ old('piso') }}"/>
                     </div>
-                    <x-input type="text" id="barrio" label="Barrio" placeholder="Barrio" wire:model="barrio" />
+                    <x-input type="text" id="barrio" label="Barrio" placeholder="Barrio" wire:model="barrio" require value="{{ old('barrio') }}"/>
                     <x-input type="text" id="provincia" label="Provincia" placeholder="Provincia"
-                        wire:model="provincia" />
-                    <x-input type="text" id="ciudad" label="Ciudad" placeholder="Ciudad" wire:model="ciudad" />
+                        wire:model="provincia" require value="{{ old('provincia') }}"/>
+                    <x-input type="text" id="ciudad" label="Ciudad" placeholder="Ciudad" wire:model="ciudad" require value="{{ old('ciudad') }}"/>
                     <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Convive con</p>
                         <div class="w-full grid grid-cols-2 gap-2">
@@ -112,17 +112,17 @@
             <div>
                 <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full">
                     <x-input type="text" id="nombre_tutor" label="Nombre" placeholder="Nombre"
-                        wire:model="nombreTutor" />
+                        wire:model="nombreTutor" require value="{{ old('nombre_tutor') }}"/>
                     <x-input type="text" id="apellido_tutor" label="Apellido" placeholder="Apellido"
-                        wire:model="apellidoTutor" />
+                        wire:model="apellidoTutor" require value="{{ old('apellido_tutor') }}"/>
                     <x-input type="text" id="cuil_tutor" label="CUIL" placeholder="Cuil sin guiones ni puntos"
-                        wire:model="cuilTutor" />
+                        wire:model="cuilTutor" require value="{{ old('cuil_tutor') }}"/>
                     <x-input type="email" id="email_tutor" label="Email" placeholder="Introduce un correo"
-                        wire:model="emailTutor" />
+                        wire:model="emailTutor" require value="{{ old('email_tutor') }}"/>
                     <x-input type="text" id="telefono_tutor" label="Teléfono" placeholder="Introduce un telefono"
-                        wire:model="telefonoTutor" />
+                        wire:model="telefonoTutor" require value="{{ old('telefono_tutor') }}"/>
                     <x-input type="text" id="ocupacion" label="Ocupación" placeholder="Ocupación"
-                        wire:model="ocupacion" />
+                        wire:model="ocupacion" require value="{{ old('ocupacion') }}"/>
                     <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Parentezco</p>
                         <div class="grid grid-cols-2">
@@ -156,9 +156,9 @@
                         'Cuarto año',
                         'Quinto año',
                         'Sexto año',
-                    ])" wire:model.live="curso" wire.mode.blur="updatedCurso"/>
+                    ])" wire:model.live="curso" wire.mode.blur="updatedCurso" require value="{{ old('curso') }}"/>
                     <x-select id="modalidad" label="Modalidad a seguir" :options="json_encode(['Informática', 'Economía', 'Industria'])" wire:model.live="modalidad"
-                        :disabled="in_array($curso, ['Primer año', 'Segundo año', ''])"/>
+                        :disabled="in_array($curso, ['Primer año', 'Segundo año', ''])" require value="{{ old('modalidad') }}"/>
 
                     <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Condición Alumno</p>
