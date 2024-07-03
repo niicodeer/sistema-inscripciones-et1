@@ -47,11 +47,11 @@
             </div>
         </div>
         <x-primary-button text="Comprobar" id="btn-comprobar" />
-        <a href="{{ route('inscripcion') }}"
-            class="p-4 text-base font-bold text-center text-[#202020] bg-[#EA9010] max-w-80 w-full rounded-md hover:bg-opacity-80 shadow-md hidden"
-            id="btn-continuar">
+         <a href="{{ route('inscripcion') }}"
+            class="p-4 text-base font-bold text-center text-[#202020] bg-[#CCC] max-w-80 w-full rounded-md hover:bg-opacity-80 shadow-md hidden cursor-not-allowed pointer-events-none"
+            id="btn-continuar" disabled="disabled">
             Continuar
-        </a>
+        </a> 
     </form>
 </div>
 
@@ -92,10 +92,19 @@
 
                         setTimeout(function() {
                             window.location.href = "{{ route('inscripcion') }}";
+                        }, 3000);
+                        setTimeout(function() {
+                            btnContinuar.classList.remove('cursor-not-allowed', 'pointer-events-none', 'bg-[#CCC]');
+                            btnContinuar.classList.add('bg-[#EA9010]');
                         }, 1000);
+
                     } else {
                         svgCross.classList.add('block');
                         svgCross.classList.remove('hidden');
+                        setTimeout(function() {
+                            mensajeDiv.classList.remove('flex');
+                            mensajeDiv.classList.add('hidden');
+                        }, 1500);
                     }
 
                 });
