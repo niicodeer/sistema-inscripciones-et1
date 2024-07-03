@@ -2,6 +2,9 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Resources\CursoResource\Widgets\AlumnosCurso;
+use App\Filament\Resources\CursoResource\Widgets\AlumnosTurno;
+use App\Filament\Resources\PreinscriptoResource\Widgets\PreinscriptoOverview;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -38,8 +41,11 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                /* Widgets\AccountWidget::class,
+                Widgets\FilamentInfoWidget::class, */
+                PreinscriptoOverview::class,
+                AlumnosCurso::class,
+                AlumnosTurno::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -55,6 +61,6 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
-            
+
     }
 }

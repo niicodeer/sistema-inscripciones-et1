@@ -8,6 +8,7 @@ use App\Models\Curso;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\Alignment;
 use Filament\Tables;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
@@ -31,39 +32,39 @@ class CursoResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('año_curso')
-                ->options([
-                    '1' => '1',
-                    '2' => '2',
-                    '3' => '3',
-                    '4' => '4',
-                    '5' => '5',
-                    '6' => '6',
-                ])
-                ->hiddenOn('edit')
-                ->required(),
+                    ->options([
+                        '1' => '1',
+                        '2' => '2',
+                        '3' => '3',
+                        '4' => '4',
+                        '5' => '5',
+                        '6' => '6',
+                    ])
+                    ->hiddenOn('edit')
+                    ->required(),
                 Forms\Components\Select::make('division')
-                ->options([
-                    '1' => '1',
-                    '2' => '2',
-                    '3' => '3',
-                    '4' => '4',
-                    '5' => '5',
-                    '6' => '6',
+                    ->options([
+                        '1' => '1',
+                        '2' => '2',
+                        '3' => '3',
+                        '4' => '4',
+                        '5' => '5',
+                        '6' => '6',
 
-                ])
-                ->hiddenOn('edit')
-                ->required(),
+                    ])
+                    ->hiddenOn('edit')
+                    ->required(),
                 Forms\Components\Select::make('turno')
-                ->options([
-                    'Mañana' => 'Mañana',
-                    'Tarde' => 'Tarde',
-                ])
-                ->required(),
+                    ->options([
+                        'Mañana' => 'Mañana',
+                        'Tarde' => 'Tarde',
+                    ])
+                    ->required(),
                 Forms\Components\TextInput::make('cantidad_maxima')
-                ->required()
-                ->numeric()
-                ->maxValue(50)
-                ->minValue(0)
+                    ->required()
+                    ->numeric()
+                    ->maxValue(50)
+                    ->minValue(0)
             ]);
     }
 
@@ -72,39 +73,54 @@ class CursoResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('turno')
-                ->sortable(),
+                ->alignment(Alignment::Center)
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('año_curso')
-                ->sortable(),
+                ->alignment(Alignment::Center)
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('division')
-                ->sortable(),
+                ->alignment(Alignment::Center)
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('cantidad_alumnos')
-                ->sortable(),
-                Tables\Columns\TextColumn::make('cantidad_maxima'),
-                ])
+                    ->alignment(Alignment::Center)
+                    ->badge()
+                    ->color(function (string $state): string {
+                        $value = (int) $state;
+                        return match (true) {
+                            $value >= 0 && $value <= 15 => 'success',
+                            $value >= 16 && $value <= 20 => 'warning',
+                            $value > 20 => 'danger',
+                            default => 'gray',
+                        };
+                    })
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('cantidad_maxima')
+                ->alignment(Alignment::Center),
+            ])
             ->filters([
                 SelectFilter::make('turno')
-                ->options([
-                    'tarde' => 'Tarde',
-                    'mañana' => 'Mañana',
-                ]),
+                    ->options([
+                        'tarde' => 'Tarde',
+                        'mañana' => 'Mañana',
+                    ]),
                 SelectFilter::make('año_curso')
-                ->options([
-                    '1' => '1',
-                    '2' => '2',
-                    '3' => '3',
-                    '4' => '4',
-                    '5' => '5',
-                    '6' => '6'
-                ]),
+                    ->options([
+                        '1' => '1',
+                        '2' => '2',
+                        '3' => '3',
+                        '4' => '4',
+                        '5' => '5',
+                        '6' => '6'
+                    ]),
                 SelectFilter::make('division')
-                ->options([
-                    '1' => '1',
-                    '2' => '2',
-                    '3' => '3',
-                    '4' => '4',
-                    '5' => '5',
-                    '6' => '6'
-                ]),
+                    ->options([
+                        '1' => '1',
+                        '2' => '2',
+                        '3' => '3',
+                        '4' => '4',
+                        '5' => '5',
+                        '6' => '6'
+                    ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

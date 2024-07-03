@@ -90,7 +90,7 @@ class PreinscriptoController extends Controller
             }
 
             $request->session()->put('cuilCheck', true);
-            return response()->json(['mensaje' => 'Cuil encontrado', 'encontrado' => true]);
+            return response()->json(['mensaje' => 'Cuil encontrado. <br/> Usted será redirigido al formulario de inscripción.', 'encontrado' => true]);
         } else {
             return response()->json(['mensaje' => 'Cuil no encontrado', 'encontrado' => false]);
         }

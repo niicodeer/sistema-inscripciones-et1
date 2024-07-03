@@ -78,9 +78,12 @@ class PreinscriptoResource extends Resource
                 TextColumn::make('telefono'),
                 TextColumn::make('fecha_nac')
                 ->dateTime('d-M-y')
-                ->label("Fecha de nacimiento")->sortable(),
+                ->label("Fecha de nacimiento")
+                ->sortable(),
                 TextColumn::make('created_at')
-                ->label("Fecha de preinscripcion")->sortable(),
+                ->label("Fecha de preinscripcion")
+                ->dateTime("d-M-y  H:m")
+                ->sortable(),
             ])
             ->filters([
                 SelectFilter::make('genero')

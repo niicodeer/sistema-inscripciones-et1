@@ -108,10 +108,18 @@ class InscripcionResource extends Resource
                     ->dateTime("d-M-y  H:m"),
                 TextColumn::make('estado_inscripcion')
                     ->badge()
+                    ->formatStateUsing(fn (string $state): string => ucwords($state))
                     ->color(fn (string $state): string => match ($state) {
                         'pendiente' => 'warning',
                         'aceptado' => 'success',
                         'no aceptado' => 'danger',
+                        default => 'default',
+                    })
+                    ->icon(fn (string $state): ?string => match ($state) {
+                        'pendiente' => 'heroicon-o-clock',
+                        'aceptado' => 'heroicon-o-check-circle',
+                        'no aceptado' => 'heroicon-o-x-circle',
+                        default => null,
                     })
                     ->sortable(),
             ])
