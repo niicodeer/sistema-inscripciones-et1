@@ -20,7 +20,6 @@
             <a href="{{ route('preinscripcion') }}" class="link">Preinscripción {{ date('Y') + 1 }}</a>
             <a href="{{ route('verificar-cuil') }}" class="link">Inscripción {{ date('Y') + 1 }}</a>
         </div>
-        </div>
         <footer><p>Desarrollado por Alumnos del Instituto Tecnológico Santiago del Estero - 2024</p></footer>
     </body>
 </html>
