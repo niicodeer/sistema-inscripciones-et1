@@ -29,6 +29,8 @@ return new class extends Migration
             $table->foreign('estudiante_id')->references('id')->on('estudiantes')->onUpdate('set null')->onDelete('set null');
             $table->foreign('curso_id')->references('id')->on('cursos')->onUpdate('set null')->onDelete('set null');
             $table->timestamps();
+            $table->softDeletes();
+            $table->integer('deleted_by')->nullable();
         });
     }
 

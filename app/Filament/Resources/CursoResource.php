@@ -121,13 +121,30 @@ class CursoResource extends Resource
                         '5' => '5',
                         '6' => '6'
                     ]),
+                    Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()->after(function ($record) {
+                    $record->deleted_by=Auth::id();
+                    $record->save();
+                }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()->after(function ($action, $records) {
+                        foreach ($records as $record) {
+                            $record->deleted_by = Auth::id();
+                            $record->save();
+                        }
+                    }),
+                    Tables\Actions\RestoreBulkAction::make()->after(function ($action, $records) {
+                        foreach ($records as $record) {
+                            $record->deleted_by = null;
+                            $record->save();
+                        }
+                    }),
+                    Tables\Actions\ForceDeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -147,4 +164,12 @@ class CursoResource extends Resource
             'edit' => Pages\EditCurso::route('/{record}/edit'),
         ];
     }
+
+    public static function getEloquentQuery(): Builder
+{
+    return parent::getEloquentQuery()
+        ->withoutGlobalScopes([
+            SoftDeletingScope::class,
+        ]);
+}
 }

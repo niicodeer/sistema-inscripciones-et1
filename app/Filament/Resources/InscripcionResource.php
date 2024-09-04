@@ -23,6 +23,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 
 class InscripcionResource extends Resource
@@ -135,14 +136,31 @@ class InscripcionResource extends Resource
                     ->options(Curso::all()->mapWithKeys(function ($curso) {
                         return [$curso->id => "{$curso->id} - {$curso->año_curso}º {$curso->division}º"];
                     })->all())
-                    ->label('Curso')
+                    ->label('Curso'),
+                    Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()->after(function ($record) {
+                    $record->deleted_by=Auth::id();
+                    $record->save();
+                }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()->after(function ($action, $records) {
+                        foreach ($records as $record) {
+                            $record->deleted_by = Auth::id();
+                            $record->save();
+                        }
+                    }),
+                    Tables\Actions\RestoreBulkAction::make()->after(function ($action, $records) {
+                        foreach ($records as $record) {
+                            $record->deleted_by = null;
+                            $record->save();
+                        }
+                    }),
+                    Tables\Actions\ForceDeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -161,5 +179,13 @@ class InscripcionResource extends Resource
             'create' => Pages\CreateInscripcion::route('/create'),
             'edit' => Pages\EditInscripcion::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 }
