@@ -13,7 +13,7 @@ class CursoPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('ver estudiante');
+        return $user->hasPermissionTo('ver curso');
 
     }
 
@@ -22,7 +22,7 @@ class CursoPolicy
      */
     public function view(User $user, Curso $curso): bool
     {
-        return $user->hasPermissionTo('ver estudiante');
+        return $user->hasPermissionTo('ver curso');
 
     }
 
@@ -31,7 +31,7 @@ class CursoPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('crear estudiante');
+        return $user->hasPermissionTo('crear curso');
     }
 
     /**
@@ -39,7 +39,7 @@ class CursoPolicy
      */
     public function update(User $user, Curso $curso): bool
     {
-        return $user->hasPermissionTo('editar estudiante');
+        return $user->hasPermissionTo('editar curso');
     }
 
     /**
@@ -47,7 +47,7 @@ class CursoPolicy
      */
     public function delete(User $user, Curso $curso): bool
     {
-        return $user->hasPermissionTo('borrar estudiante');
+        return $user->hasPermissionTo('borrar curso');
     }
 
     /**
