@@ -40,11 +40,11 @@ class PreinscriptoController extends Controller
                 }
             ]
         ],  [
-            'cuil.required' => 'El cuil es obligatorio',
-            'cuil.unique' =>'El cuil ya existe',
-            'cuil.min'=>'El cuil debe tener 11 caracteres',
-            'cuil.max'=>'El cuil debe tener 11 caracteres',
-            'cuil.regex'=>'El cuil debe ser un número de CUIL',
+            'cuil.required' => 'El CUIL es obligatorio',
+            'cuil.unique' =>'El CUIL ya existe',
+            'cuil.min'=>'El CUIL debe tener 11 caracteres',
+            'cuil.max'=>'El CUIL debe tener 11 caracteres',
+            'cuil.regex'=>'El CUIL debe ser un número de CUIL válido',
             'cuil.format'=>'El formato del CUIL no es correcto, se esperan 11 numeros',
             'nombre.required' => 'El nombre es obligatorio',
             'nombre.min' => 'El nombre debe tener un mínimo de 3 caracteres',
@@ -99,9 +99,9 @@ class PreinscriptoController extends Controller
             }
 
             $request->session()->put('cuilCheck', true);
-            return response()->json(['mensaje' => 'Cuil encontrado. <br/> Usted será redirigido al formulario de inscripción.', 'encontrado' => true]);
+            return response()->json(['mensaje' => 'CUIL encontrado. <br/> Usted será redirigido al formulario de inscripción.', 'encontrado' => true]);
         } else {
-            return response()->json(['mensaje' => 'Cuil no encontrado', 'encontrado' => false]);
+            return response()->json(['mensaje' => 'CUIL no encontrado', 'encontrado' => false]);
         }
     }
 
