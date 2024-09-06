@@ -2,7 +2,7 @@
 <div class="px-2">
     <div>
         <h1 class="text-2xl xl:text-3xl font-bold text-center mb-6 md:mb-14">Pre-Inscripción Ciclo Lectivo {{ date('Y') + 1 }}</h1>
-        <p class="text-base text-[#202020] font-semibold">Completa los siguientes datos del alumno para registrar su
+        <p class="text-base text-center text-[#202020] font-semibold">Completa los siguientes datos del alumno para registrar su
             pre-inscripción</p>
     </div>
     <form class="flex flex-col gap-y-14 mt-6 items-center" action="{{ route('preinscripcion') }}" method="POST">
