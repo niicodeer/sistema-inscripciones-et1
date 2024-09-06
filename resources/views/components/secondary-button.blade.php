@@ -1,5 +1,5 @@
 @props(['text'])
 <a
-    {{-- href={{ $href }}  --}}class="btn text-text-title hover:bg-gray-100 select-none underline " {{ $attributes }}>
+    class="btn text-white bg-green-600 hover:bg-green-400 select-none" {{ $attributes }}>
     {{ $text }}
 </a>

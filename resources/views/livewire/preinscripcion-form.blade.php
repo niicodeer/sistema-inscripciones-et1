@@ -11,7 +11,7 @@
             <x-input type="text" id="cuil" label="Cuil" require placeholder="Introduce el cuil sin guiones ni puntos" value="{{ old('cuil') }}" />
             <x-input type="text" placeholder="Nombre" id="nombre" label="Nombre" require value="{{ old('nombre') }}" />
             <x-input type="text" id="apellido" label="Apellido" require placeholder="Apellido" value="{{ old('apellido') }}" />
-            <x-select id="genero" label="Género" require :options="json_encode(['Femenino', 'Masculino', 'Otro'])" value="{{ old('genero') }}" />
+            <x-select id="genero" label="Género" require :options="json_encode(['Femenino', 'Masculino', 'Otro'])" />
             <x-input type="date" id="fecha_nac" require label="Fecha Nacimiento" value="{{ old('fecha_nac') }}" />
             <x-input type="email" id="email" label="Email" require placeholder="Introduce un correo" value="{{ old('email') }}" />
             <x-input type="text" id="telefono" label="Teléfono" require placeholder="Introduce un telefono" value="{{ old('telefono') }}" />
