@@ -30,6 +30,9 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->brandLogo(asset('images\etn1-logo-wbk.png'))
+            ->favicon(asset('images\etn1-logo-wbk.png'))
+            ->sidebarCollapsibleOnDesktop()
             ->breadcrumbs(false)
             ->colors([
                 'primary' => Color::Amber,

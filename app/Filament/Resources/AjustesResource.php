@@ -18,7 +18,7 @@ class AjustesResource extends Resource
 {
     protected static ?string $model = Ajustes::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-wrench';
 
     protected static ?int $navigationSort = 5;
 
@@ -28,22 +28,42 @@ class AjustesResource extends Resource
             ->schema([
                 Section::make('Inscripción')
                 ->schema([
-                    Forms\Components\DatePicker::make('fecha_inscripcion')
-                    ->label('Fecha de Inscripción'),
-                    Forms\Components\TimePicker::make('hora_inscripcion')
-                    ->label('Hora de Inscripción'),
                     Forms\Components\Toggle::make('habilitar_inscripcion')
+                    ->default(false)
                     ->label('Habilitar Inscripción')
-                ]),
+                    ->live(),
+                    Forms\Components\DatePicker::make('fecha_inscripcion')
+                    ->label('Fecha de Inscripción')
+                    ->disabled(function (Forms\Get $get){
+                        return $get ('habilitar_inscripcion') == false;
+                    }),
+                    Forms\Components\TimePicker::make('hora_inscripcion')
+                    ->label('Hora de Inscripción')
+                    ->seconds(false)
+                    ->disabled(function (Forms\Get $get){
+                        return $get ('habilitar_inscripcion') == false;
+                    }),
+                ])
+                ->columnSpan(1),
                 Section::make('Preinscripción')
                 ->schema([
-                    Forms\Components\DatePicker::make('fecha_preinscripcion')
-                    ->label('Fecha de Preinscripción'),
-                    Forms\Components\TimePicker::make('hora_preinscripcion')
-                    ->label('Hora de Preinscripción'),
                     Forms\Components\Toggle::make('habilitar_preinscripcion')
+                    ->default(false)
                     ->label('Habilitar Preinscrición')
+                    ->live(),
+                    Forms\Components\DatePicker::make('fecha_preinscripcion')
+                    ->label('Fecha de Preinscripción')
+                    ->disabled(function (Forms\Get $get){
+                        return $get ('habilitar_preinscripcion') == false;
+                    }),
+                    Forms\Components\TimePicker::make('hora_preinscripcion')
+                    ->label('Hora de Preinscripción')
+                    ->seconds(false)
+                    ->disabled(function (Forms\Get $get){
+                        return $get ('habilitar_preinscripcion') == false;
+                    }),
                 ])
+                ->columnSpan(1),
 
             ]);
     }
@@ -52,21 +72,29 @@ class AjustesResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('fecha_inscripcion'),
-                Tables\Columns\TextColumn::make('hora_inscripcion'),
-                Tables\Columns\TextColumn::make('fecha_preinscripcion'),
-                Tables\Columns\TextColumn::make('hora_preinscripcion'),
+                Tables\Columns\TextColumn::make('fecha_inscripcion')
+                ->label('Fecha de Inscripción')
+                ->date('d-m-Y'),
+                Tables\Columns\TextColumn::make('hora_inscripcion')
+                ->label('Hora de Inscripción')
+                ->time('G:i'),
+                Tables\Columns\TextColumn::make('fecha_preinscripcion')
+                ->date('d-m-Y')
+                ->label('Fecha de Preinscripción'),
+                Tables\Columns\TextColumn::make('hora_preinscripcion')
+                ->label('Hora de Inscripción')
+                ->time('G:i'),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->url(null),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                // Tables\Actions\BulkActionGroup::make([
+                //     Tables\Actions\DeleteBulkAction::make(),
+                // ]),
             ]);
     }
 

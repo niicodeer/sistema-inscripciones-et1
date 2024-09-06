@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Ajustes;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
@@ -41,6 +42,15 @@ class DatabaseSeeder extends Seeder
         ]);
         //$roleSecre= Role::create(['name'=>'Secretario']);
         $user2->assignRole('Secretario');
+
+        $ajuste = Ajustes::factory()->create([
+            'fecha_inscripcion' => '2024-09-06',
+            'hora_inscripcion' => '00:00:00',
+            'fecha_preinscripcion' => '2024-09-06',
+            'hora_preinscripcion' => '00:00:00',
+            'habilitar_inscripcion' => false,
+            'habilitar_preinscripcion' => false
+        ]);
 
     }
 }

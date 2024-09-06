@@ -21,9 +21,7 @@ class CursoResource extends Resource
 {
     protected static ?string $model = Curso::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
-
-    protected static ?string $activeNavigationIcon = 'heroicon-o-book-open';
+    protected static ?string $navigationIcon = 'heroicon-o-book-open';
 
     protected static ?int $navigationSort = 4;
 
