@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Estudiante;
 use App\Models\Preinscripto;
 use App\Models\Inscripcion;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Log;
 
 class PreinscriptoController extends Controller
 {
@@ -20,6 +22,7 @@ class PreinscriptoController extends Controller
 
     public function store(Request $req)
     {
+       
         $req->validate([
             'nombre' => 'required|min:3|max:20|string',
             'apellido' => 'required|min:3|max:20|string',
@@ -66,6 +69,7 @@ class PreinscriptoController extends Controller
             'telefono.regex' => 'El teléfono debe ser un número válido de teléfono',
             'telefono.format' => 'El formato del teléfono no es correcto, se esperan al menos 8 números',
         ]);
+        try{    
         $preinscripto = Preinscripto::create(
             [
                 'cuil' => $req->input('cuil'),
@@ -80,7 +84,15 @@ class PreinscriptoController extends Controller
         );
         $req->session()->put('preinscripto', $preinscripto->toArray());
         $req->session()->put('preinscripcion_submitted', true);
+        session()->flash('success', 'Preinscripción registrada correctamente.');
+
         return redirect()->route('confirmacion-preinscripcion');
+
+    }catch (\Exception $e) {
+        Log::error('Error en la preinscripción: ' . $e->getMessage());
+        session()->flash('error', 'Ocurrió un error al registrar la preinscripción.');
+        return redirect()->back()->withInput();
+    }
     }
 
     public function verificarCUIL(Request $request)
