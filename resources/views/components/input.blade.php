@@ -1,4 +1,4 @@
-@props(['label', 'id', 'wireModel', 'require'=> false])
+@props(['label', 'id', 'require'=> false])
 
 <div class="md:max-w-[45%] w-full flex flex-col gap-2">
     <label for="{{ $id }}" class="text-[#2D3648] font-semibold text-sm ">{{ $label }}
