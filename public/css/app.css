@@ -703,11 +703,11 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* background: linear-gradient(to top, rgba(62, 86, 34, 1), rgba(47, 117, 15, 0.1)); */
 }
 
 .title {
-    font-size: 2.5rem; /* text-6xl */
+    color: #202020;
+    font-size: 2rem;
     font-weight: bold;
     margin-bottom: 4.5rem;
 }
@@ -730,7 +730,6 @@ body {
     align-items: center;
     background-color: #ea9010;
     color: #202020;
-    /* border: 1px solid #bf7205; */
     border-radius: 8px;
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
@@ -740,10 +739,6 @@ body {
     transform: scale(1.1);
 }
 .bg-gradient {
-    /*     background-image: url('images/etn1_web.webp');
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: cover; */
     background: linear-gradient(214deg, #49602f, #1b5227, #445c29, #93a283);
     background-size: 400% 400%;
     -webkit-animation: animatedBg 7s ease infinite;
@@ -819,4 +814,5 @@ footer p {
     font-style: italic;
     color: #9ca3af;
     font-size: 1rem;
+    font-weight: bold;
 }
