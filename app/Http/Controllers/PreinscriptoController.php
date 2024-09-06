@@ -38,6 +38,7 @@ class PreinscriptoController extends Controller
                 }
             ]
         ],  [
+            //TODO:aagregar validaciones restantes, formato, min, max
             'cuil.required' => 'El campo cuil es obligatorio',
             'cuil.unique' =>'El cuil ya existe.',
             'cuil.min'=>'El cuil debe tener 11 caracteres',
