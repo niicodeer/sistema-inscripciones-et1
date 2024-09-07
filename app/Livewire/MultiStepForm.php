@@ -24,7 +24,7 @@ class MultiStepForm extends Component
     /* STEP 1 */
     public $nombre;
     public $apellido;
-    public $genero = "";
+    public $genero = '';
     public $fecha_nac;
     public $email;
     public $telefono;
@@ -49,9 +49,9 @@ class MultiStepForm extends Component
     public $ocupacion;
     public $parentezco;
     /* STEP 4 */
-    public $curso = "";
-    public $modalidad = "";
-    public $escuelaProviene = "";
+    public $curso = '';
+    public $modalidad = '';
+    public $escuelaProviene = '';
     public $turno;
     public $condicionAlumno = '';
     public $adeudaMaterias;
@@ -61,11 +61,8 @@ class MultiStepForm extends Component
     public $terminos;
     public $derechoImagen;
 
-
-
     public function updatedCurso()
     {
-
         $elijeModalidad = !($this->curso == 'Tercer año' || $this->curso == 'Cuarto año' || $this->curso == 'Quinto año' || $this->curso == 'Sexto año');
 
         if ($elijeModalidad) {
@@ -158,7 +155,6 @@ class MultiStepForm extends Component
             $this->currentStep--;
         }
     }
-
 
     public function submit()
     {
