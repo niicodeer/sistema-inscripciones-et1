@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('ocupacion', 30);
             $table->string('parentezco', 15);
             $table->timestamps();
+            $table->softDeletes();
+            $table->integer('deleted_by')->nullable();
         });
     }
 

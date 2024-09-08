@@ -2,7 +2,8 @@
 @section('title', 'Formulario Inscripción')
 
 <div class="px-2">
-    <h1 class="text-2xl xl:text-3xl font-bold text-center mb-6 md:mb-14">Inscripción Ciclo Lectivo {{ date('Y') + 1 }}</h1>
+    <h1 class="text-2xl xl:text-3xl font-bold text-center mb-6 md:mb-14">Inscripción Ciclo Lectivo {{ date('Y') + 1 }}
+    </h1>
     @if ($currentStep <= 2)
         <h3 class="text-center text-xl my-4">Datos Alumno</h3>
     @endif
@@ -33,15 +34,18 @@
         @if ($currentStep === 1)
             <div>
                 <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full">
-                    <x-input type="text" id="nombre" label="Nombre" placeholder="Nombre" wire:model="nombre" require value="{{ old('nombre') }}"/>
-                    <x-input type="text" id="apellido" label="Apellido" placeholder="Apellido"
-                        wire:model="apellido" require value="{{ old('apellido') }}"/>
-                    <x-select id="genero" label="Genero" :options="json_encode(['Femenino', 'Masculino', 'Otro'])" wire:model="genero" require value="{{ old('genero') }}"/>
-                    <x-input type="date" id="fecha_nac" label="Fecha Nacimiento" wire:model="fecha_nac" require value="{{ old('fecha_nac') }}"/>
+                    <x-input type="text" id="nombre" label="Nombre" placeholder="Nombre" wire:model="nombre"
+                        require value="{{ old('nombre') }}" />
+                    <x-input type="text" id="apellido" label="Apellido" placeholder="Apellido" wire:model="apellido"
+                        require value="{{ old('apellido') }}" />
+                    <x-select id="genero" label="Genero" :options="json_encode(['Femenino', 'Masculino', 'Otro'])" wire:model="genero" require
+                        value="{{ old('genero') }}" />
+                    <x-input type="date" id="fecha_nac" label="Fecha Nacimiento" wire:model="fecha_nac" require
+                        value="{{ old('fecha_nac') }}" />
                     <x-input type="email" id="email" label="Email" placeholder="Introduce un correo"
-                        wire:model="email" require value="{{ old('email') }}"/>
+                        wire:model="email" require value="{{ old('email') }}" />
                     <x-input type="text" id="telefono" label="Teléfono" placeholder="Introduce un telefono"
-                        wire:model="telefono" require value="{{ old('telefono') }}"/>
+                        wire:model="telefono" require value="{{ old('telefono') }}" />
                     <x-input type="text" id="cuil" label="Cuil" name="cuil" wire:model="cuil" disabled />
                 </div>
             </div>
@@ -49,16 +53,20 @@
         @if ($currentStep === 2)
             <div>
                 <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full">
-                    <x-input type="text" id="calle" label="Calle" placeholder="Calle" wire:model="calle" require value="{{ old('calle') }}"/>
+                    <x-input type="text" id="calle" label="Calle" placeholder="Calle" wire:model="calle" require
+                        value="{{ old('calle') }}" />
                     <div class="w-[45%] flex gap-x-2">
                         <x-input type="number" id="numeracion" label="Numeración" placeholder="Numeración"
-                            wire:model="numeracion" min=0 value="{{ old('numeracion') }}"/>
-                        <x-input type="text" id="piso" label="Piso dpto" placeholder="Piso" wire:model="piso" value="{{ old('piso') }}"/>
+                            wire:model="numeracion" min=0 value="{{ old('numeracion') }}" />
+                        <x-input type="text" id="piso" label="Piso dpto" placeholder="Piso" wire:model="piso"
+                            value="{{ old('piso') }}" />
                     </div>
-                    <x-input type="text" id="barrio" label="Barrio" placeholder="Barrio" wire:model="barrio" require value="{{ old('barrio') }}"/>
+                    <x-input type="text" id="barrio" label="Barrio" placeholder="Barrio" wire:model="barrio"
+                        require value="{{ old('barrio') }}" />
                     <x-input type="text" id="provincia" label="Provincia" placeholder="Provincia"
-                        wire:model="provincia" require value="{{ old('provincia') }}"/>
-                    <x-input type="text" id="ciudad" label="Ciudad" placeholder="Ciudad" wire:model="ciudad" require value="{{ old('ciudad') }}"/>
+                        wire:model="provincia" require value="{{ old('provincia') }}" />
+                    <x-input type="text" id="ciudad" label="Ciudad" placeholder="Ciudad" wire:model="ciudad"
+                        require value="{{ old('ciudad') }}" />
                     <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Convive con</p>
                         <div class="w-full grid grid-cols-2 gap-2">
@@ -95,12 +103,12 @@
                         <p class="text-[#2D3648] font-semibold text-sm">Obra Social / Prepaga</p>
                         <div class="flex md:max-w-[45%] w-full gap-6">
                             <x-input-radio id="obra-social" label="Si" value="1"
-                                wire:model.live="obraSocial" wire:click="updateObraSocial"/>
+                                wire:model.live="obraSocial" wire:click="updateObraSocial" />
                             <x-input-radio id="obra-social" label="No" value="0"
-                                wire:model.live="obraSocial" wire:click="updateObraSocial"/>
+                                wire:model.live="obraSocial" wire:click="updateObraSocial" />
                         </div>
                         <x-input type="text" id="nombre_os" label="" placeholder="Obra Social / Prepaga"
-                            wire:model.live="nombreObraSocial" :disabled="$obraSocial != '1'"/>
+                            wire:model.live="nombreObraSocial" :disabled="$obraSocial != '1'" />
                         @error('obraSocial')
                             <p class="text-red-700 text-sm">{{ $message }}</p>
                         @enderror
@@ -112,17 +120,17 @@
             <div>
                 <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full">
                     <x-input type="text" id="nombre_tutor" label="Nombre" placeholder="Nombre"
-                        wire:model="nombreTutor" require value="{{ old('nombre_tutor') }}"/>
+                        wire:model="nombreTutor" require value="{{ old('nombre_tutor') }}" />
                     <x-input type="text" id="apellido_tutor" label="Apellido" placeholder="Apellido"
-                        wire:model="apellidoTutor" require value="{{ old('apellido_tutor') }}"/>
+                        wire:model="apellidoTutor" require value="{{ old('apellido_tutor') }}" />
                     <x-input type="text" id="cuil_tutor" label="CUIL" placeholder="Cuil sin guiones ni puntos"
-                        wire:model="cuilTutor" require value="{{ old('cuil_tutor') }}"/>
+                        wire:model="cuilTutor" require value="{{ old('cuil_tutor') }}" />
                     <x-input type="email" id="email_tutor" label="Email" placeholder="Introduce un correo"
-                        wire:model="emailTutor" require value="{{ old('email_tutor') }}"/>
+                        wire:model="emailTutor" require value="{{ old('email_tutor') }}" />
                     <x-input type="text" id="telefono_tutor" label="Teléfono" placeholder="Introduce un telefono"
-                        wire:model="telefonoTutor" require value="{{ old('telefono_tutor') }}"/>
+                        wire:model="telefonoTutor" require value="{{ old('telefono_tutor') }}" />
                     <x-input type="text" id="ocupacion" label="Ocupación" placeholder="Ocupación"
-                        wire:model="ocupacion" require value="{{ old('ocupacion') }}"/>
+                        wire:model="ocupacion" require value="{{ old('ocupacion') }}" />
                     <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Parentezco</p>
                         <div class="grid grid-cols-2">
@@ -156,24 +164,29 @@
                         'Cuarto año',
                         'Quinto año',
                         'Sexto año',
-                    ])" wire:model.live="curso" wire.mode.blur="updatedCurso" require value="{{ old('curso') }}"/>
+                    ])" wire:model.live="curso"
+                        wire.mode.blur="updatedCurso" require value="{{ old('curso') }}" />
                     <x-select id="modalidad" label="Modalidad a seguir" :options="json_encode(['Informática', 'Economía', 'Industria'])" wire:model.live="modalidad"
-                        :disabled="in_array($curso, ['Primer año', 'Segundo año', ''])" require value="{{ old('modalidad') }}"/>
+                        :disabled="in_array($curso, ['Primer año', 'Segundo año', ''])" require value="{{ old('modalidad') }}" />
 
                     <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                         <p class="text-[#2D3648] font-semibold text-sm">Condición Alumno</p>
                         <div class="flex md:max-w-[45%] w-full gap-x-8">
-                            <div class="flex flex-col gap-3" >
+                            <div class="flex flex-col gap-3">
                                 <x-input-radio id="ingresante" label="Ingresante" value="ingresante"
-                                    name="condicion_alumno" wire:model.live="condicionAlumno" wire:click="updateEscuela"/>
+                                    name="condicion_alumno" wire:model.live="condicionAlumno"
+                                    wire:click="updateEscuela" />
                                 <x-input-radio id="regular" label="Regular" value="regular"
-                                    name="condicion_alumno" wire:model.live="condicionAlumno" wire:click="updateEscuela"/>
+                                    name="condicion_alumno" wire:model.live="condicionAlumno"
+                                    wire:click="updateEscuela" />
                             </div>
-                            <div class="flex flex-col gap-3" >
+                            <div class="flex flex-col gap-3">
                                 <x-input-radio id="traspaso" label="Traspaso" value="traspaso"
-                                    name="condicion_alumno" wire:model.live="condicionAlumno" wire:click="updateEscuela"/>
+                                    name="condicion_alumno" wire:model.live="condicionAlumno"
+                                    wire:click="updateEscuela" />
                                 <x-input-radio id="repitente" label="Repitente" value="repitente"
-                                    name="condicion_alumno" wire:model.live="condicionAlumno" wire:click="updateEscuela"/>
+                                    name="condicion_alumno" wire:model.live="condicionAlumno"
+                                    wire:click="updateEscuela" />
                             </div>
                         </div>
                         @error('condicionAlumno')
@@ -201,7 +214,7 @@
                             <x-input-radio id="si" label="Si" value="1" name="adeuda_materia"
                                 wire:model.live="adeudaMaterias" wire:click="updateAdeudaMaterias" />
                             <x-input-radio id="no" label="No" value="0" name="adeuda_materia"
-                                wire:model.live="adeudaMaterias" wire:click="updateAdeudaMaterias"/>
+                                wire:model.live="adeudaMaterias" wire:click="updateAdeudaMaterias" />
                         </div>
                         @error('adeudaMaterias')
                             <p class="text-red-700 text-sm">{{ $message }}</p>
@@ -215,7 +228,7 @@
             </div>
         @endif
         @if ($currentStep === 5)
-            <div  x-data="{ open: false }">
+            <div x-data="{ open: false }">
                 <p class="text-[#2D3648] font-semibold text-base mb-4">Indique si cumple o no con algunas de las
                     siguientes opciones:</p>
                 <div class="w-full flex flex-col gap-y-2">
@@ -236,33 +249,24 @@
                     <p class="text-[#2D3648] italic font-bold text-base">* Además, recuerde que debe proporcionar una
                         foto 4x4 y fotocopia del DNI del inscripto.</p>
                 </div>
-                <p class="text-[#2D3648] font-semibold text-base pt-6">Por último, indique que está de acuerdo con los siguientes términos.</p>
-                    <div class="w-full flex gap-2 justify-start items-center mt-2">
-                        <input class="border border-gray-300 p-2 rounded h-5 w-5" id="terminos" name="terminos"
-                            type="checkbox" wire:model="derechoImagen">
-                        {{-- <p>
-                            He leído y acepto los términos del <span id="openModalBtn"
-                                class="italic underline hover:cursor-pointer" @click="open = ! open">código de
-                                vestimenta.</span>
-                        </p> --}}
-                        <p>
-                            Acepto el uso de producciones, imágenes, videos y sonido del alumno
-
-                        </p>
-                        @error('terminos')
-                            <p class="text-red-700 text-sm">{{ $message }}</p>
-                        @enderror
-                    </div>
+                <p class="text-[#2D3648] font-semibold text-base pt-6">Por último, indique que está de acuerdo con los
+                    siguientes términos.</p>
+                <div class="w-full flex gap-2 justify-start items-center mt-2">
+                    <input class="border border-gray-300 p-2 rounded h-5 w-5" id="terminos" name="terminos"
+                        type="checkbox" wire:model="derechoImagen">
+                    <p>
+                        Acepto el uso de producciones, imágenes, videos y sonido del alumno
+                    </p>
+                    @error('terminos')
+                        <p class="text-red-700 text-sm">{{ $message }}</p>
+                    @enderror
+                </div>
                 <div class="w-full flex gap-2 justify-start items-center mt-2">
                     <input class="border border-gray-300 p-2 rounded h-5 w-5" id="terminos" name="terminos"
                         type="checkbox" wire:model="terminos">
-                    {{-- <p>
-                        He leído y acepto los términos del <span id="openModalBtn"
-                            class="italic underline hover:cursor-pointer" @click="open = ! open">código de
-                            vestimenta.</span>
-                    </p> --}}
                     <p>
-                        He leído y estoy de acuerdo con el <a class='underline' href="{{route("convivencia.pdf")}}" target="_blank">código de convivencia de la institución</a>
+                        He leído y estoy de acuerdo con el <a class='underline' href="{{ route('convivencia.pdf') }}"
+                            target="_blank">código de convivencia de la institución</a>
 
                     </p>
                     @error('terminos')
@@ -291,4 +295,3 @@
     </form>
 
 </div>
-

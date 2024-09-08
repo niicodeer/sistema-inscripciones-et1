@@ -15,7 +15,14 @@ class PermissionSeeder extends Seeder
 
         // create permissions
 
-        $arrayOfPermissionNames = ['editar estudiante', 'borrar estudiante', 'crear estudiante', 'ver estudiante'];
+        $arrayOfPermissionNames = [
+            'crear estudiante', 'ver estudiante', 'editar estudiante', 'borrar estudiante',
+            'crear preinscripto', 'ver preinscripto', 'editar preinscripto', 'borrar preinscripto',
+            'crear inscripcion', 'ver inscripcion', 'editar inscripcion', 'borrar inscripcion',
+            'crear tutor', 'ver tutor', 'editar tutor', 'borrar tutor',
+            'crear curso', 'ver curso', 'editar curso', 'borrar curso',
+            'crear usuario', 'ver usuario', 'editar usuario', 'borrar usuario'
+        ];
     $permissions = collect($arrayOfPermissionNames)->map(function ($permission) {
         return ['name' => $permission, 'guard_name' => 'web'];
     });

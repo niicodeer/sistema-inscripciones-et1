@@ -71,15 +71,30 @@ class UserResource extends Resource
                 TextColumn::make('rol')
             ])
             ->filters([
-                //
+                Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()->after(function ($record) {
+                    $record->deleted_by=Auth::id();
+                    $record->save();
+                }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()->after(function ($action, $records) {
+                        foreach ($records as $record) {
+                            $record->deleted_by = Auth::id();
+                            $record->save();
+                        }
+                    }),
+                    Tables\Actions\RestoreBulkAction::make()->after(function ($action, $records) {
+                        foreach ($records as $record) {
+                            $record->deleted_by = null;
+                            $record->save();
+                        }
+                    }),
+                    Tables\Actions\ForceDeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -99,4 +114,12 @@ class UserResource extends Resource
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
+
+    public static function getEloquentQuery(): Builder
+{
+    return parent::getEloquentQuery()
+        ->withoutGlobalScopes([
+            SoftDeletingScope::class,
+        ]);
+}
 }

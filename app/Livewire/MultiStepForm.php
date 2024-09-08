@@ -24,7 +24,7 @@ class MultiStepForm extends Component
     /* STEP 1 */
     public $nombre;
     public $apellido;
-    public $genero = "";
+    public $genero = '';
     public $fecha_nac;
     public $email;
     public $telefono;
@@ -49,9 +49,9 @@ class MultiStepForm extends Component
     public $ocupacion;
     public $parentezco;
     /* STEP 4 */
-    public $curso = "";
-    public $modalidad = "";
-    public $escuelaProviene = "";
+    public $curso = '';
+    public $modalidad = '';
+    public $escuelaProviene = '';
     public $turno;
     public $condicionAlumno = '';
     public $adeudaMaterias;
@@ -61,11 +61,8 @@ class MultiStepForm extends Component
     public $terminos;
     public $derechoImagen;
 
-
-
     public function updatedCurso()
     {
-
         $elijeModalidad = !($this->curso == 'Tercer año' || $this->curso == 'Cuarto año' || $this->curso == 'Quinto año' || $this->curso == 'Sexto año');
 
         if ($elijeModalidad) {
@@ -80,13 +77,13 @@ class MultiStepForm extends Component
     }
     public function updateObraSocial()
     {
-        if ($this->obraSocial==='0') {
+        if ($this->obraSocial === '0') {
             return $this->nombreObraSocial = '';
         }
     }
     public function updateAdeudaMaterias()
     {
-        if ($this->adeudaMaterias==='0') {
+        if ($this->adeudaMaterias === '0') {
             return $this->nombreMaterias = '';
         }
     }
@@ -159,7 +156,6 @@ class MultiStepForm extends Component
         }
     }
 
-
     public function submit()
     {
         $this->validateForm();
@@ -214,7 +210,7 @@ class MultiStepForm extends Component
                     'adeuda_materias' => $this->adeudaMaterias,
                     'nombre_materias' => json_encode($this->nombreMaterias),
                     'reconocimientos' => json_encode($this->reconocimientos),
-                    'comprobante_inscripcion' => $this->generarCodigoComprobante($this->cuil,$this->fecha_nac),
+                    'comprobante_inscripcion' => $this->generarCodigoComprobante($this->cuil, $this->fecha_nac),
                 ]);
                 DB::commit();
 
@@ -283,7 +279,7 @@ class MultiStepForm extends Component
                     'nombre_materias' => $this->nombreMaterias,
                     'reconocimientos' => json_encode($this->reconocimientos),
                     'estudiante_id' => $estudiante->id,
-                    'comprobante_inscripcion' => $this->generarCodigoComprobante($this->cuil,$this->fecha_nac),
+                    'comprobante_inscripcion' => $this->generarCodigoComprobante($this->cuil, $this->fecha_nac),
                 ]);
                 DB::commit();
 
@@ -295,8 +291,8 @@ class MultiStepForm extends Component
                 DB::rollBack();
                 abort(500, 'Error al guadar de datos: ' . $e->getMessage());
             } finally {
-                if ($inscripcion) { // Verifica que $inscripcion no sea null
-                    Session::put('data-inscripcion', $inscripcion->toArray());
+                if ($preinscripto) { // Verifica que $preinscripto no sea null
+                    Session::put('data-inscripcion', $preinscripto->toArray());
                 }
             }
         }
@@ -312,16 +308,15 @@ class MultiStepForm extends Component
                 'apellido' => 'required|string|min:3|max:20',
                 'genero' => 'required|in:Femenino,Masculino,Otro|min:3|max:10',
                 'fecha_nac' => [
-                'required',
-                'date',
-                function ($attribute, $value, $fail) {
-                    $date = Carbon::parse($value);
-                    if ($date->diffInYears(Carbon::now()) < 12) {
-                        $fail('La fecha de nacimiento debe ser al menos 12 años menor al año actual.');
+                    'required',
+                    'date',
+                    function ($attribute, $value, $fail) {
+                        $date = Carbon::parse($value);
+                        if ($date->diffInYears(Carbon::now()) < 12) {
+                            $fail('La fecha de nacimiento debe ser al menos 12 años menor al año actual.');
+                        }
                     }
-                }
-            ]
-        ,
+                ],
                 'email' => 'required|email|min:8|max:100',
                 'telefono' => 'required|string|min:8|max:15',
             ], [
@@ -426,12 +421,14 @@ class MultiStepForm extends Component
         }
     }
 
-    public function generarCodigoComprobante($cuil, $fecha_insc){
+    public function generarCodigoComprobante($cuil, $fecha_insc)
+    {
         $codigoComprobante = $cuil . $fecha_insc;
         return $codigoComprobante;
     }
 
-    public function generarPdf(){
+    public function generarPdf()
+    {
         $preinscripto = Session::get('preinscripto');
         $inscripcion = Session::get('data-inscripcion');
         $inscripto = Session::get('inscripto');

@@ -2,10 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Events\ResultadoInscripcionEnviada;
 use App\Filament\Resources\InscripcionResource\Pages;
 use App\Jobs\SendResultadoEmailJob;
-use App\Mail\ResultadoInscripcionMail;
 use App\Models\Curso;
 use App\Models\Estudiante;
 use App\Models\Inscripcion;
@@ -24,8 +22,9 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
 
 class InscripcionResource extends Resource
 {
@@ -115,14 +114,12 @@ class InscripcionResource extends Resource
                         'pendiente' => 'warning',
                         'aceptado' => 'success',
                         'no aceptado' => 'danger',
-                        default => 'default',
                     })
                     ->icon(fn(string $state): ?string => match ($state) {
                         'pendiente' => 'heroicon-o-clock',
                         'aceptado' => 'heroicon-o-check-circle',
                         'no aceptado' => 'heroicon-o-x-circle',
-                        default => null,
-                    })
+                    }),
 
                 IconColumn::make('email_sent_at')
                     ->label('Notificado')
@@ -144,10 +141,15 @@ class InscripcionResource extends Resource
                     ->options(Curso::all()->mapWithKeys(function ($curso) {
                         return [$curso->id => "{$curso->id} - {$curso->año_curso}º {$curso->division}º"];
                     })->all())
-                    ->label('Curso')
+                    ->label('Curso'),
+                    Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()->after(function ($record) {
+                    $record->deleted_by=Auth::id();
+                    $record->save();
+                }),
                 Action::make('Enviar mail')
                     ->visible(function (Inscripcion $record) {
                         return $record->email_sent_at == null && $record->estado_inscripcion != 'pendiente';
@@ -166,7 +168,19 @@ class InscripcionResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()->after(function ($action, $records) {
+                        foreach ($records as $record) {
+                            $record->deleted_by = Auth::id();
+                            $record->save();
+                        }
+                    }),
+                    Tables\Actions\RestoreBulkAction::make()->after(function ($action, $records) {
+                        foreach ($records as $record) {
+                            $record->deleted_by = null;
+                            $record->save();
+                        }
+                    }),
+                    Tables\Actions\ForceDeleteBulkAction::make(),
                 ]),
                 Tables\Actions\BulkAction::make('Enviar Mails')
                     ->requiresConfirmation()
@@ -222,5 +236,13 @@ class InscripcionResource extends Resource
             'create' => Pages\CreateInscripcion::route('/create'),
             'edit' => Pages\EditInscripcion::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 }
