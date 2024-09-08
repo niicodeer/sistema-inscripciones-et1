@@ -116,4 +116,26 @@ class PreinscriptoController extends Controller
         $pdf = Pdf::loadView('comprobantes.comprobante-preinscripto', compact('preinscripto'));
         return $pdf->download('comprobante-preinscripcion.pdf');
     }
+
+    public function delete($id)
+    {
+        $dato=Preinscripto::find($id);
+        if(!$dato)
+        {
+            return response()->json(['message'=>'No se encontro'], 404);
+        }
+        $dato->delete();
+        return response()->json(['message'=>'Borrado'], 200);
+    }
+
+    public function restore($id)
+    {
+        $dato=Preinscripto::onlyTrashed()->find($id);
+        if(!$dato)
+        {
+            return response()->json(['message'=>'No se encontro'], 404);
+        }
+        $dato->restore();
+        return response()->json(['message'=>'Restaurado'], 200);
+    }
 }

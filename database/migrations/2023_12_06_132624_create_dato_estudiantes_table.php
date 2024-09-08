@@ -28,6 +28,8 @@ return new class extends Migration
             $table->unsignedBigInteger('estudiante_id')->nullable();
             $table->foreign('estudiante_id')->references('id')->on('estudiantes')->onUpdate('set null')->onDelete('set null');
             $table->timestamps();
+            $table->softDeletes();
+            $table->integer('deleted_by')->nullable();
         });
     }
 
