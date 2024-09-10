@@ -1,14 +1,12 @@
 @section('title', 'Preinscripción correcta')
 <div class="flex flex-col gap-8 justify-center items-center w-full max-w-96">
 
-    <h1 class="text-2xl md:text-3xl font-bold">Registramos tu <br /> pre-inscripción!</h1>
-    <p class="">Gracias por pre-inscribirte! En los próximos meses te esteremos avisando las fechas de
+    <h1 class="text-xl md:text-2xl font-bold text-center">¡Registramos tú pre-inscripción!</h1>
+    <p class="text-center">¡Gracias por pre-inscribirte!, Proximamente te esteremos avisando las fechas de
         inscripción. ¡Estate
         atento a tu correo y a nuestro perfil de Facebook!</p>
 
-
-    <div class="flex gap-2 items-center">
-        <div>
+        <a href="https://www.facebook.com/tecnica1sgo/" target="_blank" class="flex gap-2 hover:scale-105 underline">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_96_3094)">
                     <path
@@ -24,11 +22,11 @@
                     </clipPath>
                 </defs>
             </svg>
-        </div>
-        <a href="#" class="underline">Escuela Técnica Nº 1</a>
-    </div>
+            Escuela Técnica Nº 1
+        </a>
     <div class="flex gap-2 flex-col items-center">
-        <a href="{{route('generarPdfPreinscripto')}}" target="_blank" class="btn bg-primary-color text-text-title">Descargar Comprobante</a>
+        <a href="{{ route('generarPdfPreinscripto') }}" target="_blank"
+            class="btn bg-primary-color border border-solid border-gray-500 shadow-lg text-text-title">Descargar Comprobante</a>
         <x-secondary-button text="Finalizar" href="{{ route('finalizar') }}" />
     </div>
 </div>

@@ -27,43 +27,89 @@ class AjustesResource extends Resource
         return $form
             ->schema([
                 Section::make('Inscripción')
-                ->schema([
-                    Forms\Components\Toggle::make('habilitar_inscripcion')
-                    ->default(false)
-                    ->label('Habilitar Inscripción')
-                    ->live(),
-                    Forms\Components\DatePicker::make('fecha_inscripcion')
-                    ->label('Fecha de Inscripción')
-                    ->disabled(function (Forms\Get $get){
-                        return $get ('habilitar_inscripcion') == false;
-                    }),
-                    Forms\Components\TimePicker::make('hora_inscripcion')
-                    ->label('Hora de Inscripción')
-                    ->seconds(false)
-                    ->disabled(function (Forms\Get $get){
-                        return $get ('habilitar_inscripcion') == false;
-                    }),
-                ])
-                ->columnSpan(1),
+                    ->schema([
+                        Forms\Components\Toggle::make('habilitar_inscripcion')
+                            ->default(false)
+                            ->label('Habilitar Inscripción')
+                            ->live(),
+                        Forms\Components\DatePicker::make('inicio_fecha_inscripcion')
+                            ->label('Fecha de Inicio')
+                            ->disabled(function (Forms\Get $get) {
+                                return $get('habilitar_inscripcion') === false;
+                            })
+                            ->required(function (Forms\Get $get) {
+                                return $get('habilitar_inscripcion') === true;
+                            }),
+                        Forms\Components\TimePicker::make('inicio_hora_inscripcion')
+                            ->label('Hora de Inicio')
+                            ->seconds(false)
+                            ->disabled(function (Forms\Get $get) {
+                                return $get('habilitar_inscripcion') === false;
+                            })
+                            ->required(function (Forms\Get $get) {
+                                return $get('habilitar_inscripcion') === true;
+                            }),
+                        Forms\Components\DatePicker::make('fin_fecha_inscripcion')
+                            ->label('Fecha de Fin')
+                            ->disabled(function (Forms\Get $get) {
+                                return $get('habilitar_inscripcion') === false;
+                            })
+                            ->required(function (Forms\Get $get) {
+                                return $get('habilitar_inscripcion') === true;
+                            }),
+                        Forms\Components\TimePicker::make('fin_hora_inscripcion')
+                            ->label('Hora de Fin')
+                            ->seconds(false)
+                            ->disabled(function (Forms\Get $get) {
+                                return $get('habilitar_inscripcion') === false;
+                            })
+                            ->required(function (Forms\Get $get) {
+                                return $get('habilitar_inscripcion') === true;
+                            }),
+                    ])
+                    ->columnSpan(1),
                 Section::make('Preinscripción')
-                ->schema([
-                    Forms\Components\Toggle::make('habilitar_preinscripcion')
-                    ->default(false)
-                    ->label('Habilitar Preinscrición')
-                    ->live(),
-                    Forms\Components\DatePicker::make('fecha_preinscripcion')
-                    ->label('Fecha de Preinscripción')
-                    ->disabled(function (Forms\Get $get){
-                        return $get ('habilitar_preinscripcion') == false;
-                    }),
-                    Forms\Components\TimePicker::make('hora_preinscripcion')
-                    ->label('Hora de Preinscripción')
-                    ->seconds(false)
-                    ->disabled(function (Forms\Get $get){
-                        return $get ('habilitar_preinscripcion') == false;
-                    }),
-                ])
-                ->columnSpan(1),
+                    ->schema([
+                        Forms\Components\Toggle::make('habilitar_preinscripcion')
+                            ->default(false)
+                            ->label('Habilitar Preinscripción')
+                            ->live(),
+                        Forms\Components\DatePicker::make('inicio_fecha_preinscripcion')
+                            ->label('Fecha de Inicio')
+                            ->disabled(function (Forms\Get $get) {
+                                return $get('habilitar_preinscripcion') === false;
+                            })
+                            ->required(function (Forms\Get $get) {
+                                return $get('habilitar_inscripcion') === true;
+                            }),
+                        Forms\Components\TimePicker::make('inicio_hora_preinscripcion')
+                            ->label('Hora de Inicio')
+                            ->seconds(false)
+                            ->disabled(function (Forms\Get $get) {
+                                return $get('habilitar_preinscripcion') === false;
+                            })
+                            ->required(function (Forms\Get $get) {
+                                return $get('habilitar_inscripcion') === true;
+                            }),
+                        Forms\Components\DatePicker::make('fin_fecha_preinscripcion')
+                            ->label('Fecha de Fin')
+                            ->disabled(function (Forms\Get $get) {
+                                return $get('habilitar_preinscripcion') === false;
+                            })
+                            ->required(function (Forms\Get $get) {
+                                return $get('habilitar_inscripcion') === true;
+                            }),
+                        Forms\Components\TimePicker::make('fin_hora_preinscripcion')
+                            ->label('Hora de Fin')
+                            ->seconds(false)
+                            ->disabled(function (Forms\Get $get) {
+                                return $get('habilitar_preinscripcion') === false;
+                            })
+                            ->required(function (Forms\Get $get) {
+                                return $get('habilitar_inscripcion') === true;
+                            }),
+                    ])
+                    ->columnSpan(1),
 
             ]);
     }
@@ -73,17 +119,17 @@ class AjustesResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('fecha_inscripcion')
-                ->label('Fecha de Inscripción')
-                ->date('d-m-Y'),
+                    ->label('Fecha de Inscripción')
+                    ->date('d-m-Y'),
                 Tables\Columns\TextColumn::make('hora_inscripcion')
-                ->label('Hora de Inscripción')
-                ->time('G:i'),
+                    ->label('Hora de Inscripción')
+                    ->time('G:i'),
                 Tables\Columns\TextColumn::make('fecha_preinscripcion')
-                ->date('d-m-Y')
-                ->label('Fecha de Preinscripción'),
+                    ->date('d-m-Y')
+                    ->label('Fecha de Preinscripción'),
                 Tables\Columns\TextColumn::make('hora_preinscripcion')
-                ->label('Hora de Inscripción')
-                ->time('G:i'),
+                    ->label('Hora de Inscripción')
+                    ->time('G:i'),
             ])
             ->filters([
                 //
@@ -109,7 +155,7 @@ class AjustesResource extends Resource
     {
         return [
             'index' => Pages\ListAjustes::route('/'),
-            'create' => Pages\CreateAjustes::route('/create'),
+            /* 'create' => Pages\CreateAjustes::route('/create'), */
             'edit' => Pages\EditAjustes::route('/{record}/edit'),
         ];
     }

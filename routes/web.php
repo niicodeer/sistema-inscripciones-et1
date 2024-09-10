@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AjustesController;
 use App\Http\Controllers\InscripcionController;
 use App\Http\Controllers\PreinscriptoController;
 use App\Livewire\InscripcionConfirm;
@@ -7,13 +8,12 @@ use App\Livewire\MultiStepForm;
 use App\Livewire\PreinscripcionConfirm;
 use App\Livewire\PreinscripcionForm;
 use App\Livewire\VerificarCuilForm;
+use App\Models\Ajustes;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('inicio');
+Route::get('/', [AjustesController::class, 'index'])->name('inicio');
 
 Route::get('/preinscripcion', PreinscripcionForm::class)->name('preinscripcion');
 Route::post('/preinscripcion', [PreinscriptoController::class, 'store'])->name('preinscripcion');

@@ -22,6 +22,8 @@ return new class extends Migration
             $table->date('fecha_nac');
             $table->string('comprobante_preinscripcion')->unique()->nullable();
             $table->timestamps();
+            $table->softDeletes();
+            $table->integer('deleted_by')->nullable();
         });
     }
 

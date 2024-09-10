@@ -13,12 +13,16 @@ return new class extends Migration
     {
         Schema::create('ajustes', function (Blueprint $table) {
             $table->id();
-            $table->date('fecha_inscripcion');
-            $table->date('fecha_preinscripcion');
-            $table->time('hora_inscripcion');
-            $table->time('hora_preinscripcion');
-            $table->boolean('habilitar_inscripcion');
-            $table->boolean('habilitar_preinscripcion');
+            $table->boolean('habilitar_inscripcion')->default(false);
+            $table->date('inicio_fecha_inscripcion')->nullable();
+            $table->time('inicio_hora_inscripcion')->nullable();
+            $table->date('fin_fecha_inscripcion')->nullable();
+            $table->time('fin_hora_inscripcion')->nullable();
+            $table->boolean('habilitar_preinscripcion')->default(false);
+            $table->date('inicio_fecha_preinscripcion')->nullable();
+            $table->date('fin_fecha_preinscripcion')->nullable();
+            $table->time('inicio_hora_preinscripcion')->nullable();
+            $table->time('fin_hora_preinscripcion')->nullable();
             $table->timestamps();
         });
     }

@@ -21,14 +21,16 @@ class PermissionSeeder extends Seeder
             'crear inscripcion', 'ver inscripcion', 'editar inscripcion', 'borrar inscripcion',
             'crear tutor', 'ver tutor', 'editar tutor', 'borrar tutor',
             'crear curso', 'ver curso', 'editar curso', 'borrar curso',
-            'crear usuario', 'ver usuario', 'editar usuario', 'borrar usuario'
+            'crear usuario', 'ver usuario', 'editar usuario', 'borrar usuario',
+            'crear ajustes', 'ver ajustes', 'editar ajustes', 'borrar ajustes',
+
         ];
     $permissions = collect($arrayOfPermissionNames)->map(function ($permission) {
         return ['name' => $permission, 'guard_name' => 'web'];
     });
 
     Permission::insert($permissions->toArray());
-        
+
 
         $role = Role::create(['name' => 'Admin']);
         $role->givePermissionTo(Permission::all());

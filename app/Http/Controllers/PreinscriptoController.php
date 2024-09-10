@@ -24,7 +24,7 @@ class PreinscriptoController extends Controller
             'nombre' => 'required|min:3|max:20|string',
             'apellido' => 'required|min:3|max:20|string',
             'cuil' => 'required|unique:preinscriptos,cuil|min:11|max:11|regex:/^[0-9]{11}$/',
-            'email' => 'required|email|max:100',
+            'email' => 'email|max:100|min:10',
             'telefono' => 'required|min:8|max:15|regex:/^[0-9\s\-]+$/',
             'genero' => 'required|in:Femenino,Masculino,Otro|min:3|max:10',
             'fecha_nac' => [
@@ -33,30 +33,38 @@ class PreinscriptoController extends Controller
                 function ($attribute, $value, $fail) {
                     $date = Carbon::parse($value);
                     if ($date->diffInYears(Carbon::now()) < 12) {
-                        $fail('La fecha de nacimiento debe ser al menos 12 años menor al año actual.');
+                        $fail('El alumno debe ser mayor a 12 años de edad.');
+                    } elseif ($date->diffInYears(Carbon::now()) > 17) {
+                        $fail('El alumno debe ser menor a 17 años de edad.');
                     }
                 }
             ]
         ],  [
-            //TODO:aagregar validaciones restantes, formato, min, max
-            'cuil.required' => 'El campo cuil es obligatorio',
-            'cuil.unique' =>'El cuil ya existe.',
-            'cuil.min'=>'El cuil debe tener 11 caracteres',
-            'cuil.max'=>'El cuil debe tener 11 caracteres',
-            'nombre.required' => 'El campo nombre es obligatorio.',
-            'nombre.min' => 'Nombre debe tener un mínimo de 3 caracteres',
-            'nombre.max' => 'Nombre debe tener un máximo de 20 caracteres',
-            'apellido.required' => 'El campo apellido es obligatorio.',
+            'cuil.required' => 'El CUIL es obligatorio',
+            'cuil.unique' =>'El CUIL ya existe',
+            'cuil.min'=>'El CUIL debe tener 11 caracteres',
+            'cuil.max'=>'El CUIL debe tener 11 caracteres',
+            'cuil.regex'=>'El CUIL debe ser un número de CUIL válido',
+            'cuil.format'=>'El formato del CUIL no es correcto, se esperan 11 numeros',
+            'nombre.required' => 'El nombre es obligatorio',
+            'nombre.min' => 'El nombre debe tener un mínimo de 3 caracteres',
+            'nombre.max' => 'El nombre debe tener un máximo de 20 caracteres',
+            'apellido.required' => 'El apellido es obligatorio',
             'apellido.min' => 'Apellido debe tener un mínimo de 3 caracteres',
             'apellido.max' => 'Apellido debe tener un máximo de 20 caracteres',
-            'genero.required' => 'Debe seleccionar un género.',
+            'genero.required' => 'Debe seleccionar un género',
             'genero.in' => 'El género seleccionado no es válido.',
-            'fecha_nac.required' => 'El campo fecha de nacimiento es obligatorio.',
-            'fecha_nac.date' => 'El campo fecha de nacimiento debe ser una fecha válida.',
-            'email.required' => 'El campo email es obligatorio.',
-            'email.email' => 'El campo email debe ser una dirección de correo electrónico válida.',
-            'telefono.required' => 'El campo teléfono es obligatorio.',
-            'telefono.max' => 'Teléfono debe tener un máximo de 15 caracteres'
+            'fecha_nac.required' => 'La fecha de nacimiento es obligatoria',
+            'fecha_nac.date' => 'La fecha de nacimiento debe ser una fecha válida',
+            'email.email' => 'El email debe ser una dirección de correo electrónico válida',
+            'email.max' => 'El email debe tener un máximo de 100 caracteres',
+            'email.min' => 'El email debe tener un mínimo de 10 caracteres',
+            'email.format' => 'El formato del email no es correcto',
+            'telefono.required' => 'El teléfono es obligatorio',
+            'telefono.max' => 'El teléfono debe tener un máximo de 15 números',
+            'telefono.min' => 'El teléfono debe tener un mínimo de 8 números',
+            'telefono.regex' => 'El teléfono debe ser un número válido de teléfono',
+            'telefono.format' => 'El formato del teléfono no es correcto, se esperan al menos 8 números',
         ]);
         $preinscripto = Preinscripto::create(
             [
@@ -91,9 +99,9 @@ class PreinscriptoController extends Controller
             }
 
             $request->session()->put('cuilCheck', true);
-            return response()->json(['mensaje' => 'Cuil encontrado. <br/> Usted será redirigido al formulario de inscripción.', 'encontrado' => true]);
+            return response()->json(['mensaje' => 'CUIL encontrado. <br/> Usted será redirigido al formulario de inscripción.', 'encontrado' => true]);
         } else {
-            return response()->json(['mensaje' => 'Cuil no encontrado', 'encontrado' => false]);
+            return response()->json(['mensaje' => 'CUIL no encontrado', 'encontrado' => false]);
         }
     }
 
@@ -107,5 +115,27 @@ class PreinscriptoController extends Controller
         $preinscripto = Session::get('preinscripto');
         $pdf = Pdf::loadView('comprobantes.comprobante-preinscripto', compact('preinscripto'));
         return $pdf->download('comprobante-preinscripcion.pdf');
+    }
+
+    public function delete($id)
+    {
+        $dato=Preinscripto::find($id);
+        if(!$dato)
+        {
+            return response()->json(['message'=>'No se encontro'], 404);
+        }
+        $dato->delete();
+        return response()->json(['message'=>'Borrado'], 200);
+    }
+
+    public function restore($id)
+    {
+        $dato=Preinscripto::onlyTrashed()->find($id);
+        if(!$dato)
+        {
+            return response()->json(['message'=>'No se encontro'], 404);
+        }
+        $dato->restore();
+        return response()->json(['message'=>'Restaurado'], 200);
     }
 }
