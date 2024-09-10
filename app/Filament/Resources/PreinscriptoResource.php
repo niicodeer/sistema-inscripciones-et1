@@ -23,9 +23,7 @@ class PreinscriptoResource extends Resource
 {
     protected static ?string $model = Preinscripto::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
-
-    protected static ?string $activeNavigationIcon = 'heroicon-o-user-plus';
+    protected static ?string $navigationIcon = 'heroicon-o-user-plus';
 
     protected static ?int $navigationSort = 1;
 

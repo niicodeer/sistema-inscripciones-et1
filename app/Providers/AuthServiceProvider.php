@@ -4,12 +4,14 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 
+use App\Models\Ajustes;
 use App\Models\Curso;
 use App\Models\Estudiante;
 use App\Models\Inscripcion;
 use App\Models\Preinscripto;
 use App\Models\Tutor;
 use App\Models\User;
+use App\Policies\AjustesPolicy;
 use App\Policies\CursoPolicy;
 use App\Policies\EstudiantePolicy;
 use App\Policies\InscripcionPolicy;
@@ -32,6 +34,7 @@ class AuthServiceProvider extends ServiceProvider
         Inscripcion::class => InscripcionPolicy::class,
         Tutor::class => TutorPolicy::class,
         Curso::class => CursoPolicy::class,
+        Ajustes::class => AjustesPolicy::class,
     ];
 
     /**

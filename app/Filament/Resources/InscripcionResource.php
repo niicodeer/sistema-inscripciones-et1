@@ -35,9 +35,7 @@ class InscripcionResource extends Resource
 
     protected static ?string $slug = 'Inscripciones';
 
-    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
-
-    protected static ?string $activeNavigationIcon = 'heroicon-o-document-check';
+    protected static ?string $navigationIcon = 'heroicon-o-document-check';
 
     protected static ?int $navigationSort = 2;
 
