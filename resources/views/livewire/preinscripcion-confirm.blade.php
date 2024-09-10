@@ -26,7 +26,7 @@
         </a>
     <div class="flex gap-2 flex-col items-center">
         <a href="{{ route('generarPdfPreinscripto') }}" target="_blank"
-            class="btn bg-primary-color text-text-title">Descargar Comprobante</a>
+            class="btn bg-primary-color border border-solid border-gray-500 shadow-lg text-text-title">Descargar Comprobante</a>
         <x-secondary-button text="Finalizar" href="{{ route('finalizar') }}" />
     </div>
 </div>

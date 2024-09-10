@@ -21,15 +21,13 @@ use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-
+use Illuminate\Support\Facades\Auth;
 
 class EstudianteResource extends Resource
 {
     protected static ?string $model = Estudiante::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
-
-    protected static ?string $activeNavigationIcon = 'heroicon-o-user-group';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     protected static ?int $navigationSort = 3;
 
@@ -131,19 +129,31 @@ class EstudianteResource extends Resource
                         '0' => 'No es alumno',
                         '1' => 'Es alumno',
                     ]),
+                    Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\ForceDeleteAction::make(),
-                Tables\Actions\RestoreAction::make(),
+                Tables\Actions\DeleteAction::make()->after(function ($record) {
+                    $record->deleted_by=Auth::id();
+                    $record->save();
+                }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()->after(function ($action, $records) {
+                        foreach ($records as $record) {
+                            $record->deleted_by = Auth::id();
+                            $record->save();
+                        }
+                    }),
                     Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make()->after(function ($action, $records) {
+                        foreach ($records as $record) {
+                            $record->deleted_by = null;
+                            $record->save();
+                        }
+                    }),
                 ])
             ]);
     }

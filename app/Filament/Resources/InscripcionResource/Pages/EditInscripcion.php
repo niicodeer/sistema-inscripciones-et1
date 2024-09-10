@@ -5,16 +5,14 @@ namespace App\Filament\Resources\InscripcionResource\Pages;
 use App\Filament\Resources\InscripcionResource;
 use App\Models\Curso;
 use App\Models\Estudiante;
-use App\Models\Inscripcion;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Request;
 
 class EditInscripcion extends EditRecord
 {
     protected static string $resource = InscripcionResource::class;
+    protected bool $succesful = false;
 
 
     protected function getHeaderActions(): array
@@ -25,6 +23,7 @@ class EditInscripcion extends EditRecord
     }
     protected function beforeSave(): void
     {
+
         $cursoNuevo = Curso::find($this->data['curso_id']);
         $cursoAnterior = Curso::find($this->record['curso_id']);
         $estudiante = Estudiante::find($this->data['estudiante_id']);
@@ -48,6 +47,7 @@ class EditInscripcion extends EditRecord
                 $estudiante->save();
                 $cursoNuevo->save();
                 $cursoAnterior->save();
+                $this->succesful = true;
             } else {
                 $this->data['estado_inscripcion'] = "pendiente";
                 $errorMessage = 'No hay cupos disponibles para el curso seleccionado! Revisa el límite de alumnos por curso';

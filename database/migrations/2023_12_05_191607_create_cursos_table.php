@@ -19,6 +19,8 @@ return new class extends Migration
             $table->integer('cantidad_alumnos');
             $table->integer('cantidad_maxima');
             $table->timestamps();
+            $table->softDeletes();
+            $table->integer('deleted_by')->nullable();
         });
     }
 

@@ -21,9 +21,7 @@ class CursoResource extends Resource
 {
     protected static ?string $model = Curso::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
-
-    protected static ?string $activeNavigationIcon = 'heroicon-o-book-open';
+    protected static ?string $navigationIcon = 'heroicon-o-book-open';
 
     protected static ?int $navigationSort = 4;
 
@@ -121,13 +119,30 @@ class CursoResource extends Resource
                         '5' => '5',
                         '6' => '6'
                     ]),
+                    Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()->after(function ($record) {
+                    $record->deleted_by=Auth::id();
+                    $record->save();
+                }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()->after(function ($action, $records) {
+                        foreach ($records as $record) {
+                            $record->deleted_by = Auth::id();
+                            $record->save();
+                        }
+                    }),
+                    Tables\Actions\RestoreBulkAction::make()->after(function ($action, $records) {
+                        foreach ($records as $record) {
+                            $record->deleted_by = null;
+                            $record->save();
+                        }
+                    }),
+                    Tables\Actions\ForceDeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -147,4 +162,12 @@ class CursoResource extends Resource
             'edit' => Pages\EditCurso::route('/{record}/edit'),
         ];
     }
+
+    public static function getEloquentQuery(): Builder
+{
+    return parent::getEloquentQuery()
+        ->withoutGlobalScopes([
+            SoftDeletingScope::class,
+        ]);
+}
 }
