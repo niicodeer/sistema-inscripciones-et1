@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Estudiante;
 use App\Models\Preinscripto;
-use App\Models\Inscripcion;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class PreinscriptoController extends Controller
 {
@@ -20,11 +21,12 @@ class PreinscriptoController extends Controller
 
     public function store(Request $req)
     {
+
         $req->validate([
             'nombre' => 'required|min:3|max:20|string',
             'apellido' => 'required|min:3|max:20|string',
             'cuil' => 'required|unique:preinscriptos,cuil|min:11|max:11|regex:/^[0-9]{11}$/',
-            'email' => 'email|max:100|min:10',
+            'email' => 'nullable|email|max:100|min:10',
             'telefono' => 'required|min:8|max:15|regex:/^[0-9\s\-]+$/',
             'genero' => 'required|in:Femenino,Masculino,Otro|min:3|max:10',
             'fecha_nac' => [
@@ -41,11 +43,11 @@ class PreinscriptoController extends Controller
             ]
         ],  [
             'cuil.required' => 'El CUIL es obligatorio',
-            'cuil.unique' =>'El CUIL ya existe',
-            'cuil.min'=>'El CUIL debe tener 11 caracteres',
-            'cuil.max'=>'El CUIL debe tener 11 caracteres',
-            'cuil.regex'=>'El CUIL debe ser un número de CUIL válido',
-            'cuil.format'=>'El formato del CUIL no es correcto, se esperan 11 numeros',
+            'cuil.unique' => 'El CUIL ya existe',
+            'cuil.min' => 'El CUIL debe tener 11 caracteres',
+            'cuil.max' => 'El CUIL debe tener 11 caracteres',
+            'cuil.regex' => 'El CUIL debe ser un número de CUIL válido',
+            'cuil.format' => 'El formato del CUIL no es correcto, se esperan 11 numeros',
             'nombre.required' => 'El nombre es obligatorio',
             'nombre.min' => 'El nombre debe tener un mínimo de 3 caracteres',
             'nombre.max' => 'El nombre debe tener un máximo de 20 caracteres',
@@ -66,21 +68,29 @@ class PreinscriptoController extends Controller
             'telefono.regex' => 'El teléfono debe ser un número válido de teléfono',
             'telefono.format' => 'El formato del teléfono no es correcto, se esperan al menos 8 números',
         ]);
-        $preinscripto = Preinscripto::create(
-            [
-                'cuil' => $req->input('cuil'),
-                'nombre' => $req->input('nombre'),
-                'apellido' => $req->input('apellido'),
-                'email' => $req->input('email'),
-                'telefono' => $req->input('telefono'),
-                'genero' => $req->input('genero'),
-                'fecha_nac' => $req->input('fecha_nac'),
-                'comprobante_preinscripcion' => $this->generarCodigoComprobante($req->input('cuil'),$req->input('fecha_nac')),
-            ]
-        );
-        $req->session()->put('preinscripto', $preinscripto->toArray());
-        $req->session()->put('preinscripcion_submitted', true);
-        return redirect()->route('confirmacion-preinscripcion');
+        try {
+            $preinscripto = Preinscripto::create(
+                [
+                    'cuil' => $req->input('cuil'),
+                    'nombre' => $req->input('nombre'),
+                    'apellido' => $req->input('apellido'),
+                    'email' => $req->input('email'),
+                    'telefono' => $req->input('telefono'),
+                    'genero' => $req->input('genero'),
+                    'fecha_nac' => $req->input('fecha_nac'),
+                    'comprobante_preinscripcion' => $this->generarCodigoComprobante($req->input('cuil'), $req->input('fecha_nac')),
+                ]
+            );
+            $req->session()->put('preinscripto', $preinscripto->toArray());
+            $req->session()->put('preinscripcion_submitted', true);
+            session()->flash('success', 'Preinscripción registrada correctamente.');
+
+            return redirect()->route('confirmacion-preinscripcion');
+        } catch (Exception $e) {
+            Log::error('Error en la preinscripción: ' . $e->getMessage());
+            session()->flash('error', 'Ocurrió un error al registrar la preinscripción.');
+            return redirect()->back()->withInput();
+        }
     }
 
     public function verificarCUIL(Request $request)
@@ -105,7 +115,8 @@ class PreinscriptoController extends Controller
         }
     }
 
-    public function generarCodigoComprobante($cuil, $fecha_insc){
+    public function generarCodigoComprobante($cuil, $fecha_insc)
+    {
         $codigoComprobante = $cuil . $fecha_insc;
         return $codigoComprobante;
     }
@@ -119,23 +130,21 @@ class PreinscriptoController extends Controller
 
     public function delete($id)
     {
-        $dato=Preinscripto::find($id);
-        if(!$dato)
-        {
-            return response()->json(['message'=>'No se encontro'], 404);
+        $dato = Preinscripto::find($id);
+        if (!$dato) {
+            return response()->json(['message' => 'No se encontro'], 404);
         }
         $dato->delete();
-        return response()->json(['message'=>'Borrado'], 200);
+        return response()->json(['message' => 'Borrado'], 200);
     }
 
     public function restore($id)
     {
-        $dato=Preinscripto::onlyTrashed()->find($id);
-        if(!$dato)
-        {
-            return response()->json(['message'=>'No se encontro'], 404);
+        $dato = Preinscripto::onlyTrashed()->find($id);
+        if (!$dato) {
+            return response()->json(['message' => 'No se encontro'], 404);
         }
         $dato->restore();
-        return response()->json(['message'=>'Restaurado'], 200);
+        return response()->json(['message' => 'Restaurado'], 200);
     }
 }
