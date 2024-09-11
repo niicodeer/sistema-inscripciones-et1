@@ -1,8 +1,11 @@
+@section('html-style')
+    style="height:100%;"
+@endsection
 @section('title', 'Verificar Cuil')
-<div class="px-2 w-[60%] mx-auto">
+<div class="px-2 w-[80%] mx-auto max-w-[500px]">
     <div>
         <h1 class="text-2xl xl:text-3xl font-bold text-center mb-6 md:mb-14">Inscripciones {{ date('Y') + 1 }}</h1>
-        <p class="text-base text-center text-[#202020]">Ingrese su número de CUIL para comprobar si se encuentra
+        <p class="text-base text-center md:text-left text-[#202020]">Ingrese su número de CUIL para comprobar si se encuentra
             pre-inscripto o es alumno de la institución</p>
     </div>
     <form class="flex flex-col gap-y-14 mt-6 items-center w-full" action="{{ route('verificar-cuil') }}" method="POST">

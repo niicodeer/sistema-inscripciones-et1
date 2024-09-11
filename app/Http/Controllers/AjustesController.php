@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ajustes;
 use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -14,8 +15,8 @@ class AjustesController extends Controller
     {
         $preinscripcionHabilitada = false;
         $inscripcionHabilitada = false;
-        $diasRestantesPreinscripcion = null;
-        $diasRestantesInscripcion = null;
+        $diferenciaDiasPreinscripcion = null;
+        $diferenciaDiasInscripcion = null;
         try {
             $ajustes = Ajustes::find(1);
             if (!$ajustes) {
@@ -38,22 +39,32 @@ class AjustesController extends Controller
              ** Muestro o no los botones einfo en la pantalla principal,
              ** o muestro los botones y dentro de cada página me dice si estan o no habilitadas las inscripciones y pre..
              **/
-            if ($ajustes->habilitar_preinscripcion && $now->between($inicioPreinscripcion, $finPreinscripcion)) {
+            if ($ajustes->habilitar_preinscripcion) {
+                if ($now->between($inicioPreinscripcion, $finPreinscripcion)) {
+                    $preinscripcionHabilitada = true;
+                } elseif ($now < $inicioPreinscripcion) {
+                    $diferenciaDiasPreinscripcion = $now->locale('es')->diffForHumans($inicioPreinscripcion, CarbonInterface::DIFF_ABSOLUTE, false);
+                } else {
+                    $diferenciaDiasPreinscripcion = -$now->locale('es')->diffForHumans($finPreinscripcion, CarbonInterface::DIFF_ABSOLUTE, false);
+                }
                 $preinscripcionHabilitada = true;
-            } else {
-                $diasRestantesPreinscripcion = $now->diffInDays($inicioPreinscripcion);
             }
 
-            if ($ajustes->habilitar_inscripcion && $now->between($inicioInscripcion, $finInscripcion)) {
+            if ($ajustes->habilitar_inscripcion) {
+                if ($now->between($inicioInscripcion, $finInscripcion)) {
+                    $inscripcionHabilitada = true;
+                } elseif ($now < $inicioInscripcion) {
+                    $diferenciaDiasInscripcion = $now->locale('es')->diffForHumans($inicioInscripcion, CarbonInterface::DIFF_ABSOLUTE, false);
+                } else {
+                    $diferenciaDiasInscripcion = -$now->locale('es')->diffForHumans($finInscripcion, CarbonInterface::DIFF_ABSOLUTE, false);
+                }
                 $inscripcionHabilitada = true;
-            } else {
-                $diasRestantesInscripcion = $now->diffInDays($inicioInscripcion, false);
             }
 
-            return view('inicio', compact('preinscripcionHabilitada', 'inscripcionHabilitada', 'diasRestantesPreinscripcion', 'diasRestantesInscripcion'));
+            return view('inicio', compact('preinscripcionHabilitada', 'inscripcionHabilitada', 'diferenciaDiasPreinscripcion', 'diferenciaDiasInscripcion'));
         } catch (Exception $e) {
             Log::error('Error al procesar los ajustes: ' . $e->getMessage());
-            return view('inicio', ['preinscripcionHabilitada'=> false, 'inscripcionHabilitada'=> false ]);
+            return view('inicio', ['preinscripcionHabilitada' => false, 'inscripcionHabilitada' => false]);
         }
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" style="height: 100%;">
 
 <head>
     <meta charset="utf-8">
@@ -17,13 +17,12 @@
 
 <body class="bg-gradient">
     <div class="inner-container">
-        <h1 class="title ">ESCUELA TÉCNICA Nº 1</h1>
+        <h1 class="title ">ESCUELA TÉCNICA <br>Nº 1</h1>
         <div class="links-container">
             @if ($preinscripcionHabilitada)
-            {{ $diasRestantesPreinscripcion }}
-                @if ($diasRestantesPreinscripcion > 0)
-                    <p>Faltan {{ $diasRestantesPreinscripcion }} días para la preinscripción.</p>
-                @elseif($diasRestantesPreinscripcion < 0)
+                @if ($diferenciaDiasPreinscripcion > 0)
+                    <p>Faltan {{ $diferenciaDiasPreinscripcion }} para que comiencen las preinscripciones.</p>
+                @elseif($diferenciaDiasPreinscripcion < 0)
                     <p>La preinscripción de alumnos ha finalizado.</p>
                 @else
                     <a href="{{ route('preinscripcion') }}" class="link">Preinscripción {{ date('Y') + 1 }}</a>
@@ -33,9 +32,9 @@
             @endif
             <hr/>
             @if ($inscripcionHabilitada)
-                @if ($diasRestantesInscripcion > 0)
-                    <p>Faltan {{ $diasRestantesInscripcion }} días para la inscripción.</p>
-                @elseif ($diasRestantesInscripcion < 0)
+                @if ($diferenciaDiasInscripcion > 0)
+                    <p>Faltan {{ $diferenciaDiasInscripcion }} para que comiencen las inscripciones.</p>
+                @elseif ($diferenciaDiasInscripcion < 0)
                     <p>La inscripción de alumnos ha finalizado.</p>
                 @else
                     <a href="{{ route('verificar-cuil') }}" class="link">Inscripción {{ date('Y') + 1 }}</a>
