@@ -54,7 +54,7 @@ class TutorPolicy
      */
     public function restore(User $user, Tutor $tutor): bool
     {
-        //
+        return $user->hasPermissionTo('restaurar tutor');
     }
 
     /**
@@ -62,6 +62,6 @@ class TutorPolicy
      */
     public function forceDelete(User $user, Tutor $tutor): bool
     {
-        //
+        return $user->hasPermissionTo('forzar borrado tutor');
     }
 }

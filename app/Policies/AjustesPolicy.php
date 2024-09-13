@@ -53,7 +53,7 @@ class AjustesPolicy
      */
     public function restore(User $user, Ajustes $ajustes): bool
     {
-        //
+        return $user->hasPermissionTo('restaurar ajustes');
     }
 
     /**
@@ -61,6 +61,6 @@ class AjustesPolicy
      */
     public function forceDelete(User $user, Ajustes $ajustes): bool
     {
-        //
+        return $user->hasPermissionTo('forzar borrado ajustes');
     }
 }

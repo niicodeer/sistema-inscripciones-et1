@@ -35,9 +35,9 @@
                 @if ($diferenciaDiasInscripcion > 0)
                     <p>Faltan {{ $diferenciaDiasInscripcion }} para que comiencen las inscripciones.</p>
                 @elseif ($diferenciaDiasInscripcion < 0)
-                    <p>La inscripción de alumnos ha finalizado.</p>
+                <p>La inscripción de alumnos ha finalizado.</p>
                 @else
-                    <a href="{{ route('verificar-cuil') }}" class="link">Inscripción {{ date('Y') + 1 }}</a>
+                <a href="{{ route('verificar-cuil') }}" class="link">Inscripción {{ date('Y') + 1 }}</a>
                 @endif
             @else
                 <p>Las inscripciones no se encuentran habilitadas de momento.</p>

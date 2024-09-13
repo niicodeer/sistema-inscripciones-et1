@@ -53,7 +53,8 @@ class InscripcionPolicy
      */
     public function restore(User $user, Inscripcion $inscripcion): bool
     {
-        //
+        return $user->hasPermissionTo('restaurar inscripcion');
+
     }
 
     /**
@@ -61,6 +62,7 @@ class InscripcionPolicy
      */
     public function forceDelete(User $user, Inscripcion $inscripcion): bool
     {
-        //
+        return $user->hasPermissionTo('forzar borrado inscripcion');
+
     }
 }

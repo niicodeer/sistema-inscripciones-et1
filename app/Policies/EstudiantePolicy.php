@@ -53,7 +53,8 @@ class EstudiantePolicy
      */
     public function restore(User $user, Estudiante $estudiante): bool
     {
-        //
+        return $user->hasPermissionTo('restaurar estudiante');
+
     }
 
     /**
@@ -61,6 +62,6 @@ class EstudiantePolicy
      */
     public function forceDelete(User $user, Estudiante $estudiante): bool
     {
-        //
+        return $user->hasPermissionTo('forzar borrado estudiante');
     }
 }
