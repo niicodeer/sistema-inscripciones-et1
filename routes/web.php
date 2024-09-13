@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Session;
 
 Route::get('/', [AjustesController::class, 'index'])->name('inicio');
 
-Route::get('/preinscripcion', PreinscripcionForm::class)->name('preinscripcion');
+Route::get('/preinscripcion', PreinscripcionForm::class)->name('preinscripcion')->middleware('check.horario');
 Route::post('/preinscripcion', [PreinscriptoController::class, 'store'])->name('preinscripcion');
 Route::get('/inscripcion', MultiStepForm::class)->name('inscripcion')->middleware('verificarCuil');
 //Route::post('/inscripcion', [InscripcionController::class, 'store'])->name('inscripcion');// esta ruta no anda

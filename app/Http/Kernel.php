@@ -70,5 +70,6 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'checkPreinscripcion' => \App\Http\Middleware\CheckPreinscripcion::class,
         'verificarCuil' => \App\Http\Middleware\VerificarCuil::class,
+        'check.horario' => \App\Http\Middleware\CheckHorarioHabilitado::class,
     ];
 }
