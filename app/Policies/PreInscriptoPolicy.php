@@ -55,7 +55,7 @@ class PreInscriptoPolicy
      */
     public function restore(User $user, PreInscripto $preInscripto): bool
     {
-        //
+        return $user->hasPermissionTo('restaurar preinscripto');
     }
 
     /**
@@ -63,6 +63,6 @@ class PreInscriptoPolicy
      */
     public function forceDelete(User $user, PreInscripto $preInscripto): bool
     {
-        //
+        return $user->hasPermissionTo('forzar borrado preinscripto');
     }
 }

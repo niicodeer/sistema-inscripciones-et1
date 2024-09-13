@@ -33,11 +33,13 @@ class UserPolicy
 
     public function restore(User $user, User $usuario): bool
     {
-        return false;
+        return $user->hasPermissionTo('restaurar usuario');
+
     }
 
     public function forceDelete(User $user, User $usuario): bool
     {
-        return false;
+        return $user->hasPermissionTo('forzar borrado usuario');
+
     }
 }

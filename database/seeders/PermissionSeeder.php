@@ -16,14 +16,13 @@ class PermissionSeeder extends Seeder
         // create permissions
 
         $arrayOfPermissionNames = [
-            'crear estudiante', 'ver estudiante', 'editar estudiante', 'borrar estudiante',
-            'crear preinscripto', 'ver preinscripto', 'editar preinscripto', 'borrar preinscripto',
-            'crear inscripcion', 'ver inscripcion', 'editar inscripcion', 'borrar inscripcion',
-            'crear tutor', 'ver tutor', 'editar tutor', 'borrar tutor',
-            'crear curso', 'ver curso', 'editar curso', 'borrar curso',
-            'crear usuario', 'ver usuario', 'editar usuario', 'borrar usuario',
-            'crear ajustes', 'ver ajustes', 'editar ajustes', 'borrar ajustes',
-
+            'crear estudiante', 'ver estudiante', 'editar estudiante', 'borrar estudiante', 'forzar borrado estudiante', 'restaurar estudiante',
+            'crear preinscripto', 'ver preinscripto', 'editar preinscripto', 'borrar preinscripto', 'forzar borrado preinscripto', 'restaurar preinscripto',
+            'crear inscripcion', 'ver inscripcion', 'editar inscripcion', 'borrar inscripcion', 'forzar borrado inscripcion', 'restaurar inscripcion',
+            'crear tutor', 'ver tutor', 'editar tutor', 'borrar tutor', 'forzar borrado tutor', 'restaurar tutor',
+            'crear curso', 'ver curso', 'editar curso', 'borrar curso', 'forzar borrado curso', 'restaurar curso',
+            'crear usuario', 'ver usuario', 'editar usuario', 'borrar usuario', 'forzar borrado usuario', 'restaurar usuario',
+            'crear ajustes', 'ver ajustes', 'editar ajustes', 'borrar ajustes', 'forzar borrado ajustes', 'restaurar ajustes',
         ];
     $permissions = collect($arrayOfPermissionNames)->map(function ($permission) {
         return ['name' => $permission, 'guard_name' => 'web'];

@@ -55,7 +55,8 @@ class CursoPolicy
      */
     public function restore(User $user, Curso $curso): bool
     {
-        //
+        return $user->hasPermissionTo('restaurar curso');
+
     }
 
     /**
@@ -63,6 +64,6 @@ class CursoPolicy
      */
     public function forceDelete(User $user, Curso $curso): bool
     {
-        //
+        return $user->hasPermissionTo('forzar borrado curso');
     }
 }
