@@ -44,7 +44,7 @@
             @endif
         </div>
     </div>
-    <footer class="text-center">
+    <footer>
         <p>Desarrollado por Alumnos del Instituto Tecnológico Santiago del Estero - 2024</p>
     </footer>
 </body>
