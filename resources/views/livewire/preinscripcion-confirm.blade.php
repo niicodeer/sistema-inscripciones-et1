@@ -1,8 +1,11 @@
+@section('html-style')
+    style="height:100%;"
+@endsection
 @section('title', 'Preinscripción correcta')
 <div class="flex flex-col gap-8 justify-center items-center w-full max-w-96">
 
-    <h1 class="text-xl md:text-2xl font-bold text-center">¡Registramos tú pre-inscripción!</h1>
-    <p class="text-center">¡Gracias por pre-inscribirte!, Proximamente te esteremos avisando las fechas de
+    <h1 class="text-xl md:text-2xl font-bold text-center">¡Registramos tu pre-inscripción!</h1>
+    <p class="text-center">¡Gracias por pre-inscribirte! Próximamente te estaremos avisando las fechas de
         inscripción. ¡Estate
         atento a tu correo y a nuestro perfil de Facebook!</p>
 
@@ -24,7 +27,7 @@
             </svg>
             Escuela Técnica Nº 1
         </a>
-    <div class="flex gap-2 flex-col items-center">
+    <div class="flex gap-2 flex-col items-center mt-10">
         <a href="{{ route('generarPdfPreinscripto') }}" target="_blank"
             class="btn bg-primary-color border border-solid border-gray-500 shadow-lg text-text-title">Descargar Comprobante</a>
         <x-secondary-button text="Finalizar" href="{{ route('finalizar') }}" />
