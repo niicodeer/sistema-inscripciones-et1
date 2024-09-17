@@ -71,5 +71,6 @@ class Kernel extends HttpKernel
         'checkPreinscripcion' => \App\Http\Middleware\CheckPreinscripcion::class,
         'verificarCuil' => \App\Http\Middleware\VerificarCuil::class,
         'checkHorario' => \App\Http\Middleware\CheckHorarioHabilitado::class,
+        'checkInscripcion' => \App\Http\Middleware\InscripcionConfirmCheck::class,
     ];
 }

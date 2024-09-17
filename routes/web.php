@@ -20,7 +20,7 @@ Route::post('/preinscripcion', [PreinscriptoController::class, 'store'])->name('
 Route::get('/inscripcion', MultiStepForm::class)->name('inscripcion')->middleware('verificarCuil');
 //Route::post('/inscripcion', [InscripcionController::class, 'store'])->name('inscripcion');// esta ruta no anda
 Route::get('/preinscripcion-correcta', PreinscripcionConfirm::class)->name('confirmacion-preinscripcion')->middleware('checkPreinscripcion');
-Route::get('/inscripcion-correcta', InscripcionConfirm::class)->name('confirmacion-inscripcion');//*->middleware('InscripcionConfirmCheck');
+Route::get('/inscripcion-correcta', InscripcionConfirm::class)->name('confirmacion-inscripcion')->middleware('checkInscripcion');
 Route::get('/verificar-cuil', VerificarCuilForm::class)->name('verificar-cuil')->middleware('checkHorario:inscripcion');
 Route::post('/verificar-cuil', [PreinscriptoController::class, 'verificarCUIL'])->name('verificar-cuil');
 Route::get('/convivenciaPDF', [InscripcionController::class, 'convivenciaPdf'])->name('convivencia.pdf');

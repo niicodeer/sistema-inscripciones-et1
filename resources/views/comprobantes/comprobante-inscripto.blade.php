@@ -39,7 +39,7 @@
     <table class="header-table">
         <tr>
             <td class="td"><strong>Código inscripción:</strong></td>
-            <td class="td">{{ $data['cuil'] . date('YmdHis') }}</td>
+            <td class="td">{{ $inscripcion['comprobante_inscripcion'] }}</td>
         </tr>
         <tr>
             <td class="td"><strong>Nombre:</strong></td>

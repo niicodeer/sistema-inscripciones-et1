@@ -42,6 +42,6 @@ class CheckHorarioHabilitado
             }
         }
 
-        return redirect()->back()->with('error', 'El proceso ha finalizado o ya no se encuentra habilitado.');
+        return redirect()->route('inicio')->with('error', 'El proceso ha finalizado o ya no se encuentra habilitado.');
     }
 }

@@ -32,8 +32,8 @@
     <form method="POST" class="flex flex-col gap-y-14 mt-6 items-center" wire:submit="submit">
         @csrf
         @if ($currentStep === 1)
-            <div>
                 <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full">
+                    <x-input type="text" id="cuil" label="Cuil" name="cuil" wire:model="cuil" disabled />
                     <x-input type="text" id="nombre" label="Nombre" placeholder="Nombre" wire:model="nombre"
                         require value="{{ old('nombre') }}" />
                     <x-input type="text" id="apellido" label="Apellido" placeholder="Apellido" wire:model="apellido"
@@ -46,12 +46,9 @@
                         wire:model="email" require value="{{ old('email') }}" />
                     <x-input type="text" id="telefono" label="Teléfono" placeholder="Introduce un telefono"
                         wire:model="telefono" require value="{{ old('telefono') }}" />
-                    <x-input type="text" id="cuil" label="Cuil" name="cuil" wire:model="cuil" disabled />
                 </div>
-            </div>
         @endif
         @if ($currentStep === 2)
-            <div>
                 <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full">
                     <x-input type="text" id="calle" label="Calle" placeholder="Calle" wire:model="calle" require
                         value="{{ old('calle') }}" />
@@ -114,10 +111,8 @@
                         @enderror
                     </div>
                 </div>
-            </div>
         @endif
         @if ($currentStep === 3)
-            <div>
                 <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full">
                     <x-input type="text" id="nombre_tutor" label="Nombre" placeholder="Nombre"
                         wire:model="nombreTutor" require value="{{ old('nombre_tutor') }}" />
@@ -152,10 +147,8 @@
                         @enderror
                     </div>
                 </div>
-            </div>
         @endif
         @if ($currentStep === 4)
-            <div>
                 <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full">
                     <x-select id="curso" label="Seleccione curso" :options="json_encode([
                         'Primer año',
@@ -225,10 +218,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
         @endif
         @if ($currentStep === 5)
-            <div x-data="{ open: false }">
+            <div>
                 <p class="text-[#2D3648] font-semibold text-base mb-4">Indique si cumple o no con algunas de las
                     siguientes opciones:</p>
                 <div class="w-full flex flex-col gap-y-2">

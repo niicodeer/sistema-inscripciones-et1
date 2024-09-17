@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Exception;
 
 use function Laravel\Prompts\alert;
 
@@ -212,19 +213,16 @@ class MultiStepForm extends Component
                     'reconocimientos' => json_encode($this->reconocimientos),
                     'comprobante_inscripcion' => $this->generarCodigoComprobante($this->cuil, $this->fecha_nac),
                 ]);
-                DB::commit();
+                Session::put('data-inscripcion', $inscripcion->only($inscripcion->getFillable()));
 
-                return redirect()->route('confirmacion-inscripcion');
+                DB::commit();
+                return redirect()->route('confirmacion-inscripcion')->with('success', 'Se registró tu inscripción correctamente');
             } catch (QueryException $e) {
                 DB::rollBack();
-                abort(500, 'Error en la base de datos: ' . $e->getMessage());
-            } catch (\Exception $e) {
+                return redirect()->route('inscripcion')->with('error', 'Ocurrió un error al registrar la inscripción. Vuelve a intentarlo o intenta mas tarde');
+            } catch (Exception $e) {
                 DB::rollBack();
-                abort(500, 'Error al guadar de datos: ' . $e->getMessage());
-            } finally {
-                if ($inscripcion) { // Verifica que $inscripcion no sea null
-                    Session::put('data-inscripcion', $inscripcion->toArray());
-                }
+                return redirect()->route('inscripcion')->with('error', 'Ocurrió un error al registrar la inscripción. Vuelve a intentarlo o intenta mas tarde');
             }
         }
 
@@ -279,21 +277,18 @@ class MultiStepForm extends Component
                     'nombre_materias' => $this->nombreMaterias,
                     'reconocimientos' => json_encode($this->reconocimientos),
                     'estudiante_id' => $estudiante->id,
-                    'comprobante_inscripcion' => $this->generarCodigoComprobante($this->cuil, $this->fecha_nac),
+                    'comprobante_inscripcion' => $this->generarCodigoComprobante($this->cuil),
                 ]);
+                Session::put('data-inscripcion', $inscripcion->only($inscripcion->getFillable()));
                 DB::commit();
 
-                return redirect()->route('confirmacion-inscripcion');
+                return redirect()->route('confirmacion-inscripcion')->with('success', 'Se registró tu inscripción correctamente');
             } catch (QueryException $e) {
                 DB::rollBack();
-                abort(500, 'Error en la base de datos: ' . $e->getMessage());
+                return redirect()->route('inscripcion')->with('error', 'Ocurrió un error al registrar la inscripción. Vuelve a intentarlo o intenta mas tarde')->withInput();
             } catch (\Exception $e) {
                 DB::rollBack();
-                abort(500, 'Error al guadar de datos: ' . $e->getMessage());
-            } finally {
-                if ($preinscripto) { // Verifica que $preinscripto no sea null
-                    Session::put('data-inscripcion', $preinscripto->toArray());
-                }
+                return redirect()->route('inscripcion')->with('error', 'Ocurrió un error al registrar la inscripción. Vuelve a intentarlo o intenta mas tarde')->withInput();
             }
         }
 
@@ -421,10 +416,10 @@ class MultiStepForm extends Component
         }
     }
 
-    public function generarCodigoComprobante($cuil, $fecha_insc)
+    public function generarCodigoComprobante($cuil)
     {
-        $codigoComprobante = $cuil . $fecha_insc;
-        return $codigoComprobante;
+        $now = Carbon::now()->timestamp;
+        return $cuil . $now;
     }
 
     public function generarPdf()

@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class inscripcionConfirmCheck
+class InscripcionConfirmCheck
 {
     /**
      * Handle an incoming request.
@@ -19,6 +19,6 @@ class inscripcionConfirmCheck
                 return $next($request);
             }
         session()->forget('data-inscripcion');
-        return redirect('/inscripcion');
+        return redirect('/verificar-cuil');
     }
 }
