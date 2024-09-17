@@ -14,6 +14,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -32,32 +33,32 @@ class PreinscriptoResource extends Resource
         return $form
             ->schema([
                 TextInput::make('cuil')
-                ->required()
-                ->minLength(10)
-                ->maxLength(11),
+                    ->required()
+                    ->minLength(10)
+                    ->maxLength(11),
                 TextInput::make('nombre')
-                ->required()
-                ->minLength(3)
-                ->maxLength(25),
+                    ->required()
+                    ->minLength(3)
+                    ->maxLength(25),
                 TextInput::make('apellido')
-                ->required()
-                ->minLength(2)
-                ->maxLength(25),
+                    ->required()
+                    ->minLength(2)
+                    ->maxLength(25),
                 TextInput::make('email')
-                ->required(),
+                    ->required(),
                 DatePicker::make('fecha_nac')
-                ->format('d-M-y')
-                ->label("Fecha de nacimiento")
-                ->required(),
+                    ->format('d-M-y')
+                    ->label("Fecha de nacimiento")
+                    ->required(),
                 TextInput::make('telefono')
-                ->required(),
+                    ->required(),
                 Select::make('genero')
-                ->required()
-                ->options([
-                    'Femenino'=>'Femenino',
-                    'Masculino'=>'Masculino',
-                    'Otro'=>'Otro'
-                ]),
+                    ->required()
+                    ->options([
+                        'Femenino' => 'Femenino',
+                        'Masculino' => 'Masculino',
+                        'Otro' => 'Otro'
+                    ]),
             ]);
     }
 
@@ -66,37 +67,46 @@ class PreinscriptoResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('cuil')
-                ->searchable()->sortable(),
+                    ->searchable()->sortable(),
                 TextColumn::make('nombre')
-                ->searchable()->sortable(),
+                    ->searchable()->sortable(),
                 TextColumn::make('apellido')
-                ->searchable()->sortable(),
+                    ->searchable()->sortable(),
                 TextColumn::make('email')
-                ->searchable()->sortable(),
+                    ->searchable()->sortable(),
                 TextColumn::make('genero'),
                 TextColumn::make('telefono'),
                 TextColumn::make('fecha_nac')
-                ->dateTime('d-M-y')
-                ->label("Fecha de nacimiento")
+                    ->dateTime('d-M-y')
+                    ->label("Fecha de nacimiento")
+                    ->sortable(),
+                TextColumn::make('condicion_preinscripcion')
                 ->sortable(),
                 TextColumn::make('created_at')
-                ->label("Fecha de preinscripcion")
-                ->dateTime("d-M-y  H:m")
-                ->sortable(),
+                    ->label("Fecha de preinscripcion")
+                    ->dateTime("d-M-y  H:m")
+                    ->sortable(),
             ])
+            ->defaultSort('condicion_preinscripcion', 'asc')
             ->filters([
                 SelectFilter::make('genero')
-                ->options([
-                    'femenino' => 'Femenino',
-                    'masculino' => 'Masculino',
-                    'otro' => 'Otro'
-                ]),
+                    ->options([
+                        'femenino' => 'Femenino',
+                        'masculino' => 'Masculino',
+                        'otro' => 'Otro'
+                    ]),
+                SelectFilter::make('condicion_preinscripcion')
+                    ->options([
+                        'alumno familiar' => 'Alumno Familiar',
+                        'alumno general' => 'Alumno General',
+
+                    ]),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()->after(function ($record) {
-                    $record->deleted_by=Auth::id();
+                    $record->deleted_by = Auth::id();
                     $record->save();
                 }),
             ])
@@ -136,10 +146,10 @@ class PreinscriptoResource extends Resource
     }
 
     public static function getEloquentQuery(): Builder
-{
-    return parent::getEloquentQuery()
-        ->withoutGlobalScopes([
-            SoftDeletingScope::class,
-        ]);
-}
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
+    }
 }

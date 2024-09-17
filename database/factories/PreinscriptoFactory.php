@@ -24,6 +24,7 @@ class PreinscriptoFactory extends Factory
             'genero' => fake()->randomElement(['Femenino', 'Masculino', 'Otro']),
             'telefono' => fake()->unique()->numerify('#############'),
             'fecha_nac' => fake()->date(),
+            'condicion_preinscripcion' => fake()->randomElement(['alumno familiar', 'alumno general']),
         ];
     }
 }

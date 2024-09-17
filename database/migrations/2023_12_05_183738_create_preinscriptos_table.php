@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('telefono', 15);
             $table->string('genero', 10);
             $table->date('fecha_nac');
+            $table->string('condicion_preinscripcion')->nullable();
             $table->string('comprobante_preinscripcion')->unique()->nullable();
             $table->timestamps();
             $table->softDeletes();

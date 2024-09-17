@@ -18,8 +18,23 @@ class Preinscripto extends Model
         'genero',
         'cuil',
         'fecha_nac',
-        'comprobante_preinscripcion'
+        'comprobante_preinscripcion',
+        'condicion_preinscripcion'
     ];
 
-    
+    public function getNombreAttribute($value)
+    {
+        return ucwords(strtolower($value));
+    }
+
+    public function getApellidoAttribute($value)
+    {
+        return ucwords(strtolower($value));
+    }
+
+    public function getCondicionPreinscripcionAttribute($value)
+    {
+        return ucwords(strtolower($value));
+    }
+
 }
