@@ -17,29 +17,31 @@ class CheckHorarioHabilitado
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, $tipo)
     {
-        $ajustes = Ajustes::find(1);
-            if (!$ajustes) {
-                throw new Exception('No se encontraron los ajustes.');
-            }
-
-            $inicioPreinscripcion = $ajustes->inicio_fecha_preinscripcion . ' ' . $ajustes->inicio_hora_preinscripcion;
-            $finPreinscripcion = $ajustes->fin_fecha_preinscripcion . ' ' . $ajustes->fin_hora_preinscripcion;
-            $inicioInscripcion = $ajustes->inicio_fecha_inscripcion . ' ' . $ajustes->inicio_hora_inscripcion;
-            $finInscripcion = $ajustes->fin_fecha_inscripcion . ' ' . $ajustes->fin_hora_inscripcion;
-            $now = Carbon::now();
+        $ajustes = Ajustes::first();
+        if (!$ajustes) {
+            throw new Exception('No se encontraron los ajustes.');
+        }
 
         $horaActual = Carbon::now();
 
-        // Verificar si la hora actual está dentro del rango habilitado
-        if ($horaActual->between($inicioPreinscripcion, $finPreinscripcion)) {
-            // Si está dentro del rango, permitir continuar
-            return $next($request);
+        if ($tipo === 'preinscripcion') {
+            $inicioPreinscripcion = $ajustes->inicio_fecha_preinscripcion . ' ' . $ajustes->inicio_hora_preinscripcion;
+            $finPreinscripcion = $ajustes->fin_fecha_preinscripcion . ' ' . $ajustes->fin_hora_preinscripcion;
+
+            if ($ajustes->habilitar_preinscripcion && $horaActual->between($inicioPreinscripcion, $finPreinscripcion)) {
+                return $next($request);
+            }
+        } elseif($tipo === 'inscripcion'){
+            $inicioInscripcion = $ajustes->inicio_fecha_inscripcion . ' ' . $ajustes->inicio_hora_inscripcion;
+            $finInscripcion = $ajustes->fin_fecha_inscripcion . ' ' . $ajustes->fin_hora_inscripcion;
+
+            if ($ajustes->habilitar_inscripcion && $horaActual->between($inicioInscripcion, $finInscripcion)) {
+                return $next($request);
+            }
         }
 
-        // Si está fuera del rango, redirigir con una alerta         
-        session()->flash('error', 'El proceso ha finalizado.');
-        return redirect()->back();
+        return redirect()->back()->with('error', 'El proceso ha finalizado o ya no se encuentra habilitado.');
     }
 }

@@ -83,13 +83,11 @@ class PreinscriptoController extends Controller
             );
             $req->session()->put('preinscripto', $preinscripto->toArray());
             $req->session()->put('preinscripcion_submitted', true);
-            session()->flash('success', 'Preinscripción registrada correctamente.');
 
-            return redirect()->route('confirmacion-preinscripcion');
+            return redirect()->route('confirmacion-preinscripcion')->with('success', 'Preinscripción registrada correctamente.');
         } catch (Exception $e) {
             Log::error('Error en la preinscripción: ' . $e->getMessage());
-            session()->flash('error', 'Ocurrió un error al registrar la preinscripción.');
-            return redirect()->back()->withInput();
+            return redirect()->back()->with('error', 'Ocurrió un error al registrar la preinscripción.')->withInput();
         }
     }
 

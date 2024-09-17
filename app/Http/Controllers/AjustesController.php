@@ -18,7 +18,7 @@ class AjustesController extends Controller
         $diferenciaDiasPreinscripcion = null;
         $diferenciaDiasInscripcion = null;
         try {
-            $ajustes = Ajustes::find(1);
+            $ajustes = Ajustes::first();
             if (!$ajustes) {
                 throw new Exception('No se encontraron los ajustes.');
             }
