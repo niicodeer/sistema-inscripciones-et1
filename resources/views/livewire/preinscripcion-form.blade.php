@@ -22,8 +22,33 @@
                 value="{{ old('email') }}" />
             <x-input type="text" id="telefono" label="Teléfono" require placeholder="Introduce un telefono"
                 value="{{ old('telefono') }}" />
+            <div>
+                <p class="text-[#2D3648] font-semibold text-base mb-4">(<span class="text-red-700 text-sm">*</span>) Por
+                    favor, seleccione una opción según corresponda la condicion con la que se pre-inscribe alumnos:</p>
+                <x-input-radio id="alumno_familiar" label="Hermano/a de Alumno/Personal de la institución. **"
+                    value="alumno familiar" name="condicion_preinscripcion" />
+                <x-input-radio id="alumno_general" label="Alumnos en General." value="alumno general"
+                    name="condicion_preinscripcion" />
+                    <p id="condicion_preinscripcion_error"></p>
+                @error('condicion_preinscripcion')
+                    <p class="text-red-700 text-sm">{{ $message }}</p>
+                @enderror
+            </div>
         </div>
-        <p class="text-grey-400 text-left w-full italic">(<span class="text-red-700">*</span>) Campos obligatorios.</p>
+        <div class="w-full">
+            <p class="text-grey-400 text-left w-full italic text-sm">(<span class="text-red-700">*</span>) Campos
+                obligatorios.
+                <br>
+                (<span class="text-red-700">**</span>) Deberá proporcionar
+                los documentos que lo verifique cuando la institucion se lo solicite
+            </p>
+        </div>
+        <div class="mt-4">
+            <x-input-check id="declaracion_jurada"
+                label="Declaro que la información proporcionada tiene carácter de declaración jurada, y que cualquier
+                    falsificación de los datos proporcionados llevará a la anulación de la solicitud." />
+        </div>
+
         <x-primary-button text="Finalizar" />
     </form>
 </div>
@@ -32,10 +57,7 @@
         const form = document.querySelector('form');
 
         form.addEventListener('submit', function(event) {
-            // Limpiar mensajes previos de error
             clearErrors();
-
-            // Obtener los valores de los inputs
             const nombre = document.getElementById('nombre').value.trim();
             const apellido = document.getElementById('apellido').value.trim();
             const cuil = document.getElementById('cuil').value.trim();
@@ -43,35 +65,33 @@
             const telefono = document.getElementById('telefono').value.trim();
             const genero = document.getElementById('genero').value;
             const fechaNac = document.getElementById('fecha_nac').value;
+            const condicionPreinscripcion = document.querySelectorAll(
+                'input[name="condicion_preinscripcion"]');
+            const declaracionJurada = document.getElementById('declaracion_jurada').checked;
 
             let isValid = true;
 
-            // Validar nombre (required, min 3, max 20)
             if (!nombre || nombre.length < 3 || nombre.length > 20) {
                 showError('nombre', 'El nombre debe tener entre 3 y 20 caracteres');
                 isValid = false;
             }
 
-            // Validar apellido (required, min 3, max 20)
             if (!apellido || apellido.length < 3 || apellido.length > 20) {
                 showError('apellido', 'El apellido debe tener entre 3 y 20 caracteres');
                 isValid = false;
             }
 
-            // Validar CUIL (required, min 11, max 11, regex)
             const cuilRegex = /^[0-9]{11}$/;
             if (!cuil || !cuilRegex.test(cuil)) {
                 showError('cuil', 'El CUIL debe contener 11 números válidos');
                 isValid = false;
             }
 
-            // Validar género (required, in [Femenino, Masculino, Otro])
             if (!genero || !['Femenino', 'Masculino', 'Otro'].includes(genero)) {
                 showError('genero', 'Debe seleccionar un género válido');
                 isValid = false;
             }
 
-            // Validar fecha de nacimiento (required, date, entre 12 y 17 años)
             if (!fechaNac || !isValidDate(fechaNac)) {
                 showError('fecha_nac', 'Debe proporcionar una fecha de nacimiento válida');
                 isValid = false;
@@ -83,14 +103,12 @@
                 }
             }
 
-            // Validar email (nullable, valid email, min 10, max 100)
             if (email && (email.length < 10 || email.length > 100 || !validateEmail(email))) {
                 showError('email',
                     'El email debe ser una dirección válida con entre 10 y 100 caracteres');
                 isValid = false;
             }
 
-            // Validar teléfono (required, min 8, max 15, regex)
             const telefonoRegex = /^[0-9\s\-]+$/;
             if (!telefono || telefono.length < 8 || telefono.length > 15 || !telefonoRegex.test(
                     telefono)) {
@@ -98,13 +116,20 @@
                 isValid = false;
             }
 
-            // Si alguna validación falla, evitar el envío del formulario
+            if (!Array.from(condicionPreinscripcion).some(item => item.checked)) {
+            showError('condicion_preinscripcion_error', 'Debe seleccionar una condición de preinscripción');
+            isValid = false;
+        }
+
+            if (!declaracionJurada) {
+                showError('declaracion_jurada', 'Debe aceptar la declaración jurada');
+                isValid = false;
+            }
             if (!isValid) {
                 event.preventDefault();
             }
         });
 
-        // Funciones auxiliares para validar email, fecha y mostrar errores
         function validateEmail(email) {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return emailRegex.test(email);

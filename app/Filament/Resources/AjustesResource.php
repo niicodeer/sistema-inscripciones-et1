@@ -26,48 +26,6 @@ class AjustesResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Inscripción')
-                    ->schema([
-                        Forms\Components\Toggle::make('habilitar_inscripcion')
-                            ->default(false)
-                            ->label('Habilitar Inscripción')
-                            ->live(),
-                        Forms\Components\DatePicker::make('inicio_fecha_inscripcion')
-                            ->label('Fecha de Inicio')
-                            ->disabled(function (Forms\Get $get) {
-                                return $get('habilitar_inscripcion') === false;
-                            })
-                            ->required(function (Forms\Get $get) {
-                                return $get('habilitar_inscripcion') === true;
-                            }),
-                        Forms\Components\TimePicker::make('inicio_hora_inscripcion')
-                            ->label('Hora de Inicio')
-                            ->seconds(false)
-                            ->disabled(function (Forms\Get $get) {
-                                return $get('habilitar_inscripcion') === false;
-                            })
-                            ->required(function (Forms\Get $get) {
-                                return $get('habilitar_inscripcion') === true;
-                            }),
-                        Forms\Components\DatePicker::make('fin_fecha_inscripcion')
-                            ->label('Fecha de Fin')
-                            ->disabled(function (Forms\Get $get) {
-                                return $get('habilitar_inscripcion') === false;
-                            })
-                            ->required(function (Forms\Get $get) {
-                                return $get('habilitar_inscripcion') === true;
-                            }),
-                        Forms\Components\TimePicker::make('fin_hora_inscripcion')
-                            ->label('Hora de Fin')
-                            ->seconds(false)
-                            ->disabled(function (Forms\Get $get) {
-                                return $get('habilitar_inscripcion') === false;
-                            })
-                            ->required(function (Forms\Get $get) {
-                                return $get('habilitar_inscripcion') === true;
-                            }),
-                    ])
-                    ->columnSpan(1),
                 Section::make('Preinscripción')
                     ->schema([
                         Forms\Components\Toggle::make('habilitar_preinscripcion')
@@ -98,7 +56,10 @@ class AjustesResource extends Resource
                             })
                             ->required(function (Forms\Get $get) {
                                 return $get('habilitar_inscripcion') === true;
-                            }),
+                            })
+                            ->afterOrEqual('inicio_fecha_preinscripcion')
+                            ->validationAttribute('Fecha de Fin')
+                            ->helperText('La Fecha de Fin debe ser mayor o igual que la Fecha de Inicio.'),
                         Forms\Components\TimePicker::make('fin_hora_preinscripcion')
                             ->label('Hora de Fin')
                             ->seconds(false)
@@ -110,7 +71,50 @@ class AjustesResource extends Resource
                             }),
                     ])
                     ->columnSpan(1),
-
+                Section::make('Inscripción')
+                    ->schema([
+                        Forms\Components\Toggle::make('habilitar_inscripcion')
+                            ->default(false)
+                            ->label('Habilitar Inscripción')
+                            ->live(),
+                        Forms\Components\DatePicker::make('inicio_fecha_inscripcion')
+                            ->label('Fecha de Inicio')
+                            ->disabled(function (Forms\Get $get) {
+                                return $get('habilitar_inscripcion') === false;
+                            })
+                            ->required(function (Forms\Get $get) {
+                                return $get('habilitar_inscripcion') === true;
+                            }),
+                        Forms\Components\TimePicker::make('inicio_hora_inscripcion')
+                            ->label('Hora de Inicio')
+                            ->seconds(false)
+                            ->disabled(function (Forms\Get $get) {
+                                return $get('habilitar_inscripcion') === false;
+                            })
+                            ->required(function (Forms\Get $get) {
+                                return $get('habilitar_inscripcion') === true;
+                            }),
+                        Forms\Components\DatePicker::make('fin_fecha_inscripcion')
+                            ->label('Fecha de Fin')
+                            ->disabled(function (Forms\Get $get) {
+                                return $get('habilitar_inscripcion') === false;
+                            })
+                            ->required(function (Forms\Get $get) {
+                                return $get('habilitar_inscripcion') === true;
+                            })
+                            ->validationAttribute('Fecha de Fin')
+                            ->helperText('La Fecha de Fin debe ser mayor o igual que la Fecha de Inicio.'),
+                        Forms\Components\TimePicker::make('fin_hora_inscripcion')
+                            ->label('Hora de Fin')
+                            ->seconds(false)
+                            ->disabled(function (Forms\Get $get) {
+                                return $get('habilitar_inscripcion') === false;
+                            })
+                            ->required(function (Forms\Get $get) {
+                                return $get('habilitar_inscripcion') === true;
+                            }),
+                    ])
+                    ->columnSpan(1),
             ]);
     }
 
@@ -118,17 +122,29 @@ class AjustesResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('fecha_inscripcion')
-                    ->label('Fecha de Inscripción')
+                Tables\Columns\TextColumn::make('inicio_fecha_preinscripcion')
+                    ->label('Fecha Inicio de Preinscripción')
                     ->date('d-m-Y'),
-                Tables\Columns\TextColumn::make('hora_inscripcion')
-                    ->label('Hora de Inscripción')
+                Tables\Columns\TextColumn::make('inicio_hora_preinscripcion')
+                    ->label('Hora Inicio de Preinscripción')
                     ->time('G:i'),
-                Tables\Columns\TextColumn::make('fecha_preinscripcion')
+                Tables\Columns\TextColumn::make('fin_fecha_preinscripcion')
                     ->date('d-m-Y')
-                    ->label('Fecha de Preinscripción'),
-                Tables\Columns\TextColumn::make('hora_preinscripcion')
-                    ->label('Hora de Inscripción')
+                    ->label('Fecha Fin de Preinscripción'),
+                Tables\Columns\TextColumn::make('fin_hora_preinscripcion')
+                    ->label('Hora Fin de Preinscripción')
+                    ->time('G:i'),
+                Tables\Columns\TextColumn::make('inicio_fecha_inscripcion')
+                    ->label('Fecha Inicio de Inscripción')
+                    ->date('d-m-Y'),
+                Tables\Columns\TextColumn::make('inicio_hora_inscripcion')
+                    ->label('Hora Inicio de Inscripción')
+                    ->time('G:i'),
+                Tables\Columns\TextColumn::make('fin_fecha_inscripcion')
+                    ->date('d-m-Y')
+                    ->label('Fecha Fin de Inscripción'),
+                Tables\Columns\TextColumn::make('fin_hora_inscripcion')
+                    ->label('Hora Fin de Inscripción')
                     ->time('G:i'),
             ])
             ->filters([

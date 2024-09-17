@@ -21,7 +21,6 @@ class PreinscriptoController extends Controller
 
     public function store(Request $req)
     {
-
         $req->validate([
             'nombre' => 'required|min:3|max:20|string',
             'apellido' => 'required|min:3|max:20|string',
@@ -29,6 +28,7 @@ class PreinscriptoController extends Controller
             'email' => 'nullable|email|max:100|min:10',
             'telefono' => 'required|min:8|max:15|regex:/^[0-9\s\-]+$/',
             'genero' => 'required|in:Femenino,Masculino,Otro|min:3|max:10',
+            'condicion_preinscripcion' => 'required',
             'fecha_nac' => [
                 'required',
                 'date',
@@ -67,6 +67,7 @@ class PreinscriptoController extends Controller
             'telefono.min' => 'El teléfono debe tener un mínimo de 8 números',
             'telefono.regex' => 'El teléfono debe ser un número válido de teléfono',
             'telefono.format' => 'El formato del teléfono no es correcto, se esperan al menos 8 números',
+            'condicion_preinscripcion' => 'Debe seleccionar una opción',
         ]);
         try {
             $preinscripto = Preinscripto::create(
@@ -74,11 +75,12 @@ class PreinscriptoController extends Controller
                     'cuil' => $req->input('cuil'),
                     'nombre' => $req->input('nombre'),
                     'apellido' => $req->input('apellido'),
-                    'email' => $req->input('email'),
+                    'email' => strtolower($req->input('email')),
                     'telefono' => $req->input('telefono'),
                     'genero' => $req->input('genero'),
                     'fecha_nac' => $req->input('fecha_nac'),
-                    'comprobante_preinscripcion' => $this->generarCodigoComprobante($req->input('cuil'), $req->input('fecha_nac')),
+                    'condicion_preinscripcion' => $req->input('condicion_preinscripcion'),
+                    'comprobante_preinscripcion' => $this->generarCodigoComprobante($req->input('cuil')),
                 ]
             );
             $req->session()->put('preinscripto', $preinscripto->toArray());
@@ -113,10 +115,10 @@ class PreinscriptoController extends Controller
         }
     }
 
-    public function generarCodigoComprobante($cuil, $fecha_insc)
+    public function generarCodigoComprobante($cuil)
     {
-        $codigoComprobante = $cuil . $fecha_insc;
-        return $codigoComprobante;
+        $now = Carbon::now()->timestamp;
+        return $cuil . $now;
     }
 
     public function generarPdf()
