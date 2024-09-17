@@ -27,7 +27,8 @@ export default {
                     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
                     cursor:'pointer',
                     textAlign:'center',
-                    margin:'4px 0px'
+                    margin:'4px 0px',
+                    border:'1px solid rgb(107 114 128)'
                 },
                 '.btn:hover': {
                     backgroundColor: 'rgba(234, 144, 16, 0.8)',
