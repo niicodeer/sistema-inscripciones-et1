@@ -26,18 +26,18 @@
             {{-- Step 1 --}}
             <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full step"
                 id="step-1">
-                <x-input type="text" id="cuil_alumno" label="Cuil" disabled />
+                <x-input type="text" id="cuil_alumno" label="Cuil" disabled value="{{ $data['cuil'] }}"/>
                 <x-input type="text" id="nombre_alumno" label="Nombre" placeholder="Nombre" require
-                    value="{{ old('nombre') }}" />
+                    value="{{ $data['nombre'] }}" />
                 <x-input type="text" id="apellido_alumno" label="Apellido" placeholder="Apellido" require
-                    value="{{ old('apellido') }}" />
-                <x-select id="genero_alumno" label="Genero" :options="json_encode(['Femenino', 'Masculino', 'Otro'])" require value="{{ old('genero') }}" />
+                    value="{{ $data['apellido'] }}" />
+                <x-select id="genero_alumno" label="Genero" :options="json_encode(['Femenino', 'Masculino', 'Otro'])" require value="{{ $data['genero'] }}" />
                 <x-input type="date" id="fecha_nac_alumno" label="Fecha Nacimiento" require
-                    value="{{ old('fecha_nac') }}" />
+                    value="{{ $data['fecha_nac'] }}" />
                 <x-input type="email" id="email_alumno" label="Email" placeholder="Introduce un correo" require
-                    value="{{ old('email') }}" />
+                    value="{{ $data['email'] }}" />
                 <x-input type="text" id="telefono_alumno" label="Teléfono" placeholder="Introduce un telefono" require
-                    value="{{ old('telefono') }}" />
+                    value="{{ $data['telefono'] }}" />
             </div>
             {{-- Step 2 --}}
             <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full step"
