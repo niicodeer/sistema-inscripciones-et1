@@ -705,10 +705,9 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position:relative;
+    position: relative;
     padding: 5rem 0;
 }
-
 
 .title {
     color: #202020;
@@ -724,13 +723,13 @@ body {
     width: 100%;
     max-width: 480px;
 }
-.links-container p{
+.links-container p {
     font-size: 1.3rem;
     font-weight: bold;
     color: #202020;
 }
 
-.links-container hr{
+.links-container hr {
     border-color: #9ca3af;
     margin: 0.5rem;
 }
@@ -838,7 +837,32 @@ footer p {
 }
 
 @media (max-width: 560px) {
-    html{
+    html {
         font-size: 14px;
     }
+}
+.progress-bar {
+    transition: background-color 0.5s ease; /* Cambia el color gradualmente */
+}
+
+/* .animate-progress {
+    background-color: #EA9010;
+    transition: background-color 0.5s ease;
+} */
+@keyframes grow {
+    from {
+        width: 0%;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+.animate-progress {
+    background-color: #ea9010; /* Color de fondo de la barra activa */
+    animation: grow 0.5s ease-in-out forwards;
+}
+#multiStepForm {
+    position: relative;
+    overflow: hidden;
 }

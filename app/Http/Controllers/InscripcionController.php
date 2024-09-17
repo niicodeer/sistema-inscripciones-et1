@@ -13,9 +13,12 @@ class InscripcionController extends Controller
 
         return response()->file($archivo);
     }
-    /* public function index()
+    public function index()
     {
-        $step = 1;
-        return view('formulario.inscripcion-form', compact('step'));
-    } */
+        return view('formulario.inscripcion-form');
+    }
+    public function store(Request $request)
+    {
+        dd($request);
+    }
 }
