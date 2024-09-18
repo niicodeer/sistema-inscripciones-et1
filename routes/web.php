@@ -6,9 +6,8 @@ use App\Http\Controllers\PreinscriptoController;
 use App\Livewire\InscripcionConfirm;
 use App\Livewire\MultiStepForm;
 use App\Livewire\PreinscripcionConfirm;
-use App\Livewire\PreinscripcionForm;
-use App\Livewire\VerificarCuilForm;
-use App\Models\Ajustes;
+
+use App\Models\Estudiante;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
@@ -19,9 +18,10 @@ Route::get('/preinscripcion', [PreinscriptoController::class, 'index'])->name('p
 Route::post('/preinscripcion', [PreinscriptoController::class, 'store'])->name('preinscripcion');
 Route::get('/inscripcion', [InscripcionController::class, 'index'])->name('inscripcion')->middleware('verificarCuil');
 Route::post('/inscripcion', [InscripcionController::class, 'store'])->name('inscripcion');
+Route::put('/inscripcion', [InscripcionController::class, 'update'])->name('inscripcion');
 Route::get('/preinscripcion-correcta', PreinscripcionConfirm::class)->name('confirmacion-preinscripcion')->middleware('checkPreinscripcion');
 Route::get('/inscripcion-correcta', InscripcionConfirm::class)->name('confirmacion-inscripcion')->middleware('checkInscripcion');
-Route::get('/verificar-cuil', function(){
+Route::get('/verificar-cuil', function () {
     return view('formulario.verificar-cuil');
 })->name('verificar-cuil')->middleware('checkHorario:inscripcion');
 Route::post('/verificar-cuil', [PreinscriptoController::class, 'verificarCUIL'])->name('verificar-cuil');

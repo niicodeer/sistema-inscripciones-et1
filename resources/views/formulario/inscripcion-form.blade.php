@@ -27,10 +27,12 @@
         <form method="POST" class="flex flex-col gap-y-14 mt-6 items-center" id="multiStepForm"
             action="{{ route('inscripcion') }}">
             @csrf
+            @method($data['method'])
             {{-- Step 1 --}}
             <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full step"
                 id="step-1">
-                <x-input type="text" id="cuil_alumno" label="Cuil" disabled value="{{ $data['cuil'] }}" />
+                <input type="hidden" name="id_alumno" value="{{ $data['id'] ?? null }}">
+                <x-input type="text" id="cuil_alumno" label="Cuil" readonly value="{{ $data['cuil'] }}" />
                 <x-input type="text" id="nombre_alumno" label="Nombre" placeholder="Nombre" require
                     value="{{ $data['nombre'] }}" />
                 <x-input type="text" id="apellido_alumno" label="Apellido" placeholder="Apellido" require
@@ -94,7 +96,8 @@
                             @endphp
                         @endisset
                         <x-input-check id="transporte_publico" value="transporte publico" name="transporte[]"
-                            label="Trasporte público" check="{{ in_array('transporte publico', $transporte ?? []) ?? '' }}" />
+                            label="Trasporte público"
+                            check="{{ in_array('transporte publico', $transporte ?? []) ?? '' }}" />
                         <x-input-check id="transporte_auto" value="auto camioneta" name="transporte[]"
                             label="Auto / Camioneta" check="{{ in_array('auto camioneta', $transporte ?? []) ?? '' }}" />
                         <x-input-check id="transporte_moto" value="moto" name="transporte[]" label="Moto"
@@ -164,6 +167,11 @@
             {{-- Step 4 --}}
             <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full step"
                 id="step-4" style="display: none;">
+                @isset($data['ultima_inscripcion'])
+                    @php
+                        $inscripcion = $data['ultima_inscripcion'];
+                    @endphp
+                @endisset
                 <x-select id="curso" label="Seleccione curso" :options="json_encode([
                     'Primer año',
                     'Segundo año',
@@ -172,21 +180,24 @@
                     'Quinto año',
                     'Sexto año',
                 ])" require
-                    value="{{ old('curso') }}" />
+                    value="{{ $inscripcion['curso_inscripto'] ?? '' }}" />
                 <x-select id="modalidad" label="Modalidad a seguir" :options="json_encode(['Informática', 'Economía', 'Industria'])" {{-- :disabled="in_array(['Primer año', 'Segundo año', ''])"  --}}require
-                    value="{{ old('modalidad') }}" />
+                    value="{{ $inscripcion['modalidad'] ?? '' }}" />
 
                 <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                     <p class="text-[#2D3648] font-semibold text-sm">Condición Alumno</p>
                     <div class="flex md:max-w-[45%] w-full gap-x-8">
                         <div class="flex flex-col gap-3">
-                            <x-input-radio id="ingresante" label="Ingresante" value="ingresante"
-                                name="condicion_alumno" />
-                            <x-input-radio id="regular" label="Regular" value="regular" name="condicion_alumno" />
+                            <x-input-radio id="ingresante" label="Ingresante" value="ingresante" name="condicion_alumno"
+                                check="{{ ($inscripcion['condicion_alumno'] ?? '') === 'ingresante' }}" />
+                            <x-input-radio id="regular" label="Regular" value="regular" name="condicion_alumno"
+                                check="{{ ($inscripcion['condicion_alumno'] ?? '') === 'regular' }}" />
                         </div>
                         <div class="flex flex-col gap-3">
-                            <x-input-radio id="traspaso" label="Traspaso" value="traspaso" name="condicion_alumno" />
-                            <x-input-radio id="repitente" label="Repitente" value="repitente" name="condicion_alumno" />
+                            <x-input-radio id="traspaso" label="Traspaso" value="traspaso" name="condicion_alumno"
+                                check="{{ ($inscripcion['condicion_alumno'] ?? '') === 'traspaso' }}" />
+                            <x-input-radio id="repitente" label="Repitente" value="repitente" name="condicion_alumno"
+                                check="{{ ($inscripcion['condicion_alumno'] ?? '') === 'repitente' }}" />
                         </div>
                     </div>
                     @error('condicionAlumno')
@@ -197,27 +208,31 @@
                 <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                     <p class="text-[#2D3648] font-semibold text-sm">Turno</p>
                     <div class="flex flex-col md:max-w-[45%] w-full gap-4">
-                        <x-input-radio id="mañana" label="Mañana" value="mañana" name="turno" />
-                        <x-input-radio id="tarde" label="Tarde" value="tarde" name="turno" />
+                        <x-input-radio id="mañana" label="Mañana" value="mañana" name="turno"
+                            check="{{ ($inscripcion['turno'] ?? '') === 'mañana' }}" />
+                        <x-input-radio id="tarde" label="Tarde" value="tarde" name="turno"
+                            check="{{ ($inscripcion['turno'] ?? '') === 'tarde' }}" />
                     </div>
                     @error('turno')
                         <p class="text-red-700 text-sm">{{ $message }}</p>
                     @enderror
                 </div>
                 <x-input type="text" id="escuela_proviene" label="Escuela que proviene" placeholder="Nombre Escuela"
-                    {{-- :disabled="in_array(['regular', ''])" --}} />
+                    value="{{ $inscripcion['escuela_proviene'] ?? '' }}" />
                 <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                     <p class="text-[#2D3648] font-semibold text-sm">Adeuda Materias</p>
                     <div class="flex md:max-w-[45%] w-full gap-6">
-                        <x-input-radio id="adeuda_si" label="Si" value="1" name="adeuda_materia" />
-                        <x-input-radio id="adeuda_no" label="No" value="0" name="adeuda_materia" />
+                        <x-input-radio id="adeuda_si" label="Si" value="1" name="adeuda_materia"
+                            check="{{ ($inscripcion['adeuda_materias'] ?? '') === 1 }}" />
+                        <x-input-radio id="adeuda_no" label="No" value="0" name="adeuda_materia"
+                            check="{{ ($inscripcion['adeuda_materias'] ?? '') === 0 }}" />
                     </div>
                     @error('adeudaMaterias')
                         <p class="text-red-700 text-sm">{{ $message }}</p>
                     @enderror
                     <div class="lg:w-[220%]">
-                        <x-input type="text" id="adeuda-materia-nombre" label=""
-                            placeholder="Nombres materias" />
+                        <x-input type="text" id="adeuda-materia-nombre" label="" placeholder="Nombres materias"
+                            value="{{ $inscripcion['nombre_materias'] ?? '' }}" />
                     </div>
                 </div>
             </div>
@@ -289,7 +304,6 @@
             } else {
                 document.getElementById('step1-text').style.display = 'none';
             }
-            // Oculta todos los pasos
             document.querySelectorAll('.step').forEach((element) => {
                 element.style.display = 'none';
             });
@@ -331,16 +345,12 @@
             }
         }
 
-        // Mostrar el primer paso al cargar la página
         document.addEventListener('DOMContentLoaded', function() {
             showStep(currentStep);
         });
         document.getElementById('multiStepForm').addEventListener('submit', function(event) {
-            //event.preventDefault(); // Prevenir el envío del formulario
             const formData = new FormData(event.target);
             const data = {};
-
-            // Recorrer los valores del formulario y agregarlos al objeto 'data'
             formData.forEach((value, key) => {
                 data[key] = value;
             });

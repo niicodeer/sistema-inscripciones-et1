@@ -17,12 +17,33 @@ class InscripcionController extends Controller
     public function index()
     {
         $preinscripto = Session::get('preinscripto');
-        $inscripto = Session::get('inscripto');
+        $inscripto = Session::get('estudiante');
+
         $data = $inscripto ? $inscripto : $preinscripto;
         return view('formulario.inscripcion-form', compact('data'));
     }
     public function store(Request $request)
     {
-        dd($request);
+        //Todo:
+        /**
+         * *Todo: Crear nuevo estudiante. Crearlo mediante las relaciones
+         * *$estudiante= Estudiante::create(...)
+         * *$estudiante->tutor()->create(...)
+         * *$estudiante->dato()->create(...)
+         * *$estudiante->inscripciones()->create(...)
+         **/
+        dd($request->input());
+    }
+    public function update(Request $request)
+    {
+        //Todo:
+        /**
+         * *Actualizar estudiante y crear una nueva inscripcion, no actualizarla
+         * *$estudiante= Estudiante::update(...)
+         * *$estudiante->tutor()->update(...)
+         * *$estudiante->dato()->update(...)
+         * *$estudiante->inscripciones()->create(...)
+         **/
+        dd($request->input());
     }
 }

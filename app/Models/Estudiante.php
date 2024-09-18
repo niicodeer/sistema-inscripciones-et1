@@ -36,6 +36,11 @@ class Estudiante extends Model
         return $this->hasMany(Inscripcion::class);
     }
 
+    public function ultimaInscripcion() : HasOne
+    {
+        return $this->hasOne(Inscripcion::class)->latest('created_at');
+    }
+
     public function tutor() : BelongsTo
     {
         return $this->belongsTo(Tutor::class, 'tutor_id', 'id');
