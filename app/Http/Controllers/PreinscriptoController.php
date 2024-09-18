@@ -97,7 +97,7 @@ class PreinscriptoController extends Controller
     {
         $cuil = $request->input('cuil');
         $preinscripto = Preinscripto::where('cuil', $cuil)->first();
-        $inscripto = Estudiante::where('cuil', $cuil)->first();
+        $inscripto = Estudiante::with('tutor','dato')->where('cuil', $cuil)->first();
 
         if ($inscripto || $preinscripto) {
             if ($preinscripto) {

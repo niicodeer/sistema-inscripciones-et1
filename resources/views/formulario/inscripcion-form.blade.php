@@ -9,11 +9,15 @@
         <!-- Progreso visual del formulario -->
         <div class="flex gap-0.5 w-[80%] mx-auto mt-4 mb-10">
             <span class="w-full h-1 bg-gray-500"><span class="w-full h-1 block progress-bar" id="progress-bar-1"></span></span>
-            <span class="w-full h-1 bg-gray-500"><span class="w-full h-1 block progress-bar" id="progress-bar-2"></span></span>
-            <span class="w-full h-1 bg-gray-500"><span class="w-full h-1 block progress-bar" id="progress-bar-3"></span></span>
-            <span class="w-full h-1 bg-gray-500"><span class="w-full h-1 block progress-bar" id="progress-bar-4"></span></span>
-            <span class="w-full h-1 bg-gray-500"><span class="w-full h-1 block progress-bar" id="progress-bar-5"></span></span>
-            
+            <span class="w-full h-1 bg-gray-500"><span class="w-full h-1 block progress-bar"
+                    id="progress-bar-2"></span></span>
+            <span class="w-full h-1 bg-gray-500"><span class="w-full h-1 block progress-bar"
+                    id="progress-bar-3"></span></span>
+            <span class="w-full h-1 bg-gray-500"><span class="w-full h-1 block progress-bar"
+                    id="progress-bar-4"></span></span>
+            <span class="w-full h-1 bg-gray-500"><span class="w-full h-1 block progress-bar"
+                    id="progress-bar-5"></span></span>
+
         </div>
         <div id="step1-text">
             <p class="text-base text-[#202020] font-semibold">Comprueba los datos de tu pre-inscripción.<br />
@@ -26,7 +30,7 @@
             {{-- Step 1 --}}
             <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full step"
                 id="step-1">
-                <x-input type="text" id="cuil_alumno" label="Cuil" disabled value="{{ $data['cuil'] }}"/>
+                <x-input type="text" id="cuil_alumno" label="Cuil" disabled value="{{ $data['cuil'] }}" />
                 <x-input type="text" id="nombre_alumno" label="Nombre" placeholder="Nombre" require
                     value="{{ $data['nombre'] }}" />
                 <x-input type="text" id="apellido_alumno" label="Apellido" placeholder="Apellido" require
@@ -43,28 +47,39 @@
             <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full step"
                 id="step-2" style="display: none;">
                 <x-input type="text" id="calle" label="Calle" placeholder="Calle" require
-                    value="{{ old('calle') }}" />
+                    value="{{ $data['dato']['calle'] ?? '' }}" />
                 <div class="w-[45%] flex gap-x-2">
                     <x-input type="number" id="numeracion" label="Numeración" placeholder="Numeración" min=0
-                        value="{{ old('numeracion') }}" />
+                        value="{{ $data['dato']['numeracion'] ?? '' }}" />
                     <x-input type="text" id="piso" label="Piso dpto" placeholder="Piso"
-                        value="{{ old('piso') }}" />
+                        value="{{ $data['dato']['piso'] ?? '' }}" />
                 </div>
                 <x-input type="text" id="barrio" label="Barrio" placeholder="Barrio" require
-                    value="{{ old('barrio') }}" />
+                    value="{{ $data['dato']['barrio'] ?? '' }}" />
                 <x-input type="text" id="provincia" label="Provincia" placeholder="Provincia" require
-                    value="{{ old('provincia') }}" />
+                    value="{{ $data['dato']['provincia'] ?? '' }}" />
                 <x-input type="text" id="ciudad" label="Ciudad" placeholder="Ciudad" require
-                    value="{{ old('ciudad') }}" />
+                    value="{{ $data['dato']['ciudad'] ?? '' }}" />
                 <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                     <p class="text-[#2D3648] font-semibold text-sm">Convive con</p>
+                    @isset($data['dato']['convivencia'])
+                        @php
+                            $convive = json_decode($data['dato']['convivencia'], true) ?? [];
+                        @endphp
+                    @endisset
                     <div class="w-full grid grid-cols-2 gap-2">
-                        <x-input-check id="convive_madre" label="Madre" value="madre" name="convive[]" />
-                        <x-input-check id="convive_padre" label="Padre" value="padre" name="convive[]" />
-                        <x-input-check id="convive_hermanos" label="Hermano/a" value="hermanos" name="convive[]" />
-                        <x-input-check id="convive_tios" label="Tia/o" value="tios" />
-                        <x-input-check id="convive_abuelos" label="Abuela/o" value="abuelos" name="convive[]" />
-                        <x-input-check id="convive_otros" label="Otros" value="otros" name="convive[]" />
+                        <x-input-check id="convive_madre" label="Madre" value="madre" name="convive[]"
+                            check="{{ in_array('madre', $convive ?? []) ?? '' }}" />
+                        <x-input-check id="convive_padre" label="Padre" value="padre" name="convive[]"
+                            check="{{ in_array('padre', $convive ?? []) ?? '' }}" />
+                        <x-input-check id="convive_hermanos" label="Hermano/a" value="hermanos" name="convive[]"
+                            check="{{ in_array('hermanos', $convive ?? []) ?? '' }}" />
+                        <x-input-check id="convive_tios" label="Tia/o" value="tios" name="convive[]"
+                            check="{{ in_array('tios', $convive ?? []) ?? '' }}" />
+                        <x-input-check id="convive_abuelos" label="Abuela/o" value="abuelos" name="convive[]"
+                            check="{{ in_array('abuelos', $convive ?? []) ?? '' }}" />
+                        <x-input-check id="convive_otros" label="Otros" value="otros" name="convive[]"
+                            check="{{ in_array('otros', $convive ?? []) ?? '' }}" />
                     </div>
                     @error('convive')
                         <p class="text-red-700 text-sm">{{ $message }}</p>
@@ -73,16 +88,23 @@
                 <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                     <p class="text-[#2D3648] font-semibold text-sm">Medio de transporte</p>
                     <div class="w-full grid grid-cols-2 gap-2">
-                        <x-input-check id="transporte-publico" label="Trasporte público" value="transporte publico"
-                            name="transporte[]" />
-                        <x-input-check id="transporte-auto" label="Auto / Camioneta" value="auto camioneta"
-                            name="transporte[]" />
-                        <x-input-check id="transporte-moto" label="Moto" value="moto" name="transporte[]" />
-                        <x-input-check id="transporte-bicicleta" label="Bicicleta" value="bicicleta"
-                            name="transporte[]" />
-                        <x-input-check id="transporte-otro" label="Otros" value="otros" name="transporte" />
-                        <x-input-check id="transporte-no-utiliza" label="No utiliza" value="no utiliza"
-                            name="transporte[]" />
+                        @isset($data['dato']['medio_transporte'])
+                            @php
+                                $transporte = json_decode($data['dato']['medio_transporte'], true) ?? [];
+                            @endphp
+                        @endisset
+                        <x-input-check id="transporte_publico" value="transporte publico" name="transporte[]"
+                            label="Trasporte público" check="{{ in_array('transporte publico', $transporte ?? []) ?? '' }}" />
+                        <x-input-check id="transporte_auto" value="auto camioneta" name="transporte[]"
+                            label="Auto / Camioneta" check="{{ in_array('auto camioneta', $transporte ?? []) ?? '' }}" />
+                        <x-input-check id="transporte_moto" value="moto" name="transporte[]" label="Moto"
+                            check="{{ in_array('moto', $transporte ?? []) ?? '' }}" />
+                        <x-input-check id="transporte_bicicleta" value="bicicleta" name="transporte[]" label="Bicicleta"
+                            check="{{ in_array('bicicleta', $transporte ?? []) ?? '' }}" />
+                        <x-input-check id="transporte_otro" value="otros" name="transporte[]" label="Otros"
+                            check="{{ in_array('otros', $transporte ?? []) ?? '' }}" />
+                        <x-input-check id="transporte_no_utiliza" value="no utiliza" name="transporte[]"
+                            label="No utiliza" check="{{ in_array('no utiliza', $transporte ?? []) ?? '' }}" />
                     </div>
                     @error('transporte')
                         <p class="text-red-700 text-sm">{{ $message }}</p>
@@ -91,10 +113,13 @@
                 <div class=" w-[45%] flex flex-col gap-y-2">
                     <p class="text-[#2D3648] font-semibold text-sm">Obra Social / Prepaga</p>
                     <div class="flex md:max-w-[45%] w-full gap-6">
-                        <x-input-radio id="obra_social_si" label="Si" value="1" name="obra_social" />
-                        <x-input-radio id="obra_social_no" label="No" value="0" name="obra_social" />
+                        <x-input-radio id="obra_social_si" label="Si" value="1" name="obra_social"
+                            check="{{ ($data['dato']['obra_social'] ?? '') === 1 }}" />
+                        <x-input-radio id="obra_social_no" label="No" value="0" name="obra_social"
+                            check="{{ ($data['dato']['obra_social'] ?? '') === 0 }}" />
                     </div>
-                    <x-input type="text" id="nombre_os" label="" placeholder="Obra Social / Prepaga" />
+                    <x-input type="text" id="nombre_obra_social" label="" placeholder="Obra Social / Prepaga"
+                        value="{{ $data['dato']['nombre_obra_social'] ?? '' }}" />
                     @error('obraSocial')
                         <p class="text-red-700 text-sm">{{ $message }}</p>
                     @enderror
@@ -104,26 +129,32 @@
             <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full step"
                 id="step-3" style="display: none;">
                 <x-input type="text" id="nombre_tutor" label="Nombre" placeholder="Nombre" require
-                    value="{{ old('nombre_tutor') }}" />
+                    value="{{ $data['tutor']['nombre'] ?? '' }}" />
                 <x-input type="text" id="apellido_tutor" label="Apellido" placeholder="Apellido" require
-                    value="{{ old('apellido_tutor') }}" />
+                    value="{{ $data['tutor']['apellido'] ?? '' }}" />
                 <x-input type="text" id="cuil_tutor" label="CUIL" placeholder="Cuil sin guiones ni puntos" require
-                    value="{{ old('cuil_tutor') }}" />
+                    value="{{ $data['tutor']['cuil'] ?? '' }}" />
                 <x-input type="email" id="email_tutor" label="Email" placeholder="Introduce un correo" require
-                    value="{{ old('email_tutor') }}" />
+                    value="{{ $data['tutor']['email'] ?? '' }}" />
                 <x-input type="text" id="telefono_tutor" label="Teléfono" placeholder="Introduce un telefono" require
-                    value="{{ old('telefono_tutor') }}" />
+                    value="{{ $data['tutor']['telefono'] ?? '' }}" />
                 <x-input type="text" id="ocupacion_tutor" label="Ocupación" placeholder="Ocupación" require
-                    value="{{ old('ocupacion') }}" />
+                    value="{{ $data['tutor']['ocupacion'] ?? '' }}" />
                 <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                     <p class="text-[#2D3648] font-semibold text-sm">Parentezco</p>
                     <div class="grid grid-cols-2">
-                        <x-input-radio id="madre" name="parentezco" label="Madre" value="madre" />
-                        <x-input-radio id="padre" name="parentezco" label="Padre" value="padre" />
-                        <x-input-radio id="hermanos" name="parentezco" label="Hermano/a" value="hermanos" />
-                        <x-input-radio id="tios" name="parentezco" label="Tia/o" value="tios" />
-                        <x-input-radio id="abuelos" name="parentezco" label="Abuela/o" value="abuelos" />
-                        <x-input-radio id="otro" name="parentezco" label="Otro" value="otro" />
+                        <x-input-radio id="tutor_madre" name="parentezco" label="Madre" value="madre"
+                            check="{{ ($data['tutor']['parentezco'] ?? '') === 'madre' }}" />
+                        <x-input-radio id="tutor_padre" name="parentezco" label="Padre" value="padre"
+                            check="{{ ($data['tutor']['parentezco'] ?? '') === 'padre' }}" />
+                        <x-input-radio id="tutor_hermano" name="parentezco" label="Hermano/a" value="hermano"
+                            check="{{ ($data['tutor']['parentezco'] ?? '') === 'hermano' }}" />
+                        <x-input-radio id="tutor_tio" name="parentezco" label="Tia/o" value="tio"
+                            check="{{ ($data['tutor']['parentezco'] ?? '') === 'tio' }}" />
+                        <x-input-radio id="tutor_abuelo" name="parentezco" label="Abuela/o" value="abuelo"
+                            check="{{ ($data['tutor']['parentezco'] ?? '') === 'abuelo' }}" />
+                        <x-input-radio id="tutor_otro" name="parentezco" label="Otro" value="otro"
+                            check="{{ ($data['tutor']['parentezco'] ?? '') === 'otro' }}" />
                     </div>
                     @error('parentezco')
                         <p class="text-red-700 text-sm">{{ $message }}</p>
@@ -240,9 +271,9 @@
             </div>
             <div class="flex gap-4 w-full justify-center">
                 <x-secondary-button text="Volver" href="{{ route('verificar-cuil') }}" id="toVerifyBtn" />
-                <x-secondary-button text="Volver" onclick="prevStep()" id="prevBtn" class="none"/>
+                <x-secondary-button text="Volver" onclick="prevStep()" id="prevBtn" class="none" />
                 <x-primary-button text="Siguiente" onclick="nextStep()" type="button" id="nextBtn" />
-                <x-primary-button text="Enviar" type="submit" id="submitBtn" class="none"/>
+                <x-primary-button text="Enviar" type="submit" id="submitBtn" class="none" />
             </div>
         </form>
 
