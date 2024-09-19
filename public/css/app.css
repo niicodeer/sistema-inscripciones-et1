@@ -842,13 +842,9 @@ footer p {
     }
 }
 .progress-bar {
-    transition: background-color 0.5s ease; /* Cambia el color gradualmente */
+    transition: background-color 0.5s ease; 
 }
 
-/* .animate-progress {
-    background-color: #EA9010;
-    transition: background-color 0.5s ease;
-} */
 @keyframes grow {
     from {
         width: 0%;
@@ -859,10 +855,59 @@ footer p {
 }
 
 .animate-progress {
-    background-color: #ea9010; /* Color de fondo de la barra activa */
+    background-color: #ea9010;
     animation: grow 0.5s ease-in-out forwards;
 }
 #multiStepForm {
     position: relative;
     overflow: hidden;
+}
+.slide-left {
+    -webkit-animation: slide-left 0.5s ease-in-out both;
+    animation: slide-left 0.5s ease-in-out both;
+}
+.slide-right {
+    -webkit-animation: slide-right 0.5s ease-in-out both;
+    animation: slide-right 0.5s ease-in-out both;
+}
+
+@-webkit-keyframes slide-left {
+    0% {
+        -webkit-transform: translateX(+100%);
+        transform: translateX(+100%);
+    }
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+@-webkit-keyframes slide-right {
+    0% {
+        -webkit-transform: translateX(-100%);
+        transform: translateX(-100%);
+    }
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+@keyframes slide-left {
+    0% {
+        -webkit-transform: translateX(+100%);
+        transform: translateX(+100%);
+    }
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+@keyframes slide-right {
+    0% {
+        -webkit-transform: translateX(-100%);
+        transform: translateX(-100%);
+    }
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
 }

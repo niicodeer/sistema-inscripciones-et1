@@ -32,7 +32,8 @@
             <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full step"
                 id="step-1">
                 <input type="hidden" name="id_alumno" value="{{ $data['id'] ?? null }}">
-                <x-input type="text" id="cuil_alumno" label="Cuil" readonly value="{{ $data['cuil'] }}" />
+                <x-input type="text" id="cuil_alumno" label="Cuil" readonly value="{{ $data['cuil'] }}"
+                    style="background-color: #e3e3e3" />
                 <x-input type="text" id="nombre_alumno" label="Nombre" placeholder="Nombre" require
                     value="{{ $data['nombre'] }}" />
                 <x-input type="text" id="apellido_alumno" label="Apellido" placeholder="Apellido" require
@@ -286,8 +287,8 @@
             </div>
             <div class="flex gap-4 w-full justify-center">
                 <x-secondary-button text="Volver" href="{{ route('verificar-cuil') }}" id="toVerifyBtn" />
-                <x-secondary-button text="Volver" onclick="prevStep()" id="prevBtn" class="none" />
-                <x-primary-button text="Siguiente" onclick="nextStep()" type="button" id="nextBtn" />
+                <x-secondary-button text="Volver" id="prevBtn" class="none" />
+                <x-primary-button text="Siguiente" type="button" id="nextBtn" />
                 <x-primary-button text="Enviar" type="submit" id="submitBtn" class="none" />
             </div>
         </form>
@@ -297,6 +298,13 @@
 @section('scripts')
     <script>
         let currentStep = 1;
+        const form = document.getElementById('multiStepForm');
+        const steps = form.querySelectorAll('.step');
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const verifyBtn = document.getElementById('toVerifyBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        let actualStep;
 
         function showStep(step) {
             if (step === 1) {
@@ -304,12 +312,13 @@
             } else {
                 document.getElementById('step1-text').style.display = 'none';
             }
-            document.querySelectorAll('.step').forEach((element) => {
+            steps.forEach((element) => {
                 element.style.display = 'none';
             });
 
-            // Muestra el paso actual
-            document.getElementById('step-' + step).style.display = 'flex';
+            actualStep = document.getElementById('step-' + step)
+            actualStep.style.display = 'flex';
+            actualStep.classList.add('slide-left');
 
             const titles = ["Datos Alumno", "Datos Alumno", "Datos Tutor", "Selección de curso", "Documentos"];
             document.getElementById('step-title').innerText = titles[step - 1];
@@ -324,11 +333,11 @@
                 }
             }
 
-            // Control de visibilidad de botones
-            document.getElementById('nextBtn').style.display = step === 5 ? 'none' : 'block';;
-            document.getElementById('prevBtn').style.display = step === 1 ? 'none' : 'block';
-            document.getElementById('toVerifyBtn').style.display = step !== 1 ? 'none' : 'block';
-            document.getElementById('submitBtn').style.display = step !== 5 ? 'none' : 'block';
+            nextBtn.style.display = step === 5 ? 'none' : 'block';
+            prevBtn.style.display = step === 1 ? 'none' : 'block';
+            verifyBtn.style.display = step !== 1 ? 'none' : 'block';
+            submitBtn.style.display = step !== 5 ? 'none' : 'block';
+
         }
 
         function nextStep() {
@@ -348,7 +357,21 @@
         document.addEventListener('DOMContentLoaded', function() {
             showStep(currentStep);
         });
-        document.getElementById('multiStepForm').addEventListener('submit', function(event) {
+        prevBtn.addEventListener('click', function() {
+            prevStep();
+            if (actualStep.classList.contains('slide-left')) {
+                actualStep.classList.remove('slide-left');
+                actualStep.classList.add('slide-right');
+            }
+        })
+        nextBtn.addEventListener('click', function() {
+            nextStep();
+            if (actualStep.classList.contains('slide-right')) {
+                actualStep.classList.remove('slide-right');
+                actualStep.classList.add('slide-left');
+            }
+        })
+        form.addEventListener('submit', function(event) {
             const formData = new FormData(event.target);
             const data = {};
             formData.forEach((value, key) => {
