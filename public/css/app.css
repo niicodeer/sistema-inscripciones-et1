@@ -705,10 +705,9 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position:relative;
+    position: relative;
     padding: 5rem 0;
 }
-
 
 .title {
     color: #202020;
@@ -724,13 +723,13 @@ body {
     width: 100%;
     max-width: 480px;
 }
-.links-container p{
+.links-container p {
     font-size: 1.3rem;
     font-weight: bold;
     color: #202020;
 }
 
-.links-container hr{
+.links-container hr {
     border-color: #9ca3af;
     margin: 0.5rem;
 }
@@ -838,7 +837,77 @@ footer p {
 }
 
 @media (max-width: 560px) {
-    html{
+    html {
         font-size: 14px;
+    }
+}
+.progress-bar {
+    transition: background-color 0.5s ease; 
+}
+
+@keyframes grow {
+    from {
+        width: 0%;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+.animate-progress {
+    background-color: #ea9010;
+    animation: grow 0.5s ease-in-out forwards;
+}
+#multiStepForm {
+    position: relative;
+    overflow: hidden;
+}
+.slide-left {
+    -webkit-animation: slide-left 0.5s ease-in-out both;
+    animation: slide-left 0.5s ease-in-out both;
+}
+.slide-right {
+    -webkit-animation: slide-right 0.5s ease-in-out both;
+    animation: slide-right 0.5s ease-in-out both;
+}
+
+@-webkit-keyframes slide-left {
+    0% {
+        -webkit-transform: translateX(+100%);
+        transform: translateX(+100%);
+    }
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+@-webkit-keyframes slide-right {
+    0% {
+        -webkit-transform: translateX(-100%);
+        transform: translateX(-100%);
+    }
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+@keyframes slide-left {
+    0% {
+        -webkit-transform: translateX(+100%);
+        transform: translateX(+100%);
+    }
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+@keyframes slide-right {
+    0% {
+        -webkit-transform: translateX(-100%);
+        transform: translateX(-100%);
+    }
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
     }
 }

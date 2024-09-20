@@ -1,4 +1,4 @@
-@props(['label', 'id', 'options', 'require' => false])
+@props(['label', 'id', 'options', 'require' => false, 'value'=>''])
 
 <div class="md:max-w-[45%] w-full flex flex-col gap-2 ">
     <label for="{{ $id }}" class="text-[#2D3648] font-semibold text-sm">{{ $label }}
@@ -10,7 +10,7 @@
         id="{{ $id }}" {{ $attributes }}>
         <option value="" disabled {{ old($id) ? '' : 'selected' }}>Seleccione una opción</option>
         @foreach (json_decode($options) as $option)
-            <option value="{{ $option }}" {{ old($id) == $option ? 'selected' : '' }}>
+            <option value="{{ $option }}" {{ $value == $option ? 'selected' : '' }}>
                 {{ $option }}
             </option>
         @endforeach

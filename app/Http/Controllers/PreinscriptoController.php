@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Estudiante;
+use App\Models\Inscripcion;
 use App\Models\Preinscripto;
 use Exception;
 use Illuminate\Http\Request;
@@ -97,15 +98,19 @@ class PreinscriptoController extends Controller
     {
         $cuil = $request->input('cuil');
         $preinscripto = Preinscripto::where('cuil', $cuil)->first();
-        $inscripto = Estudiante::where('cuil', $cuil)->first();
+        $estudiante = Estudiante::with('tutor', 'dato', 'ultimaInscripcion')->where('cuil', $cuil)->first();
 
-        if ($inscripto || $preinscripto) {
+        if ($estudiante || $preinscripto) {
             if ($preinscripto) {
-                Session::put('preinscripto', $preinscripto->only($preinscripto->getFillable()));
+                $preinscriptoArray = $preinscripto->only($preinscripto->getFillable());
+                $preinscriptoArray['method'] = 'POST';
+                Session::put('preinscripto', $preinscriptoArray);
             }
 
-            if ($inscripto) {
-                Session::put('inscripto', $inscripto->toArray());
+            if ($estudiante) {
+                $estudianteArray = $estudiante->toArray();
+                $estudianteArray['method'] = 'PUT';
+                Session::put('estudiante', $estudianteArray);
             }
 
             $request->session()->put('cuilCheck', true);

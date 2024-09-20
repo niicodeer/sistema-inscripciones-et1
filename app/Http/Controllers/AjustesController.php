@@ -8,11 +8,13 @@ use Carbon\CarbonInterface;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class AjustesController extends Controller
 {
     public function index()
     {
+        Session::flush();
         $preinscripcionHabilitada = false;
         $inscripcionHabilitada = false;
         $diferenciaDiasPreinscripcion = null;
