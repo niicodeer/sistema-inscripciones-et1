@@ -87,6 +87,7 @@
                     @error('convive')
                         <p class="text-red-700 text-sm">{{ $message }}</p>
                     @enderror
+                    <p id="convive_error"></p>
                 </div>
                 <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                     <p class="text-[#2D3648] font-semibold text-sm">Medio de transporte</p>
@@ -113,6 +114,7 @@
                     @error('transporte')
                         <p class="text-red-700 text-sm">{{ $message }}</p>
                     @enderror
+                    <p id="transporte_error"></p>
                 </div>
                 <div class=" w-[45%] flex flex-col gap-y-2">
                     <p class="text-[#2D3648] font-semibold text-sm">Obra Social / Prepaga</p>
@@ -127,6 +129,7 @@
                     @error('obraSocial')
                         <p class="text-red-700 text-sm">{{ $message }}</p>
                     @enderror
+                    <p id="obraSocial_error"></p>
                 </div>
             </div>
             {{-- Step 3 --}}
@@ -163,6 +166,7 @@
                     @error('parentezco')
                         <p class="text-red-700 text-sm">{{ $message }}</p>
                     @enderror
+                    <p id="parentezco_error"></p>
                 </div>
             </div>
             {{-- Step 4 --}}
@@ -204,6 +208,7 @@
                     @error('condicionAlumno')
                         <p class="text-red-700 text-sm">{{ $message }}</p>
                     @enderror
+                    <p id="condicionAlumno_error"></p>
                 </div>
 
                 <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
@@ -217,6 +222,7 @@
                     @error('turno')
                         <p class="text-red-700 text-sm">{{ $message }}</p>
                     @enderror
+                    <p id="turno_error"></p>
                 </div>
                 <x-input type="text" id="escuela_proviene" label="Escuela que proviene" placeholder="Nombre Escuela"
                     value="{{ $inscripcion['escuela_proviene'] ?? '' }}" />
@@ -231,6 +237,7 @@
                     @error('adeudaMaterias')
                         <p class="text-red-700 text-sm">{{ $message }}</p>
                     @enderror
+                    <p id="adeudaMaterias_error"></p>
                     <div class="lg:w-[220%]">
                         <x-input type="text" id="adeuda-materia-nombre" label="" placeholder="Nombres materias"
                             value="{{ $inscripcion['nombre_materias'] ?? '' }}" />
@@ -253,6 +260,7 @@
                 @error('reconocimientos')
                     <p class="text-red-700 text-sm">{{ $message }}</p>
                 @enderror
+                <p id="reconocimientos_error"></p>
                 <div class="my-6">
                     <p class="text-[#2D3648] italic font-bold text-base">* En caso de cumplir con alguna opción debe
                         presentar en la institución una copia del certificado que lo respalde.</p>
@@ -262,14 +270,12 @@
                 <p class="text-[#2D3648] font-semibold text-base pt-6">Por último, indique que está de acuerdo con los
                     siguientes términos.</p>
                 <div class="w-full flex gap-2 justify-start items-center mt-2">
-                    <input class="border border-gray-300 p-2 rounded h-5 w-5" id="terminos" name="terminos"
-                        type="checkbox">
+                    <input class="border border-gray-300 p-2 rounded h-5 w-5" id="uso_producciones_alumno"
+                        name="uso_producciones_alumno" type="checkbox">
                     <p>
                         Acepto el uso de producciones, imágenes, videos y sonido del alumno
                     </p>
-                    @error('terminos')
-                        <p class="text-red-700 text-sm">{{ $message }}</p>
-                    @enderror
+
                 </div>
                 <div class="w-full flex gap-2 justify-start items-center mt-2">
                     <input class="border border-gray-300 p-2 rounded h-5 w-5" id="terminos" name="terminos"
@@ -283,7 +289,7 @@
                         <p class="text-red-700 text-sm">{{ $message }}</p>
                     @enderror
                 </div>
-
+                <p id="terminos_error"></p>
             </div>
             <div class="flex gap-4 w-full justify-center">
                 <x-secondary-button text="Volver" href="{{ route('verificar-cuil') }}" id="toVerifyBtn" />
@@ -296,6 +302,7 @@
     </div>
 @endsection
 @section('scripts')
+    <script src="{{ asset('js/validaciones.js') }}"></script>
     <script>
         let currentStep = 1;
         const form = document.getElementById('multiStepForm');
@@ -316,7 +323,7 @@
                 element.style.display = 'none';
             });
 
-            actualStep = document.getElementById('step-' + step)
+            actualStep = document.getElementById('step-' + step);
             actualStep.style.display = 'flex';
             actualStep.classList.add('slide-left');
 
@@ -337,13 +344,18 @@
             prevBtn.style.display = step === 1 ? 'none' : 'block';
             verifyBtn.style.display = step !== 1 ? 'none' : 'block';
             submitBtn.style.display = step !== 5 ? 'none' : 'block';
-
         }
 
         function nextStep() {
-            if (currentStep < 5) {
-                currentStep++;
-                showStep(currentStep);
+            if (validateStep(currentStep)) {
+                if (currentStep < 5) {
+                    currentStep++;
+                    showStep(currentStep);
+                }
+                if (actualStep.classList.contains('slide-right')) {
+                    actualStep.classList.remove('slide-right');
+                    actualStep.classList.add('slide-left');
+                }
             }
         }
 
@@ -351,34 +363,48 @@
             if (currentStep > 1) {
                 currentStep--;
                 showStep(currentStep);
+                if (actualStep.classList.contains('slide-left')) {
+                    actualStep.classList.remove('slide-left');
+                    actualStep.classList.add('slide-right');
+                }
             }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
             showStep(currentStep);
         });
+
         prevBtn.addEventListener('click', function() {
             prevStep();
-            if (actualStep.classList.contains('slide-left')) {
-                actualStep.classList.remove('slide-left');
-                actualStep.classList.add('slide-right');
-            }
-        })
+
+        });
+
         nextBtn.addEventListener('click', function() {
             nextStep();
-            if (actualStep.classList.contains('slide-right')) {
-                actualStep.classList.remove('slide-right');
-                actualStep.classList.add('slide-left');
+        });
+
+        form.addEventListener('submit', function(event) {
+            if (validateStep(currentStep)) {
+                const formData = new FormData(event.target);
+                const data = {};
+                formData.forEach((value, key) => {
+                    if (key.includes('[]')) {
+                        const cleanKey = key.replace('[]', '');
+                        if (!data[cleanKey]) {
+                            data[cleanKey] = [];
+                        }
+                        data[cleanKey].push(value);
+                    } else {
+                        data[key] = value;
+                    }
+                });
+                console.log(data);
+                return data;
+            } else {
+                event.preventDefault();
             }
         })
-        form.addEventListener('submit', function(event) {
-            const formData = new FormData(event.target);
-            const data = {};
-            formData.forEach((value, key) => {
-                data[key] = value;
-            });
-            console.log(data);
-            return data;
-        });
     </script>
+
+
 @endsection
