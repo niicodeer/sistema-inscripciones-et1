@@ -21,6 +21,7 @@ return new class extends Migration
             $table->boolean('adeuda_materias')->nullable();
             $table->string('nombre_materias', 50)->nullable();
             $table->json('reconocimientos');
+            $table->boolean('papeles_presentados')->default(false);
             $table->date('fecha_inscripcion');
             $table->string('curso_inscripto', 15);
             $table->unsignedBigInteger('estudiante_id')->nullable();
