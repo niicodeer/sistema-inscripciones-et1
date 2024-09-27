@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\EstudianteResource\Pages;
 use App\Filament\Resources\EstudianteResource\RelationManagers\InscripcionesRelationManager;
+use App\Models\Curso;
 use App\Models\Estudiante;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Fieldset;
@@ -101,8 +102,12 @@ class EstudianteResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query) => $query->where('es_alumno', true))
+            ->modifyQueryUsing(fn(Builder $query) => $query->where('es_alumno', true))
             ->columns([
+                TextColumn::make('ultimaInscripcion.curso.fullcurso')
+                    ->searchable()
+                    ->label('Curso')
+                    ->sortable(),
                 TextColumn::make('cuil')
                     ->searchable()
                     ->sortable(),
@@ -129,13 +134,22 @@ class EstudianteResource extends Resource
                         '0' => 'No es alumno',
                         '1' => 'Es alumno',
                     ]),
-                    Tables\Filters\TrashedFilter::make(),
+                SelectFilter::make('curso_id')
+                ->options(
+                    Curso::all()->mapWithKeys(function ($curso) {
+                        return [$curso->id => $curso->fullcurso];
+                    })
+                )
+                ->label('Curso')
+                ->searchable()
+                ->relationship('ultimaInscripcion.curso','curso_id'), // ESTO LO ROMPE
+            Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()->after(function ($record) {
-                    $record->deleted_by=Auth::id();
+                    $record->deleted_by = Auth::id();
                     $record->save();
                 }),
             ])

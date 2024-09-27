@@ -40,7 +40,5 @@ class Inscripcion extends Model
     {
         return $this->belongsTo(Curso::class, 'curso_id', 'id');
     }
-
-
-
+    
 }
