@@ -124,7 +124,7 @@
                     </div>
                     <x-input type="text" id="nombre_obra_social" label="" placeholder="Obra Social / Prepaga"
                         value="{{ $data['dato']['nombre_obra_social'] ?? '' }}" />
-                    @error('obraSocial')
+                    @error('nombre_obra_social')
                         <p class="text-red-700 text-sm">{{ $message }}</p>
                     @enderror
                 </div>
@@ -182,7 +182,7 @@
                     'Sexto año',
                 ])" require
                     value="{{ $inscripcion['curso_inscripto'] ?? '' }}" />
-                <x-select id="modalidad" label="Modalidad a seguir" :options="json_encode(['Informática', 'Economía', 'Industria'])" {{-- :disabled="in_array(['Primer año', 'Segundo año', ''])"  --}}require
+                <x-select id="modalidad" label="Modalidad a seguir" :options="json_encode(['Informática', 'Economía', 'Industria'])" require
                     value="{{ $inscripcion['modalidad'] ?? '' }}" />
 
                 <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
@@ -201,7 +201,7 @@
                                 check="{{ ($inscripcion['condicion_alumno'] ?? '') === 'repitente' }}" />
                         </div>
                     </div>
-                    @error('condicionAlumno')
+                    @error('condicion_alumno')
                         <p class="text-red-700 text-sm">{{ $message }}</p>
                     @enderror
                 </div>
@@ -228,11 +228,11 @@
                         <x-input-radio id="adeuda_no" label="No" value="0" name="adeuda_materia"
                             check="{{ ($inscripcion['adeuda_materias'] ?? '') === 0 }}" />
                     </div>
-                    @error('adeudaMaterias')
+                    @error('adeuda_materias')
                         <p class="text-red-700 text-sm">{{ $message }}</p>
                     @enderror
                     <div class="lg:w-[220%]">
-                        <x-input type="text" id="adeuda-materia-nombre" label="" placeholder="Nombres materias"
+                        <x-input type="text" id="nombre_materias" label="" placeholder="Nombres materias"
                             value="{{ $inscripcion['nombre_materias'] ?? '' }}" />
                     </div>
                 </div>
@@ -296,89 +296,5 @@
     </div>
 @endsection
 @section('scripts')
-    <script>
-        let currentStep = 1;
-        const form = document.getElementById('multiStepForm');
-        const steps = form.querySelectorAll('.step');
-        const nextBtn = document.getElementById('nextBtn');
-        const prevBtn = document.getElementById('prevBtn');
-        const verifyBtn = document.getElementById('toVerifyBtn');
-        const submitBtn = document.getElementById('submitBtn');
-        let actualStep;
-
-        function showStep(step) {
-            if (step === 1) {
-                document.getElementById('step1-text').style.display = 'block';
-            } else {
-                document.getElementById('step1-text').style.display = 'none';
-            }
-            steps.forEach((element) => {
-                element.style.display = 'none';
-            });
-
-            actualStep = document.getElementById('step-' + step)
-            actualStep.style.display = 'flex';
-            actualStep.classList.add('slide-left');
-
-            const titles = ["Datos Alumno", "Datos Alumno", "Datos Tutor", "Selección de curso", "Documentos"];
-            document.getElementById('step-title').innerText = titles[step - 1];
-
-            for (let i = 1; i <= 5; i++) {
-                const progressBar = document.getElementById('progress-bar-' + i);
-
-                if (i <= step) {
-                    progressBar.classList.add('animate-progress');
-                } else {
-                    progressBar.classList.remove('animate-progress');
-                }
-            }
-
-            nextBtn.style.display = step === 5 ? 'none' : 'block';
-            prevBtn.style.display = step === 1 ? 'none' : 'block';
-            verifyBtn.style.display = step !== 1 ? 'none' : 'block';
-            submitBtn.style.display = step !== 5 ? 'none' : 'block';
-
-        }
-
-        function nextStep() {
-            if (currentStep < 5) {
-                currentStep++;
-                showStep(currentStep);
-            }
-        }
-
-        function prevStep() {
-            if (currentStep > 1) {
-                currentStep--;
-                showStep(currentStep);
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            showStep(currentStep);
-        });
-        prevBtn.addEventListener('click', function() {
-            prevStep();
-            if (actualStep.classList.contains('slide-left')) {
-                actualStep.classList.remove('slide-left');
-                actualStep.classList.add('slide-right');
-            }
-        })
-        nextBtn.addEventListener('click', function() {
-            nextStep();
-            if (actualStep.classList.contains('slide-right')) {
-                actualStep.classList.remove('slide-right');
-                actualStep.classList.add('slide-left');
-            }
-        })
-        form.addEventListener('submit', function(event) {
-            const formData = new FormData(event.target);
-            const data = {};
-            formData.forEach((value, key) => {
-                data[key] = value;
-            });
-            console.log(data);
-            return data;
-        });
-    </script>
+    <script src="{{ asset('js/inscripcion-form-scripts.js') }}"></script>
 @endsection
