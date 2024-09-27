@@ -152,6 +152,8 @@ class AjustesResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->url(null),
+                Action::make('backup')
+                ->label()
             ])
             ->bulkActions([
                 // Tables\Actions\BulkActionGroup::make([
