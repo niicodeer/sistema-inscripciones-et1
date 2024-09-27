@@ -61,6 +61,13 @@ return [
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
+            'dump' => [
+        // Especifica la ruta donde se encuentra el binario mysqldump
+        'dump_binary_path' => 'C:/laragon/bin/mysql/mysql-8.0.30-winx64/bin/', // Ajusta según tu ruta
+        // Si deseas, puedes incluir más opciones de dump aquí
+        'use_single_transaction' => true,
+        'timeout' => 60 * 5, // 5 minutos de tiempo máximo para el dump
+    ],
         ],
 
         'pgsql' => [

@@ -3,8 +3,10 @@
 namespace App\Filament\Resources\AjustesResource\Pages;
 
 use App\Filament\Resources\AjustesResource;
-use Filament\Actions;
+use Filament\Actions\Action;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Support\Facades\Artisan;
 
 class ListAjustes extends ListRecords
 {
@@ -13,7 +15,14 @@ class ListAjustes extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            //Actions\CreateAction::make(),
+            Action::make('backup')
+                ->label('Crear Backup')
+                ->action(function () {
+                    Artisan::call('backup:run --only-db');
+                    Notification::make('Exito');
+                })
+               // ->icon('heroicon-o-database')
+                ,
         ];
     }
 }
