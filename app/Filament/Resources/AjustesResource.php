@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\AjustesResource\Pages;
-use App\Filament\Resources\AjustesResource\RelationManagers;
 use App\Models\Ajustes;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
@@ -11,8 +10,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Actions\Action;
+/* use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope; */
 
 class AjustesResource extends Resource
 {
@@ -153,7 +153,7 @@ class AjustesResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make()->url(null),
                 Action::make('backup')
-                ->label()
+                ->label('Backup'),
             ])
             ->bulkActions([
                 // Tables\Actions\BulkActionGroup::make([
