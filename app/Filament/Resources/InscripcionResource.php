@@ -84,6 +84,11 @@ class InscripcionResource extends Resource
                         0 => 'No',
                         1 => 'Si'
                     ]),
+                Radio::make('papeles_presentados')
+                    ->options([
+                        0 => 'No',
+                        1 => 'Si'
+                    ]),
                 TextInput::make('nombre_materias'),
                 TextInput::make('reconocimientos'),
             ]);
@@ -119,6 +124,12 @@ class InscripcionResource extends Resource
                         'no aceptado' => 'heroicon-o-x-circle',
                     }),
 
+                IconColumn::make('papeles_presentados')
+                    ->label('Papeles Presentados')
+                    ->icon(fn(bool $state): string => $state ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle')
+                    ->color(fn(bool $state): ?string => $state ? 'success' : 'danger')
+                    ->sortable(),
+
                 IconColumn::make('email_sent_at')
                     ->label('Notificado')
                     ->icon(
@@ -140,12 +151,12 @@ class InscripcionResource extends Resource
                         return [$curso->id => "{$curso->id} - {$curso->año_curso}º {$curso->division}º"];
                     })->all())
                     ->label('Curso'),
-                    Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()->after(function ($record) {
-                    $record->deleted_by=Auth::id();
+                    $record->deleted_by = Auth::id();
                     $record->save();
                 }),
                 Action::make('Enviar mail')
