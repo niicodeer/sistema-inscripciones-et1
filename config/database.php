@@ -63,10 +63,10 @@ return [
             ]) : [],
             'dump' => [
         // Especifica la ruta donde se encuentra el binario mysqldump
-        'dump_binary_path' => 'C:/laragon/bin/mysql/mysql-8.0.30-winx64/bin/', // Ajusta según tu ruta
-        // Si deseas, puedes incluir más opciones de dump aquí
+        'dump_binary_path' => 'C:/laragon/bin/mysql/mysql-8.0.30-winx64/bin/', 
+      
         'use_single_transaction' => true,
-        'timeout' => 60 * 5, // 5 minutos de tiempo máximo para el dump
+        'timeout' => 60 * 5, 
     ],
         ],
 
