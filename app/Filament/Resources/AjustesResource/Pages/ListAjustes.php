@@ -9,6 +9,8 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\Artisan;
 
+use function PHPUnit\Framework\throwException;
+
 class ListAjustes extends ListRecords
 {
     protected static string $resource = AjustesResource::class;
@@ -34,11 +36,13 @@ class ListAjustes extends ListRecords
                     ->color('success')
                     ->title('Backup creado exitosamente.')
                     ->icon('heroicon-o-check')
+                    ->iconColor('success')
                     ->send();
                     } catch (Exception $e){
                         return Notification::make()
                         ->color('danger')
                         ->icon('heroicon-o-exclamation-circle')
+                        ->iconColor('danger')
                         ->title($e->getMessage())
                         ->send();
                     }
