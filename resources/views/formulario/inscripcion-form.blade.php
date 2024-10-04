@@ -209,10 +209,10 @@
                 <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                     <p class="text-[#2D3648] font-semibold text-sm">Turno</p>
                     <div class="flex flex-col md:max-w-[45%] w-full gap-4">
-                        <x-input-radio id="mañana" label="Mañana" value="mañana" name="turno"
-                            check="{{ ($inscripcion['turno'] ?? '') === 'mañana' }}" />
-                        <x-input-radio id="tarde" label="Tarde" value="tarde" name="turno"
-                            check="{{ ($inscripcion['turno'] ?? '') === 'tarde' }}" />
+                        <x-input-radio id="mañana" label="Mañana" value="Mañana" name="turno"
+                            check="{{ ($inscripcion['turno'] ?? '') === 'Mañana' }}" />
+                        <x-input-radio id="tarde" label="Tarde" value="Tarde" name="turno"
+                            check="{{ ($inscripcion['turno'] ?? '') === 'Tarde' }}" />
                     </div>
                     @error('turno')
                         <p class="text-red-700 text-sm">{{ $message }}</p>
@@ -223,9 +223,9 @@
                 <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                     <p class="text-[#2D3648] font-semibold text-sm">Adeuda Materias</p>
                     <div class="flex md:max-w-[45%] w-full gap-6">
-                        <x-input-radio id="adeuda_si" label="Si" value="1" name="adeuda_materia"
+                        <x-input-radio id="adeuda_si" label="Si" value="1" name="adeuda_materias"
                             check="{{ ($inscripcion['adeuda_materias'] ?? '') === 1 }}" />
-                        <x-input-radio id="adeuda_no" label="No" value="0" name="adeuda_materia"
+                        <x-input-radio id="adeuda_no" label="No" value="0" name="adeuda_materias"
                             check="{{ ($inscripcion['adeuda_materias'] ?? '') === 0 }}" />
                     </div>
                     @error('adeuda_materias')

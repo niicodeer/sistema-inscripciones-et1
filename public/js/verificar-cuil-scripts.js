@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     svgCross.classList.add('hidden');
 
                     setTimeout(function() {
-                        window.location.href = "{{ route('inscripcion') }}";
+                        window.location.href = "/inscripcion";
                     }, 1000);
                     setTimeout(function() {
                         btnContinuar.classList.remove('cursor-not-allowed',
