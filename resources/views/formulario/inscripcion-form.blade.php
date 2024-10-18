@@ -29,9 +29,6 @@
             @csrf
             @method($data['method'])
             {{-- Step 1 --}}
-            @php
-                var_dump($data['id'] ?? null)
-            @endphp
             <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full step"
                 id="step-1">
                 <input type="hidden" name="id_alumno" value="{{ $data['id'] ?? null }}">
