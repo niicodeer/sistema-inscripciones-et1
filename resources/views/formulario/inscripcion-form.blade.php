@@ -304,3 +304,4 @@
 @section('scripts')
     <script type="module" src="{{ asset('js/inscripcion-form-scripts.js') }}"></script>
 @endsection
+

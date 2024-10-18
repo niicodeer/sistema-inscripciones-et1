@@ -1,6 +1,6 @@
 import { validateStep } from './validaciones.js';
 
-let currentStep = 1;
+let currentStep = 5;
 const form = document.getElementById('multiStepForm');
 const steps = form.querySelectorAll('.step');
 const nextBtn = document.getElementById('nextBtn');
@@ -100,3 +100,24 @@ form.addEventListener('submit', function(event) {
         event.preventDefault();
     }
 })
+
+document.addEventListener('DOMContentLoaded', function() {
+    const ningunoCheckbox = document.getElementById('ninguno');
+    const otherCheckboxes = ['familiar', 'merito', 'otros'].map(id => document.getElementById(id));
+
+    // Cuando se selecciona 'ninguno', deselecciona los otros
+    ningunoCheckbox.addEventListener('change', function() {
+        if (ningunoCheckbox.checked) {
+            otherCheckboxes.forEach(cb => cb.checked = false);
+        }
+    });
+
+    // Cuando se selecciona cualquiera de los otros, deselecciona 'ninguno'
+    otherCheckboxes.forEach(cb => {
+        cb.addEventListener('change', function() {
+            if (cb.checked) {
+                ningunoCheckbox.checked = false;
+            }
+        });
+    });
+});
