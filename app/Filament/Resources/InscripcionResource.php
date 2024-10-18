@@ -7,6 +7,7 @@ use App\Jobs\SendResultadoEmailJob;
 use App\Models\Curso;
 use App\Models\Estudiante;
 use App\Models\Inscripcion;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Radio;
@@ -191,6 +192,26 @@ class InscripcionResource extends Resource
                     }),
                     Tables\Actions\ForceDeleteBulkAction::make(),
                 ]),
+                Tables\Actions\BulkAction::make('Imprimir PDF')
+                ->label('Imprimir PDF')
+                ->color('indigo')
+                ->icon('heroicon-o-arrow-down-tray')
+                ->action(function (Collection $records) {
+                    $curso = $records->first()->curso->fullcurso; // Suponiendo que los estudiantes pertenecen al mismo curso
+                    $alumnos = $records->map(function ($record) {
+                        return $record->estudiante;
+                    });
+
+                    $pdf = Pdf::loadView('listados.listado-pdf', [
+                        'curso' => $curso,
+                        'alumnos' => $alumnos,
+                    ])->setPaper('A4', 'landscape');
+
+                    return response()->streamDownload(
+                        fn() => print($pdf->output()),
+                        'listado-alumnos.pdf'
+                    );})
+                ,
                 Tables\Actions\BulkAction::make('Enviar Mails')
                     ->requiresConfirmation()
                     ->modalHeading('Confirmación de envío de correos')
