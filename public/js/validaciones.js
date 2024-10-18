@@ -1,7 +1,8 @@
 //Validaciones formulario inscripcion
-function validateStep(step) {
+export function validateStep(step) {
     let isValid = true;
     document.querySelectorAll('.error').forEach(el => el.remove()); // Elimina mensajes de error previos
+    document.querySelectorAll('input').forEach(el => el.style.borderColor = '');
 
     if (step === 1) {
         const nombre = document.querySelector('input[name="nombre_alumno"]');
@@ -36,6 +37,9 @@ function validateStep(step) {
         } else if (edad < 12 || (edad === 12 && (mes < 0 || (mes === 0 && dia < 0)))) {
             isValid = false;
             showError(fechaNacimientoInput, 'Debe tener al menos 12 años.');
+        }else if (edad > 22 || (edad === 25 && (mes < 0 || (mes === 0 && dia < 0)))) {
+            isValid = false;
+            showError(fechaNacimientoInput, 'Debe tener no más de 22 años.');
         }
 
         if (!emailRegex.test(email.value) || email.value.length < 8 || email.value.length > 100) {
@@ -195,12 +199,13 @@ function validateStep(step) {
     return isValid;
 }
 
-function showError(input, message) {
+export function showError(input, message) {
     const error = document.createElement('span');
     error.classList.add('error');
     error.style.color = 'red';
     error.textContent = message;
     input.insertAdjacentElement('afterend', error);
+    input.style.borderColor = 'red';
 }
 
 

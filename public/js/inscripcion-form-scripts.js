@@ -1,3 +1,5 @@
+import { validateStep } from './validaciones.js';
+
 let currentStep = 1;
 const form = document.getElementById('multiStepForm');
 const steps = form.querySelectorAll('.step');
@@ -42,9 +44,15 @@ function showStep(step) {
 }
 
 function nextStep() {
-    if (currentStep < 5) {
-        currentStep++;
-        showStep(currentStep);
+    if (validateStep(currentStep)) {
+        if (currentStep < 5) {
+            currentStep++;
+            showStep(currentStep);
+        }
+        if (actualStep.classList.contains('slide-right')) {
+            actualStep.classList.remove('slide-right');
+            actualStep.classList.add('slide-left');
+        }
     }
 }
 
@@ -52,32 +60,43 @@ function prevStep() {
     if (currentStep > 1) {
         currentStep--;
         showStep(currentStep);
+        if (actualStep.classList.contains('slide-left')) {
+            actualStep.classList.remove('slide-left');
+            actualStep.classList.add('slide-right');
+        }
     }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
     showStep(currentStep);
 });
+
 prevBtn.addEventListener('click', function() {
     prevStep();
-    if (actualStep.classList.contains('slide-left')) {
-        actualStep.classList.remove('slide-left');
-        actualStep.classList.add('slide-right');
-    }
-})
+
+});
+
 nextBtn.addEventListener('click', function() {
     nextStep();
-    if (actualStep.classList.contains('slide-right')) {
-        actualStep.classList.remove('slide-right');
-        actualStep.classList.add('slide-left');
+});
+
+form.addEventListener('submit', function(event) {
+    if (validateStep(currentStep)) {
+        const formData = new FormData(event.target);
+        const data = {};
+        formData.forEach((value, key) => {
+            if (key.includes('[]')) {
+                const cleanKey = key.replace('[]', '');
+                if (!data[cleanKey]) {
+                    data[cleanKey] = [];
+                }
+                data[cleanKey].push(value);
+            } else {
+                data[key] = value;
+            }
+        });
+        return data;
+    } else {
+        event.preventDefault();
     }
 })
-form.addEventListener('submit', function(event) {
-    const formData = new FormData(event.target);
-    const data = {};
-    formData.forEach((value, key) => {
-        data[key] = value;
-    });
-    console.log(data);
-    return data;
-});
