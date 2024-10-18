@@ -1,7 +1,9 @@
 @section('html-style')
     style="height:100%;"
 @endsection
+@extends('layouts.forms-layout')
 @section('title', 'Preinscripción correcta')
+@section('content')
 <div class="flex flex-col gap-8 justify-center items-center w-full max-w-96">
 
     <h1 class="text-xl md:text-2xl font-bold text-center">¡Registramos tu pre-inscripción!</h1>
@@ -33,3 +35,4 @@
         <x-secondary-button text="Finalizar" href="{{ route('finalizar') }}" />
     </div>
 </div>
+@endsection

@@ -29,6 +29,9 @@
             @csrf
             @method($data['method'])
             {{-- Step 1 --}}
+            @php
+                var_dump($data['id'] ?? null)
+            @endphp
             <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full step"
                 id="step-1">
                 <input type="hidden" name="id_alumno" value="{{ $data['id'] ?? null }}">
@@ -124,7 +127,7 @@
                     </div>
                     <x-input type="text" id="nombre_obra_social" label="" placeholder="Obra Social / Prepaga"
                         value="{{ $data['dato']['nombre_obra_social'] ?? '' }}" />
-                    @error('nombre_obra_social')
+                    @error('obra_social')
                         <p class="text-red-700 text-sm">{{ $message }}</p>
                     @enderror
                 </div>

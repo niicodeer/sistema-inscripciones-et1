@@ -19,8 +19,8 @@ Route::post('/preinscripcion', [PreinscriptoController::class, 'store'])->name('
 Route::get('/inscripcion', [InscripcionController::class, 'index'])->name('inscripcion')->middleware('verificarCuil');
 Route::post('/inscripcion', [InscripcionController::class, 'store'])->name('inscripcion');
 Route::put('/inscripcion', [InscripcionController::class, 'update'])->name('inscripcion');
-Route::get('/preinscripcion-correcta', PreinscripcionConfirm::class)->name('confirmacion-preinscripcion')->middleware('checkPreinscripcion');
-Route::get('/inscripcion-correcta', InscripcionConfirm::class)->name('confirmacion-inscripcion')->middleware('checkInscripcion');
+Route::get('/preinscripcion-correcta', [PreinscriptoController::class, 'preincripcion_correcta'])->name('confirmacion-preinscripcion')->middleware('checkPreinscripcion');
+Route::get('/inscripcion-correcta', [InscripcionController::class, 'incripcion_correcta'])->name('confirmacion-inscripcion')->middleware('checkInscripcion');
 Route::get('/verificar-cuil', function () {
     return view('formulario.verificar-cuil');
 })->name('verificar-cuil')->middleware('checkHorario:inscripcion');
