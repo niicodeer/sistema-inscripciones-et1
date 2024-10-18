@@ -94,6 +94,10 @@ class PreinscriptoController extends Controller
         }
     }
 
+    public function preincripcion_correcta(){
+        return view('confirmacion.confirmacion-preinscripcion');
+    }
+
     public function verificarCUIL(Request $request)
     {
         $cuil = $request->input('cuil');

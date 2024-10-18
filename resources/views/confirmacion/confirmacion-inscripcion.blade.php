@@ -1,4 +1,9 @@
+@extends('layouts.forms-layout')
 @section('title', 'Inscripción correcta')
+@section('html-style')
+    style="height:100%;"
+@endsection
+@section('content')
 <div class="flex flex-col gap-8 justify-center items-center w-full max-w-96 text-center">
 
     <h1 class="text-2xl md:text-3xl font-bold">Tu inscripción ha sido registrada</h1>
@@ -18,3 +23,4 @@
         <x-secondary-button text="Finalizar" href="{{ route('finalizar') }}" />
     </div>
 </div>
+@endsection
