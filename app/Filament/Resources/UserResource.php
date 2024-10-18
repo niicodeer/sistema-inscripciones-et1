@@ -26,7 +26,7 @@ class UserResource extends Resource
     use Notifiable, HasRoles;
 
     protected static ?string $model = User::class;
-
+    protected static ?string $modelLabel = 'Usuario';
     protected static ?string $navigationIcon = 'heroicon-o-users';
     protected static ?string $navigationGroup = 'Administrador';
 

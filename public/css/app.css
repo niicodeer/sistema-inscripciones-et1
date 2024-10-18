@@ -842,16 +842,30 @@ footer p {
     }
 }
 .progress-bar {
-    transition: background-color 0.5s ease; 
+    -webkit-transition: background-color 0.5s ease;
+    -moz-transition: background-color 0.5s ease;
+    -o-transition: background-color 0.5s ease;
+    transition: background-color 0.5s ease;
+}
+
+@-webkit-keyframes grow {
+    from { width: 0%; }
+    to { width: 100%; }
+}
+
+@-moz-keyframes grow {
+    from { width: 0%; }
+    to { width: 100%; }
+}
+
+@-o-keyframes grow {
+    from { width: 0%; }
+    to { width: 100%; }
 }
 
 @keyframes grow {
-    from {
-        width: 0%;
-    }
-    to {
-        width: 100%;
-    }
+    from { width: 0%; }
+    to { width: 100%; }
 }
 
 .animate-progress {
