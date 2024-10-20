@@ -59,8 +59,10 @@
                 </div>
                 <x-input type="text" id="barrio" label="Barrio" placeholder="Barrio" require
                     value="{{ $data['dato']['barrio'] ?? '' }}" />
-                <x-input type="text" id="provincia" label="Provincia" placeholder="Provincia" require
-                    value="{{ $data['dato']['provincia'] ?? '' }}" />
+
+                <x-select id="departamentos" label="departamento" :options="[]" require
+                value="{{ $data['dato']['provincia'] ?? '' }}" />
+
                 <x-input type="text" id="ciudad" label="Ciudad" placeholder="Ciudad" require
                     value="{{ $data['dato']['ciudad'] ?? '' }}" />
                 <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
