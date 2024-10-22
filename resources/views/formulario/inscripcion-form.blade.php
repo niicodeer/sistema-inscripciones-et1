@@ -417,13 +417,16 @@
         const cursos = ['Primer año', 'Segundo año', 'Tercer año', 'Cuarto año', 'Quinto año'];
 
         radios.forEach(radio => {
-                if(!radio.checked){
+            if (!radio.checked) {
                 radio.disabled = true; // Deselecciona todos los radios
-                }
-            });
+            }
+        });
         // Lógica para habilitar/deshabilitar opciones de cursos para preinscriptos y estudiantes
         function disableCoursesForPreinscripto() {
+            cursoActual = cursoSelect.value;
+            const indiceCursoActual = cursos.indexOf(cursoActual);
             if (!idAlumno) {
+
                 // Preinscripto: solo habilitar 'Primer año'
                 options.forEach(option => {
                     cursoActual = cursoSelect.value;
@@ -433,15 +436,16 @@
                 });
             } else {
                 // Estudiante: solo mostrar curso actual y el siguiente
-                cursoActual = cursoSelect.value;
-                const indiceCursoActual = cursos.indexOf(cursoActual);
-                
+
+
                 options.forEach(option => {
                     const indiceOpcion = cursos.indexOf(option.value);
-                    if (indiceOpcion === indiceCursoActual || indiceOpcion === indiceCursoActual + 1) {
-                        option.disabled = false;
+                    if (indiceCursoActual === cursos.length - 1) {
+                        // Si es Sexto año (último curso), solo habilitar el curso actual
+                        option.disabled = indiceOpcion !== indiceCursoActual;
                     } else {
-                        option.disabled = true;
+                        // Habilitar el curso actual y el siguiente, si existe
+                        option.disabled = !(indiceOpcion === indiceCursoActual || indiceOpcion === indiceCursoActual + 1);
                     }
                 });
             }
