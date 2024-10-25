@@ -59,10 +59,10 @@
                 </div>
                 <x-input type="text" id="barrio" label="Barrio" placeholder="Barrio" require
                     value="{{ $data['dato']['barrio'] ?? '' }}" />
-                <x-input type="text" id="provincia" label="Provincia" placeholder="Provincia" require
-                    value="{{ $data['dato']['provincia'] ?? '' }}" />
-                <x-input type="text" id="ciudad" label="Ciudad" placeholder="Ciudad" require
-                    value="{{ $data['dato']['ciudad'] ?? '' }}" />
+                    <x-select id="departamento" label="Departamento" :options="json_encode([])" require
+                     />
+                    <x-select id="localidad" label="Localidad" :options="json_encode([])" require
+                         />
                 <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                     <p class="text-[#2D3648] font-semibold text-sm">Convive con</p>
                     @isset($data['dato']['convivencia'])
@@ -304,4 +304,5 @@
 @section('scripts')
     <script type="module" src="{{ asset('js/inscripcion-form-scripts.js') }}"></script>
 @endsection
+
 

@@ -1,6 +1,7 @@
 import { validateStep } from './validaciones.js';
+import { LOCALIDADES, DEPARTAMENTOS } from './datos-geograficos.js';
 
-let currentStep = 5;
+let currentStep = 2;
 const form = document.getElementById('multiStepForm');
 const steps = form.querySelectorAll('.step');
 const nextBtn = document.getElementById('nextBtn');
@@ -120,4 +121,47 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const departamentoSelect = document.getElementById('departamento');
+    const localidadSelect = document.getElementById('localidad');
+
+    // Obtener y ordenar los departamentos alfabéticamente por nombre
+    const departamentos = DEPARTAMENTOS[0].departamentos.sort((a, b) => {
+        return a.nombre.localeCompare(b.nombre);
+    });
+
+    // Llenar el selector de departamentos
+    departamentos.forEach(departamento => {
+        const option = document.createElement('option');
+        option.value = departamento.id;
+        option.text = departamento.nombre;
+        departamentoSelect.appendChild(option);
+    });
+
+    // Evento para cuando se selecciona un departamento
+    departamentoSelect.addEventListener('change', function() {
+        const selectedDepartamentoId = departamentoSelect.value;
+
+        // Limpiar el selector de localidades
+        localidadSelect.innerHTML = '';
+
+        // Obtener y ordenar las localidades del departamento seleccionado
+        const localidades = LOCALIDADES[0].localidades
+            .filter(localidad => localidad.departamento.id === selectedDepartamentoId)
+            .sort((a, b) => {
+                return a.nombre.localeCompare(b.nombre);
+            });
+
+        // Llenar el selector de localidades
+        localidades.forEach(localidad => {
+            const option = document.createElement('option');
+            option.value = localidad.id;
+            option.text = localidad.nombre;
+            localidadSelect.appendChild(option);
+        });
+    });
+;
 });
