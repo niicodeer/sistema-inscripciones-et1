@@ -1,7 +1,7 @@
 import { validateStep } from './validaciones.js';
 import { LOCALIDADES, DEPARTAMENTOS } from './datos-geograficos.js';
 
-let currentStep = 2;
+let currentStep = 4;
 const form = document.getElementById('multiStepForm');
 const steps = form.querySelectorAll('.step');
 const nextBtn = document.getElementById('nextBtn');
@@ -121,6 +121,240 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const idAlumno = document.getElementById('id_alumno').value;
+    const cursoSelect = document.getElementById('curso');
+    const radios = document.querySelectorAll('input[name="condicion_alumno"]');
+    const radiosAdeudaMateria = document.querySelectorAll('input[name="adeuda_materias"]');
+    const options = cursoSelect.querySelectorAll('option');
+    const escuelaProviene = document.getElementById('escuela_proviene');
+    const nombreMaterias = document.getElementById('nombre_materias');
+    let cursoActual = '';
+    // Mapeo de los cursos disponibles
+    const cursos = ['Primer año', 'Segundo año', 'Tercer año', 'Cuarto año', 'Quinto año', 'Sexto año'];
+
+    radios.forEach(radio => {
+        if (!radio.checked) {
+            radio.disabled = true; // Deselecciona todos los radios
+            if (radio.value !== 'traspaso' && radio.value !== 'ingresante') {
+                escuelaProviene.disabled = true;
+            }
+        }
+    });
+
+    function disableCoursesForPreinscripto() {
+        cursoActual = cursoSelect.value;
+        const indiceCursoActual = cursos.indexOf(cursoActual);
+        if (!idAlumno) {
+            options.forEach(option => {
+                cursoActual = cursoSelect.value;
+                if (option.value !== 'Primer año') {
+                    option.disabled = true;
+                }
+            });
+        } else {
+            options.forEach(option => {
+                const indiceOpcion = cursos.indexOf(option.value);
+                if (indiceCursoActual === cursos.length - 1) {
+                    option.disabled = indiceOpcion !== indiceCursoActual;
+                } else {
+                    option.disabled = !(indiceOpcion === indiceCursoActual || indiceOpcion ===
+                        indiceCursoActual + 1);
+                }
+            });
+        }
+    }
+
+    function handleRadioChange() {
+        cursoActual;
+        const indiceCursoActual = cursos.indexOf(cursoActual);
+        radios.forEach(radio => {
+            radio.checked = false;
+            if (radio.value !== 'traspaso' || radio.value !== 'ingresante') {
+                escuelaProviene.disabled = true;
+            }
+        });
+
+        if (cursoSelect.value === 'Primer año') {
+            radios.forEach(radio => {
+                if (radio.value !== 'ingresante' && radio.value !== 'repitente') {
+                    radio.disabled = true;
+                } else {
+                    radio.disabled = false;
+                }
+            });
+        } else if (indiceCursoActual === cursos.length - 1) {
+            radios.forEach(radio => {
+                if (radio.value !== 'repitente') {
+                    radio.disabled = true;
+                } else {
+                    radio.disabled = false;
+                }
+            });
+        } else if (cursoSelect.value === cursos[indiceCursoActual]) {
+            radios.forEach(radio => {
+                if (radio.value !== 'repitente' && radio.value !== 'traspaso') {
+                    radio.disabled = true;
+                } else {
+                    radio.disabled = false;
+                }
+            });
+        } else if (cursoSelect.value === cursos[indiceCursoActual + 1]) {
+            radios.forEach(radio => {
+                if (radio.value !== 'regular') {
+                    radio.disabled = true;
+                } else {
+                    radio.disabled = false;
+                }
+            });
+        } else {
+            radios.forEach(radio => {
+                radio.disabled = false;
+            });
+        }
+    }
+
+    function toggleNombreMaterias() {
+        const selectedValue = Array.from(radiosAdeudaMateria).find(radio => radio.checked)?.value;
+        nombreMaterias.disabled = selectedValue !== '1';
+        nombreMaterias.value;
+    }
+    function disableNombreEscuela() {
+        const selectedValue = Array.from(radios).find(radio => radio.checked)?.value;
+        escuelaProviene.disabled = selectedValue !== 'traspaso' && selectedValue !== 'ingresante';
+        console.log(escuelaProviene.disabled);
+    }
+
+    disableCoursesForPreinscripto()
+    handleRadioChange()
+    toggleNombreMaterias()
+
+    radios.forEach(radio => {
+        radio.addEventListener('change', disableNombreEscuela);
+    });
+    radiosAdeudaMateria.forEach(radio => {
+        radio.addEventListener('change', toggleNombreMaterias);
+    });
+    cursoSelect.addEventListener('change', handleRadioChange);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const idAlumno = document.getElementById('id_alumno').value;
+    const cursoSelect = document.getElementById('curso');
+    const radios = document.querySelectorAll('input[name="condicion_alumno"]');
+    const radiosAdeudaMateria = document.querySelectorAll('input[name="adeuda_materias"]');
+    const options = cursoSelect.querySelectorAll('option');
+    const escuelaProviene = document.getElementById('escuela_proviene');
+    const nombreMaterias = document.getElementById('nombre_materias');
+    let cursoActual = '';
+    // Mapeo de los cursos disponibles
+    const cursos = ['Primer año', 'Segundo año', 'Tercer año', 'Cuarto año', 'Quinto año', 'Sexto año'];
+
+    radios.forEach(radio => {
+        if (!radio.checked) {
+            radio.disabled = true; // Deselecciona todos los radios
+            if (radio.value !== 'traspaso' && radio.value !== 'ingresante') {
+                escuelaProviene.disabled = true;
+            }
+        }
+    });
+
+    function disableCoursesForPreinscripto() {
+        cursoActual = cursoSelect.value;
+        const indiceCursoActual = cursos.indexOf(cursoActual);
+        if (!idAlumno) {
+            options.forEach(option => {
+                cursoActual = cursoSelect.value;
+                if (option.value !== 'Primer año') {
+                    option.disabled = true;
+                }
+            });
+        } else {
+            options.forEach(option => {
+                const indiceOpcion = cursos.indexOf(option.value);
+                if (indiceCursoActual === cursos.length - 1) {
+                    option.disabled = indiceOpcion !== indiceCursoActual;
+                } else {
+                    option.disabled = !(indiceOpcion === indiceCursoActual || indiceOpcion ===
+                        indiceCursoActual + 1);
+                }
+            });
+        }
+    }
+
+    function handleRadioChange() {
+        cursoActual;
+        const indiceCursoActual = cursos.indexOf(cursoActual);
+        radios.forEach(radio => {
+            radio.checked = false;
+            if (radio.value !== 'traspaso' || radio.value !== 'ingresante') {
+                escuelaProviene.disabled = true;
+            }
+        });
+
+        if (cursoSelect.value === 'Primer año') {
+            radios.forEach(radio => {
+                if (radio.value !== 'ingresante' && radio.value !== 'repitente') {
+                    radio.disabled = true;
+                } else {
+                    radio.disabled = false;
+                }
+            });
+        } else if (indiceCursoActual === cursos.length - 1) {
+            radios.forEach(radio => {
+                if (radio.value !== 'repitente') {
+                    radio.disabled = true;
+                } else {
+                    radio.disabled = false;
+                }
+            });
+        } else if (cursoSelect.value === cursos[indiceCursoActual]) {
+            radios.forEach(radio => {
+                if (radio.value !== 'repitente' && radio.value !== 'traspaso') {
+                    radio.disabled = true;
+                } else {
+                    radio.disabled = false;
+                }
+            });
+        } else if (cursoSelect.value === cursos[indiceCursoActual + 1]) {
+            radios.forEach(radio => {
+                if (radio.value !== 'regular') {
+                    radio.disabled = true;
+                } else {
+                    radio.disabled = false;
+                }
+            });
+        } else {
+            radios.forEach(radio => {
+                radio.disabled = false;
+            });
+        }
+    }
+
+    function toggleNombreMaterias() {
+        const selectedValue = Array.from(radiosAdeudaMateria).find(radio => radio.checked)?.value;
+        nombreMaterias.disabled = selectedValue !== '1';
+        nombreMaterias.value;
+    }
+    function disableNombreEscuela() {
+        const selectedValue = Array.from(radios).find(radio => radio.checked)?.value;
+        escuelaProviene.disabled = selectedValue !== 'traspaso' && selectedValue !== 'ingresante';
+        console.log(escuelaProviene.disabled);
+    }
+
+    disableCoursesForPreinscripto()
+    handleRadioChange()
+    toggleNombreMaterias()
+
+    radios.forEach(radio => {
+        radio.addEventListener('change', disableNombreEscuela);
+    });
+    radiosAdeudaMateria.forEach(radio => {
+        radio.addEventListener('change', toggleNombreMaterias);
+    });
+    cursoSelect.addEventListener('change', handleRadioChange);
 });
 
 
