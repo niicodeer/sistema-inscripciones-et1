@@ -337,11 +337,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedValue = Array.from(radiosAdeudaMateria).find(radio => radio.checked)?.value;
         nombreMaterias.disabled = selectedValue !== '1';
         nombreMaterias.value;
+        if (nombreMaterias.disabled) {
+            nombreMaterias.value = ""; // Limpiar el campo
+        }
     }
     function disableNombreEscuela() {
         const selectedValue = Array.from(radios).find(radio => radio.checked)?.value;
         escuelaProviene.disabled = selectedValue !== 'traspaso' && selectedValue !== 'ingresante';
-        console.log(escuelaProviene.disabled);
+        if (escuelaProviene.disabled) {
+            escuelaProviene.value = ""; // Limpiar el campo
+        }
     }
 
     disableCoursesForPreinscripto()
@@ -398,4 +403,24 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 ;
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const obraSocialSi = document.getElementById("obra_social_si");
+    const obraSocialNo = document.getElementById("obra_social_no");
+    const nombreObraSocial = document.getElementById("nombre_obra_social");
+
+    function toggleNombreObraSocial() {
+        if (obraSocialNo.checked) {
+            nombreObraSocial.value = "";
+            nombreObraSocial.disabled = true;
+        } else {
+            nombreObraSocial.disabled = false;
+        }
+    }
+
+    obraSocialSi.addEventListener("change", toggleNombreObraSocial);
+    obraSocialNo.addEventListener("change", toggleNombreObraSocial);
+
+    toggleNombreObraSocial();
 });
