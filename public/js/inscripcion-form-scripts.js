@@ -9,6 +9,9 @@ const prevBtn = document.getElementById('prevBtn');
 const verifyBtn = document.getElementById('toVerifyBtn');
 const submitBtn = document.getElementById('submitBtn');
 let actualStep;
+const modalidad = document.querySelector('select[name="modalidad"]');
+modalidad.disabled = true;
+
 
 function showStep(step) {
     if (step === 1) {
@@ -166,7 +169,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
-
+    
     function handleRadioChange() {
         cursoActual;
         const indiceCursoActual = cursos.indexOf(cursoActual);
@@ -176,6 +179,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 escuelaProviene.disabled = true;
             }
         });
+
+        if (cursoSelect.value !== 'Primer año' && cursoSelect.value !== 'Segundo año' && cursoSelect.value !=="") {
+            modalidad.disabled = false;}
+            else {
+                modalidad.disabled = true;
+            };
 
         if (cursoSelect.value === 'Primer año') {
             radios.forEach(radio => {
@@ -224,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function disableNombreEscuela() {
         const selectedValue = Array.from(radios).find(radio => radio.checked)?.value;
         escuelaProviene.disabled = selectedValue !== 'traspaso' && selectedValue !== 'ingresante';
-        console.log(escuelaProviene.disabled);
+        
     }
 
     disableCoursesForPreinscripto()

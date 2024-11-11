@@ -53,7 +53,7 @@
                     value="{{ $data['dato']['calle'] ?? '' }}" />
                 <div class="w-[45%] flex gap-x-2">
                     <x-input type="number" id="numeracion" label="Numeración" placeholder="Numeración" min=0
-                        value="{{ $data['dato']['numeracion'] ?? '' }}" />
+                        value="{{ $data['dato']['numeracion'] ?? '' }}" require/>
                     <x-input type="text" id="piso" label="Piso dpto" placeholder="Piso"
                         value="{{ $data['dato']['piso'] ?? '' }}" />
                 </div>
