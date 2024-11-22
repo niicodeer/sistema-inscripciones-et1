@@ -1,28 +1,28 @@
 @extends('layouts.forms-layout')
 @section('title', 'Formulario Inscripción')
 @section('content')
-<div class="px-2">
-    <h1 class="text-2xl xl:text-3xl font-bold text-center mb-6 md:mb-14">Inscripción Ciclo Lectivo {{ date('Y') + 1 }}
-    </h1>
-    <h3 class="text-center text-xl my-4" id="step-title">Datos Alumno</h3>
+    <div class="px-2">
+        <h1 class="text-2xl xl:text-3xl font-bold text-center mb-6 md:mb-14">Inscripción Ciclo Lectivo {{ date('Y') + 1 }}
+        </h1>
+        <h3 class="text-center text-xl my-4" id="step-title">Datos Alumno</h3>
 
-    <!-- Progreso visual del formulario -->
-    <div class="flex gap-0.5 w-[80%] mx-auto mt-4 mb-10">
-        <span class="w-full h-1 bg-gray-500"><span class="w-full h-1 block progress-bar" id="progress-bar-1"></span></span>
-        <span class="w-full h-1 bg-gray-500"><span class="w-full h-1 block progress-bar"
-                id="progress-bar-2"></span></span>
-        <span class="w-full h-1 bg-gray-500"><span class="w-full h-1 block progress-bar"
-                id="progress-bar-3"></span></span>
-        <span class="w-full h-1 bg-gray-500"><span class="w-full h-1 block progress-bar"
-                id="progress-bar-4"></span></span>
-        <span class="w-full h-1 bg-gray-500"><span class="w-full h-1 block progress-bar"
-                id="progress-bar-5"></span></span>
+        <!-- Progreso visual del formulario -->
+        <div class="flex gap-0.5 w-[80%] mx-auto mt-4 mb-10">
+            <span class="w-full h-1 bg-gray-500"><span class="w-full h-1 block progress-bar" id="progress-bar-1"></span></span>
+            <span class="w-full h-1 bg-gray-500"><span class="w-full h-1 block progress-bar"
+                    id="progress-bar-2"></span></span>
+            <span class="w-full h-1 bg-gray-500"><span class="w-full h-1 block progress-bar"
+                    id="progress-bar-3"></span></span>
+            <span class="w-full h-1 bg-gray-500"><span class="w-full h-1 block progress-bar"
+                    id="progress-bar-4"></span></span>
+            <span class="w-full h-1 bg-gray-500"><span class="w-full h-1 block progress-bar"
+                    id="progress-bar-5"></span></span>
 
-    </div>
-    <div id="step1-text">
-        <p class="text-base text-[#202020] font-semibold">Comprueba los datos de tu pre-inscripción.<br />
-            Si están correctos continúa a la siguiente sección o edita/completa algún campo si hace falta.</p>
-    </div>
+        </div>
+        <div id="step1-text">
+            <p class="text-base text-[#202020] font-semibold">Comprueba los datos de tu pre-inscripción.<br />
+                Si están correctos continúa a la siguiente sección o edita/completa algún campo si hace falta.</p>
+        </div>
 
         <form method="POST" class="flex flex-col gap-y-14 mt-6 items-center" id="multiStepForm"
             action="{{ route('inscripcion') }}">
@@ -53,16 +53,14 @@
                     value="{{ $data['dato']['calle'] ?? '' }}" />
                 <div class="w-[45%] flex gap-x-2">
                     <x-input type="number" id="numeracion" label="Numeración" placeholder="Numeración" min=0
-                        value="{{ $data['dato']['numeracion'] ?? '' }}" require/>
+                        value="{{ $data['dato']['numeracion'] ?? '' }}" require />
                     <x-input type="text" id="piso" label="Piso dpto" placeholder="Piso"
                         value="{{ $data['dato']['piso'] ?? '' }}" />
                 </div>
                 <x-input type="text" id="barrio" label="Barrio" placeholder="Barrio" require
                     value="{{ $data['dato']['barrio'] ?? '' }}" />
-                    <x-select id="departamento" label="Departamento" :options="json_encode([])" require
-                     />
-                    <x-select id="localidad" label="Localidad" :options="json_encode([])" require
-                         />
+                <x-select id="departamento" label="Departamento" :options="json_encode([])" require />
+                <x-select id="localidad" label="Localidad" :options="json_encode([])" require />
                 <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                     <p class="text-[#2D3648] font-semibold text-sm">Convive con</p>
                     @isset($data['dato']['convivencia'])
@@ -185,127 +183,125 @@
                     'Quinto año',
                     'Sexto año',
                 ])" require
-                value="{{ $inscripcion['curso_inscripto'] ?? '' }}" />
-            <x-select id="modalidad" label="Modalidad a seguir" :options="json_encode(['Informática', 'Economía', 'Industria'])" require
-                value="{{ $inscripcion['modalidad'] ?? '' }}" />
+                    value="{{ $inscripcion['curso_inscripto'] ?? '' }}" />
+                <x-select id="modalidad" label="Modalidad a seguir" :options="json_encode(['Informática', 'Economía', 'Industria'])" require
+                    value="{{ $inscripcion['modalidad'] ?? '' }}" />
 
-            <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
-                <p class="text-[#2D3648] font-semibold text-sm">Condición Alumno</p>
-                <div class="flex md:max-w-[45%] w-full gap-x-8">
-                    <div class="flex flex-col gap-3">
-                        <x-input-radio id="ingresante" label="Ingresante" value="ingresante" name="condicion_alumno"
-                            check="{{ ($inscripcion['condicion_alumno'] ?? '') === 'ingresante' }}" />
-                        <x-input-radio id="regular" label="Regular" value="regular" name="condicion_alumno"
-                            check="{{ ($inscripcion['condicion_alumno'] ?? '') === 'regular' }}" />
+                <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
+                    <p class="text-[#2D3648] font-semibold text-sm">Condición Alumno</p>
+                    <div class="flex md:max-w-[45%] w-full gap-x-8">
+                        <div class="flex flex-col gap-3">
+                            <x-input-radio id="ingresante" label="Ingresante" value="ingresante" name="condicion_alumno"
+                                check="{{ ($inscripcion['condicion_alumno'] ?? '') === 'ingresante' }}" />
+                            <x-input-radio id="regular" label="Regular" value="regular" name="condicion_alumno"
+                                check="{{ ($inscripcion['condicion_alumno'] ?? '') === 'regular' }}" />
+                        </div>
+                        <div class="flex flex-col gap-3">
+                            <x-input-radio id="traspaso" label="Traspaso" value="traspaso" name="condicion_alumno"
+                                check="{{ ($inscripcion['condicion_alumno'] ?? '') === 'traspaso' }}" />
+                            <x-input-radio id="repitente" label="Repitente" value="repitente" name="condicion_alumno"
+                                check="{{ ($inscripcion['condicion_alumno'] ?? '') === 'repitente' }}" />
+                        </div>
                     </div>
-                    <div class="flex flex-col gap-3">
-                        <x-input-radio id="traspaso" label="Traspaso" value="traspaso" name="condicion_alumno"
-                            check="{{ ($inscripcion['condicion_alumno'] ?? '') === 'traspaso' }}" />
-                        <x-input-radio id="repitente" label="Repitente" value="repitente" name="condicion_alumno"
-                            check="{{ ($inscripcion['condicion_alumno'] ?? '') === 'repitente' }}" />
+                    @error('condicion_alumno')
+                        <p class="text-red-700 text-sm">{{ $message }}</p>
+                    @enderror
+                    <p id="condicionAlumno_error"></p>
+                </div>
+
+                <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
+                    <p class="text-[#2D3648] font-semibold text-sm">Turno</p>
+                    <div class="flex flex-col md:max-w-[45%] w-full gap-4">
+                        <x-input-radio id="mañana" label="Mañana" value="Mañana" name="turno"
+                            check="{{ ($inscripcion['turno'] ?? '') === 'Mañana' }}" />
+                        <x-input-radio id="tarde" label="Tarde" value="Tarde" name="turno"
+                            check="{{ ($inscripcion['turno'] ?? '') === 'Tarde' }}" />
+                    </div>
+                    @error('turno')
+                        <p class="text-red-700 text-sm">{{ $message }}</p>
+                    @enderror
+                    <p id="turno_error"></p>
+                </div>
+
+                <x-input type="text" id="escuela_proviene" label="Escuela que proviene" placeholder="Nombre Escuela"
+                    value="{{ $inscripcion['escuela_proviene'] ?? '' }}" class="w-full" />
+
+
+                <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
+                    <p class="text-[#2D3648] font-semibold text-sm">Adeuda Materias</p>
+                    <div class="flex md:max-w-[45%] w-full gap-6">
+                        <x-input-radio id="adeuda_si" label="Si" value="1" name="adeuda_materias"
+                            check="{{ ($inscripcion['adeuda_materias'] ?? '') === 1 }}" />
+                        <x-input-radio id="adeuda_no" label="No" value="0" name="adeuda_materias"
+                            check="{{ ($inscripcion['adeuda_materias'] ?? '') === 0 }}" />
+                    </div>
+                    @error('adeuda_materias')
+                        <p class="text-red-700 text-sm">{{ $message }}</p>
+                    @enderror
+                    <p id="adeudaMaterias_error"></p>
+                    <div class="lg:w-[220%]">
+                        <x-input type="text" id="nombre_materias" label="" placeholder="Nombres materias"
+                            value="{{ $inscripcion['nombre_materias'] ?? '' }}" />
                     </div>
                 </div>
-                @error('condicion_alumno')
-                <p class="text-red-700 text-sm">{{ $message }}</p>
-                @enderror
-                <p id="condicionAlumno_error"></p>
             </div>
-
-            <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
-                <p class="text-[#2D3648] font-semibold text-sm">Turno</p>
-                <div class="flex flex-col md:max-w-[45%] w-full gap-4">
-                    <x-input-radio id="mañana" label="Mañana" value="Mañana" name="turno"
-                        check="{{ ($inscripcion['turno'] ?? '') === 'Mañana' }}" />
-                    <x-input-radio id="tarde" label="Tarde" value="Tarde" name="turno"
-                        check="{{ ($inscripcion['turno'] ?? '') === 'Tarde' }}" />
+            {{-- Step 5 --}}
+            <div id="step-5" style="display: none;" class="step flex-col">
+                <p class="text-[#2D3648] font-semibold text-base mb-4">Indique si cumple o no con algunas de las
+                    siguientes opciones:</p>
+                <div class="w-full flex flex-col gap-y-2">
+                    <x-input-check id="familiar" label="Tengo un familiar que es alumno escuela" value="familiar"
+                        name="condicion_inscripcion[]" />
+                    <x-input-check id="merito" label="Reconocimiento al mérito" value="merito"
+                        name="condicion_inscripcion[]" />
+                    <x-input-check id="otros" label="Otros reconocimientos (concursos, mejor compañero,  etc)"
+                        value="otros" name="condicion_inscripcion[]" />
+                    <x-input-check id="ninguno" label="Ninguno" value="ninguno" name="condicion_inscripcion[]" />
                 </div>
-                @error('turno')
-                <p class="text-red-700 text-sm">{{ $message }}</p>
+                @error('reconocimientos')
+                    <p class="text-red-700 text-sm">{{ $message }}</p>
                 @enderror
-                <p id="turno_error"></p>
-            </div>
-            <x-input type="text" id="escuela_proviene" label="Escuela que proviene" placeholder="Nombre Escuela"
-                value="{{ $inscripcion['escuela_proviene'] ?? '' }}" />
-            <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
-                <p class="text-[#2D3648] font-semibold text-sm">Adeuda Materias</p>
-                <div class="flex md:max-w-[45%] w-full gap-6">
-                    <x-input-radio id="adeuda_si" label="Si" value="1" name="adeuda_materias"
-                        check="{{ ($inscripcion['adeuda_materias'] ?? '') === 1 }}" />
-                    <x-input-radio id="adeuda_no" label="No" value="0" name="adeuda_materias"
-                        check="{{ ($inscripcion['adeuda_materias'] ?? '') === 0 }}" />
+                <p id="reconocimientos_error"></p>
+                <div class="my-6">
+                    <p class="text-[#2D3648] italic font-bold text-base">* En caso de cumplir con alguna opción debe
+                        presentar en la institución una copia del certificado que lo respalde.</p>
+                    <p class="text-[#2D3648] italic font-bold text-base">* Además, recuerde que debe proporcionar una
+                        foto 4x4 y fotocopia del DNI del inscripto.</p>
                 </div>
-                @error('adeuda_materias')
-                <p class="text-red-700 text-sm">{{ $message }}</p>
-                @enderror
-                <p id="adeudaMaterias_error"></p>
-                <div class="lg:w-[220%]">
-                    <x-input type="text" id="nombre_materias" label="" placeholder="Nombres materias"
-                        value="{{ $inscripcion['nombre_materias'] ?? '' }}" />
+                <p class="text-[#2D3648] font-semibold text-base pt-6">Por último, indique que está de acuerdo con los
+                    siguientes términos.</p>
+                <div class="w-full flex gap-2 justify-start items-center mt-2">
+                    <input class="border border-gray-300 p-2 rounded h-5 w-5" id="uso_producciones_alumno"
+                        name="uso_producciones_alumno" type="checkbox">
+                    <p>
+                        Acepto el uso de producciones, imágenes, videos y sonido del alumno
+                    </p>
+
                 </div>
-            </div>
-        </div>
-        {{-- Step 5 --}}
-        <div id="step-5" style="display: none;" class="step flex-col">
-            <p class="text-[#2D3648] font-semibold text-base mb-4">Indique si cumple o no con algunas de las
-                siguientes opciones:</p>
-            <div class="w-full flex flex-col gap-y-2">
-                <x-input-check id="familiar" label="Tengo un familiar que es alumno escuela" value="familiar"
-                    name="condicion_inscripcion[]" />
-                <x-input-check id="merito" label="Reconocimiento al mérito" value="merito"
-                    name="condicion_inscripcion[]" />
-                <x-input-check id="otros" label="Otros reconocimientos (concursos, mejor compañero,  etc)"
-                    value="otros" name="condicion_inscripcion[]" />
-                <x-input-check id="ninguno" label="Ninguno" value="ninguno" name="condicion_inscripcion[]" />
-            </div>
-            @error('reconocimientos')
-            <p class="text-red-700 text-sm">{{ $message }}</p>
-            @enderror
-            <p id="reconocimientos_error"></p>
-            <div class="my-6">
-                <p class="text-[#2D3648] italic font-bold text-base">* En caso de cumplir con alguna opción debe
-                    presentar en la institución una copia del certificado que lo respalde.</p>
-                <p class="text-[#2D3648] italic font-bold text-base">* Además, recuerde que debe proporcionar una
-                    foto 4x4 y fotocopia del DNI del inscripto.</p>
-            </div>
-            <p class="text-[#2D3648] font-semibold text-base pt-6">Por último, indique que está de acuerdo con los
-                siguientes términos.</p>
-            <div class="w-full flex gap-2 justify-start items-center mt-2">
-                <input class="border border-gray-300 p-2 rounded h-5 w-5" id="uso_producciones_alumno"
-                    name="uso_producciones_alumno" type="checkbox">
-                <p>
-                    Acepto el uso de producciones, imágenes, videos y sonido del alumno
-                </p>
+                <div class="w-full flex gap-2 justify-start items-center mt-2">
+                    <input class="border border-gray-300 p-2 rounded h-5 w-5" id="terminos" name="terminos"
+                        type="checkbox">
+                    <p>
+                        He leído y estoy de acuerdo con el <a class='underline' href="{{ route('convivencia.pdf') }}"
+                            target="_blank">código de convivencia de la institución</a>
 
+                    </p>
+                    @error('terminos')
+                        <p class="text-red-700 text-sm">{{ $message }}</p>
+                    @enderror
+                </div>
+                <p id="terminos_error"></p>
             </div>
-            <div class="w-full flex gap-2 justify-start items-center mt-2">
-                <input class="border border-gray-300 p-2 rounded h-5 w-5" id="terminos" name="terminos"
-                    type="checkbox">
-                <p>
-                    He leído y estoy de acuerdo con el <a class='underline' href="{{ route('convivencia.pdf') }}"
-                        target="_blank">código de convivencia de la institución</a>
-
-                </p>
-                @error('terminos')
-                <p class="text-red-700 text-sm">{{ $message }}</p>
-                @enderror
+            <div class="flex gap-4 w-full justify-center">
+                <x-secondary-button text="Volver" href="{{ route('verificar-cuil') }}" id="toVerifyBtn" />
+                <x-secondary-button text="Volver" id="prevBtn" class="none" />
+                <x-primary-button text="Siguiente" type="button" id="nextBtn" />
+                <x-primary-button text="Enviar" type="submit" id="submitBtn" class="none" />
             </div>
-            <p id="terminos_error"></p>
-        </div>
-        <div class="flex gap-4 w-full justify-center">
-            <x-secondary-button text="Volver" href="{{ route('verificar-cuil') }}" id="toVerifyBtn" />
-            <x-secondary-button text="Volver" id="prevBtn" class="none" />
-            <x-primary-button text="Siguiente" type="button" id="nextBtn" />
-            <x-primary-button text="Enviar" type="submit" id="submitBtn" class="none" />
-        </div>
-    </form>
+        </form>
 
-</div>
+    </div>
 @endsection
 @section('scripts')
-<script type="module" src="{{ asset('js/inscripcion-form-scripts.js') }}"></script>
+    <script type="module" src="{{ asset('js/inscripcion-form-scripts.js') }}"></script>
 @endsection
-
-
-
-
-

@@ -23,9 +23,9 @@ class DatoEstudianteFactory extends Factory
         $data = [
             'calle' => fake()->address(),
             'numeracion' => fake()->numberBetween(0, 999),
-            'provincia' => fake()->state(),
+            'departamento' => fake()->state(),
             'barrio' => fake()->city(),
-            'ciudad' => fake()->city(),
+            'localidad' => fake()->city(),
             'obra_social' => fake()->boolean(),
             'nombre_obra_social' => fake()->word(),
             'lugar_nacimiento' => fake()->city(),

@@ -28,7 +28,7 @@ Route::post('/verificar-cuil', [PreinscriptoController::class, 'verificarCUIL'])
 Route::get('/convivenciaPDF', [InscripcionController::class, 'convivenciaPdf'])->name('convivencia.pdf');
 
 Route::get('/preinscripcion/pdf', [PreinscriptoController::class, 'generarPdf'])->name('generarPdfPreinscripto');
-Route::get('/inscripcion/pdf', [MultiStepForm::class, 'generarPdf'])->name('generarPdfInscripto');
+Route::get('/inscripcion/pdf', [InscripcionController::class, 'generarPdf'])->name('generarPdfInscripto');
 
 Route::get('/finalizar', function () {
     Session::flush();

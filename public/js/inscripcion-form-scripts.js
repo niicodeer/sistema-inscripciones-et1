@@ -1,7 +1,7 @@
 import { validateStep } from './validaciones.js';
 import { LOCALIDADES, DEPARTAMENTOS } from './datos-geograficos.js';
 
-let currentStep = 4;
+let currentStep = 1;
 const form = document.getElementById('multiStepForm');
 const steps = form.querySelectorAll('.step');
 const nextBtn = document.getElementById('nextBtn');
@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
-    
+
     function handleRadioChange() {
         cursoActual;
         const indiceCursoActual = cursos.indexOf(cursoActual);
@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function disableNombreEscuela() {
         const selectedValue = Array.from(radios).find(radio => radio.checked)?.value;
         escuelaProviene.disabled = selectedValue !== 'traspaso' && selectedValue !== 'ingresante';
-        
+
     }
 
     disableCoursesForPreinscripto()
@@ -384,7 +384,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Llenar el selector de departamentos
     departamentos.forEach(departamento => {
         const option = document.createElement('option');
-        option.value = departamento.id;
+        option.value = departamento.nombre;
         option.text = departamento.nombre;
         departamentoSelect.appendChild(option);
     });
@@ -406,7 +406,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Llenar el selector de localidades
         localidades.forEach(localidad => {
             const option = document.createElement('option');
-            option.value = localidad.id;
+            option.value = localidad.nombre;
             option.text = localidad.nombre;
             localidadSelect.appendChild(option);
         });

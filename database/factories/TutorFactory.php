@@ -17,7 +17,7 @@ class TutorFactory extends Factory
     public function definition(): array
     {
         return [
-            'cuil' => fake()->numberBetween(1000000, 2000000),
+            'cuil' => fake()->numberBetween(10000000000, 50000000000),
             'telefono' => fake()->numerify('###########'),
             'nombre' => fake()->firstName(),
             'apellido' => fake()->lastName(),

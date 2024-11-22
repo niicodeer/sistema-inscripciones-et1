@@ -26,7 +26,7 @@ class InscripcionController extends Controller
     {
         $preinscripto = Session::get('preinscripto');
         $inscripcion = Session::get('data-inscripcion');
-        $inscripto = Session::get('inscripto');
+        $inscripto = Session::get('estudiante');
         $data = $inscripto ? $inscripto : $preinscripto;
 
         $pdf = Pdf::loadView('comprobantes.comprobante-inscripto', compact('inscripcion', 'data'));
@@ -81,19 +81,19 @@ class InscripcionController extends Controller
 
                 // Datos Estudiante - Inscripción
                 'calle' => 'required|string|min:5|max:30',
-                'provincia' => 'required|string',
-                'ciudad' => 'required|string|min:5|max:20',
+                'departamento' => 'required|string',
+                'localidad' => 'required|string|min:5|max:20',
                 'barrio' => 'required|string|min:5|max:20',
                 'numeracion' => 'required|numeric',
                 'piso' => 'nullable',
                 'transporte' => 'required|array', // Cambiado a `array` si es un conjunto de opciones
                 'convive' => 'required|array', // Cambiado a `array` si es un conjunto de opciones
                 'obra_social' => 'required|boolean', // Añadí validación más estricta
-                'nombre_obra_social' => 'nullable|string|min:3|max:50', // Añadí validación más estricta
+                'nombre_obra_social' => 'nullable|string', // Añadí validación más estricta
                 'curso' => 'required|in:Primer año,Segundo año,Tercer año,Cuarto año,Quinto año,Sexto año', // Sin comillas dobles
                 'modalidad' => 'required|in:Informática,Economía,Industria', // Sin comillas dobles
                 'condicion_alumno' => 'required', // Añadí validación más estricta
-                'escuela_proviene' => 'nullable|string|min:3|max:50', // Añadí validación más estricta
+                'escuela_proviene' => 'nullable|string', // Añadí validación más estricta
                 'turno' => 'required|in:Mañana,Tarde,Noche', // Añadí validación más clara si hay turnos predefinidos
                 'adeuda_materias' => 'required|boolean', // Si es un checkbox o booleano
                 'nombre_materias' => 'nullable|string', // Si es un checkbox o booleano
@@ -123,8 +123,8 @@ class InscripcionController extends Controller
 
                 // Datos Estudiante - Inscripción
                 'calle.required' => 'La calle es obligatoria y debe tener entre 5 y 30 caracteres.',
-                'provincia.required' => 'La provincia es obligatoria.',
-                'ciudad.required' => 'La ciudad es obligatoria y debe tener entre 5 y 20 caracteres.',
+                'departamento.required' => 'La departamento es obligatoria.',
+                'localidad.required' => 'La localidad es obligatoria y debe tener entre 5 y 20 caracteres.',
                 'barrio.required' => 'El barrio es obligatorio y debe tener entre 5 y 20 caracteres.',
                 'numeracion.required' => 'La numeración de la dirección es obligatoria y debe ser numérica.',
                 'transporte.required' => 'El medio de transporte es obligatorio.',
@@ -168,8 +168,8 @@ class InscripcionController extends Controller
             ]);
 
             $estudiante->dato()->create([
-                'provincia' => $validated['provincia'],
-                'ciudad' => $validated['ciudad'],
+                'departamento' => $validated['departamento'],
+                'localidad' => $validated['localidad'],
                 'barrio' => $validated['barrio'],
                 'calle' => $validated['calle'],
                 'numeracion' => $validated['numeracion'],
@@ -185,11 +185,11 @@ class InscripcionController extends Controller
                 'turno' => $validated['turno'],
                 'curso_inscripto' => $validated['curso'],
                 'modalidad' => $validated['modalidad'],
-                'escuela_proviene' => $validated['escuela_proviene'],
+                'escuela_proviene' => $request->input('escuela_proviene'),
                 'fecha_inscripcion' => now(),
                 'condicion_alumno' => $validated['condicion_alumno'],
                 'adeuda_materias' => $validated['adeuda_materias'],
-                'nombre_materias' => json_encode($validated['nombre_materias']),
+                'nombre_materias' => $validated['nombre_materias'],
                 'reconocimientos' => json_encode($validated['condicion_inscripcion']),
                 'comprobante_inscripcion' => $this->generarCodigoComprobante($validated['cuil_alumno']),
             ]);
@@ -199,6 +199,7 @@ class InscripcionController extends Controller
 
             return redirect()->route('confirmacion-inscripcion')->with('success', 'Se registró tu inscripción correctamente');
         } catch (Exception $e) {
+            dd($e);
             DB::rollBack();
             Log::error('Error en la inscripción: ' . $e->getMessage());
             return redirect()->route('inscripcion')->with('error', 'Ocurrió un error al registrar la inscripción. Vuelve a intentarlo o intenta más tarde')->withInput();
@@ -207,6 +208,7 @@ class InscripcionController extends Controller
     public function update(Request $request)
     {
         $validated = $this->validateForm($request);
+        //dd($validated);
         $id_alumno = $request->validate([
             'id_alumno' => 'required|integer|exists:estudiantes,id',
         ]);
@@ -234,8 +236,8 @@ class InscripcionController extends Controller
             ]);
 
             $estudiante->dato()->update([
-                'provincia' => $validated['provincia'],
-                'ciudad' => $validated['ciudad'],
+                'departamento' => $validated['departamento'],
+                'localidad' => $validated['localidad'],
                 'barrio' => $validated['barrio'],
                 'calle' => $validated['calle'],
                 'numeracion' => $validated['numeracion'],
@@ -250,11 +252,11 @@ class InscripcionController extends Controller
                 'turno' => $validated['turno'],
                 'curso_inscripto' => $validated['curso'],
                 'modalidad' => $validated['modalidad'],
-                'escuela_proviene' => $validated['escuela_proviene'],
+                'escuela_proviene' => $request->input('escuela_proviene'), //TODO: cambiar
                 'fecha_inscripcion' => now(),
                 'condicion_alumno' => $validated['condicion_alumno'],
                 'adeuda_materias' => $validated['adeuda_materias'],
-                'nombre_materias' => json_encode($validated['nombre_materias']),
+                'nombre_materias' => $validated['nombre_materias'],
                 'reconocimientos' => json_encode($validated['condicion_inscripcion']),
                 'comprobante_inscripcion' => $this->generarCodigoComprobante($validated['cuil_alumno']),
             ]);

@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('dato_estudiantes', function (Blueprint $table) {
             $table->id();
-            $table->string('provincia');
-            $table->string('ciudad', 50);
-            $table->string('barrio', 50);
+            $table->string('departamento');
+            $table->string('localidad');
+            $table->string('barrio', 100);
             $table->json('medio_transporte');
             $table->string('calle', 100);
             $table->unsignedInteger('numeracion');

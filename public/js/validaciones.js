@@ -161,7 +161,6 @@ export function validateStep(step) {
         }
 
         const modalidad = document.querySelector('select[name="modalidad"]');
-        //modalidad.disabled = true;
         const validModalidades = ['Informática', 'Economía', 'Industria'];
         if (!modalidad.disabled) {
             if (!modalidad.value || !validModalidades.includes(modalidad.value)) {
@@ -175,6 +174,12 @@ export function validateStep(step) {
             isValid = false;
             showError(document.getElementById('condicionAlumno_error'),
                 'Debe seleccionar una condición para el alumno.');
+        }
+        const nombreEscuela = document.getElementById('escuela_proviene');
+        if(!nombreEscuela.disabled && nombreEscuela.value === ''){
+            isValid = false;
+            showError(nombreEscuela,
+                'Debe especificar una escuela.');
         }
 
         const turno = document.querySelector('input[name="turno"]:checked');
