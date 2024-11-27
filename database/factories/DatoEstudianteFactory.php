@@ -21,7 +21,7 @@ class DatoEstudianteFactory extends Factory
         $relacionTransporte = ['moto', 'auto', 'bicicleta'];
 
         $data = [
-            'calle' => fake()->address(),
+            'calle' => fake()->streetAddress(),
             'numeracion' => fake()->numberBetween(0, 999),
             'departamento' => fake()->state(),
             'barrio' => fake()->city(),

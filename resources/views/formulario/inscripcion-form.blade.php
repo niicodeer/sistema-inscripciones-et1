@@ -15,8 +15,10 @@
                     id="progress-bar-3"></span></span>
             <span class="w-full h-1 bg-gray-500"><span class="w-full h-1 block progress-bar"
                     id="progress-bar-4"></span></span>
-            <span class="w-full h-1 bg-gray-500"><span class="w-full h-1 block progress-bar"
+            @if(!$data['id'])
+                <span class="w-full h-1 bg-gray-500"><span class="w-full h-1 block progress-bar"
                     id="progress-bar-5"></span></span>
+            @endif
 
         </div>
         <div id="step1-text">
@@ -25,7 +27,7 @@
         </div>
 
         <form method="POST" class="flex flex-col gap-y-14 mt-6 items-center" id="multiStepForm"
-            action="{{ route('inscripcion') }}">
+            action="{{ route('inscripcion') }}" data-es-nuevo="{{ $data['id'] ? 'false' : 'true' }}">
             @csrf
             @method($data['method'])
             {{-- Step 1 --}}
@@ -59,8 +61,9 @@
                 </div>
                 <x-input type="text" id="barrio" label="Barrio" placeholder="Barrio" require
                     value="{{ $data['dato']['barrio'] ?? '' }}" />
-                <x-select id="departamento" label="Departamento" :options="json_encode([])" require />
-                <x-select id="localidad" label="Localidad" :options="json_encode([])" require />
+                <x-select id="departamento" label="Departamento" :options="json_encode([])" value="{{ $data['dato']['departamento'] ?? '' }}" require />
+                <x-select id="localidad" label="Localidad" :options="json_encode([])" value="{{ $data['dato']['localidad'] ?? '' }}" require />
+                <div id="locationData" data-departamento="{{ $data['dato']['departamento'] ?? '' }}" data-localidad="{{ $data['dato']['localidad'] ?? '' }}"></div>
                 <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                     <p class="text-[#2D3648] font-semibold text-sm">Convive con</p>
                     @isset($data['dato']['convivencia'])
@@ -184,7 +187,7 @@
                     'Sexto año',
                 ])" require
                     value="{{ $inscripcion['curso_inscripto'] ?? '' }}" />
-                <x-select id="modalidad" label="Modalidad a seguir" :options="json_encode(['Informática', 'Economía', 'Industria'])" require
+                <x-select id="modalidad" label="Modalidad a seguir" :options="json_encode(['','Informática', 'Economía', 'Industria'])" require
                     value="{{ $inscripcion['modalidad'] ?? '' }}" />
 
                 <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
@@ -240,11 +243,11 @@
                     @enderror
                     <p id="adeudaMaterias_error"></p>
                     <div class="lg:w-[220%]">
-                        <x-input type="text" id="nombre_materias" label="" placeholder="Nombres materias"
-                            value="{{ $inscripcion['nombre_materias'] ?? '' }}" />
+                        <x-input type="text" id="nombre_materias" label="" placeholder="Nombres materias" />
                     </div>
                 </div>
             </div>
+            @if(!$data['id']){
             {{-- Step 5 --}}
             <div id="step-5" style="display: none;" class="step flex-col">
                 <p class="text-[#2D3648] font-semibold text-base mb-4">Indique si cumple o no con algunas de las
@@ -292,6 +295,8 @@
                 </div>
                 <p id="terminos_error"></p>
             </div>
+            }
+            @endif
             <div class="flex gap-4 w-full justify-center">
                 <x-secondary-button text="Volver" href="{{ route('verificar-cuil') }}" id="toVerifyBtn" />
                 <x-secondary-button text="Volver" id="prevBtn" class="none" />

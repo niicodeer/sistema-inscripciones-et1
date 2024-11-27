@@ -16,8 +16,8 @@ return new class extends Migration
             $table->enum('turno', ['Mañana','Tarde']);
             $table->integer('año_curso');
             $table->integer('division');
-            $table->integer('cantidad_alumnos');
-            $table->integer('cantidad_maxima');
+            $table->integer('cantidad_alumnos')->default(0);
+            $table->integer('cantidad_maxima')->default(0);
             $table->timestamps();
             $table->softDeletes();
             $table->integer('deleted_by')->nullable();

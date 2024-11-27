@@ -161,7 +161,7 @@ export function validateStep(step) {
         }
 
         const modalidad = document.querySelector('select[name="modalidad"]');
-        const validModalidades = ['Informática', 'Economía', 'Industria'];
+        const validModalidades = ['Informática', 'Economía', 'Industria', ''];
         if (!modalidad.disabled) {
             if (!modalidad.value || !validModalidades.includes(modalidad.value)) {
                 isValid = false;

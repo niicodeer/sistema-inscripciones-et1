@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\Rule;
 
 class InscripcionController extends Controller
 {
@@ -53,9 +54,9 @@ class InscripcionController extends Controller
         return $request->validate(
             [
                 // Estudiante
-                'nombre_alumno' => 'required|string|min:3|max:20',
-                'apellido_alumno' => 'required|string|min:3|max:20',
-                'genero_alumno' => 'required|in:Femenino,Masculino,Otro', // Sin min y max porque ya está restringido por `in:`
+                'nombre_alumno' => 'required|string|min:3|max:50',
+                'apellido_alumno' => 'required|string|min:3|max:50',
+                'genero_alumno' => 'required|in:Femenino,Masculino,Otro',
                 'fecha_nac_alumno' => [
                     'required',
                     'date',
@@ -68,40 +69,44 @@ class InscripcionController extends Controller
                 ],
                 'email_alumno' => 'required|email|min:8|max:100',
                 'telefono_alumno' => 'required|string|min:8|max:15',
-                'cuil_alumno' => 'required|string|size:11', // CUIL debe ser de 11 dígitos
+                'cuil_alumno' => 'required|string|size:11',
 
                 // Tutor
-                'nombre_tutor' => 'required|string|min:3|max:20',
-                'apellido_tutor' => 'required|string|min:3|max:20',
-                'cuil_tutor' => 'required|string|size:11', // CUIL debe ser de 11 dígitos
+                'nombre_tutor' => 'required|string|min:3|max:50',
+                'apellido_tutor' => 'required|string|min:3|max:50',
+                'cuil_tutor' => 'required|string|size:11',
                 'email_tutor' => 'required|email|min:8|max:100',
                 'telefono_tutor' => 'required|string|min:8|max:15',
                 'ocupacion_tutor' => 'required|string|min:5|max:30',
-                'parentezco' => 'required|string|min:3|max:20', // Considerar agregar longitud mínima y máxima
+                'parentezco' => 'required|string|min:3|max:20',
 
                 // Datos Estudiante - Inscripción
-                'calle' => 'required|string|min:5|max:30',
+                'calle' => 'required|string|min:5|max:100',
                 'departamento' => 'required|string',
-                'localidad' => 'required|string|min:5|max:20',
-                'barrio' => 'required|string|min:5|max:20',
+                'localidad' => 'required|string',
+                'barrio' => 'required|string|min:5|max:50',
                 'numeracion' => 'required|numeric',
                 'piso' => 'nullable',
-                'transporte' => 'required|array', // Cambiado a `array` si es un conjunto de opciones
-                'convive' => 'required|array', // Cambiado a `array` si es un conjunto de opciones
-                'obra_social' => 'required|boolean', // Añadí validación más estricta
-                'nombre_obra_social' => 'nullable|string', // Añadí validación más estricta
+                'transporte' => 'required|array',
+                'convive' => 'required|array',
+                'obra_social' => 'required|boolean',
+                'nombre_obra_social' => 'required_if:obra_social,true|nullable|string',
                 'curso' => 'required|in:Primer año,Segundo año,Tercer año,Cuarto año,Quinto año,Sexto año', // Sin comillas dobles
-                'modalidad' => 'required|in:Informática,Economía,Industria', // Sin comillas dobles
-                'condicion_alumno' => 'required', // Añadí validación más estricta
-                'escuela_proviene' => 'nullable|string', // Añadí validación más estricta
-                'turno' => 'required|in:Mañana,Tarde,Noche', // Añadí validación más clara si hay turnos predefinidos
-                'adeuda_materias' => 'required|boolean', // Si es un checkbox o booleano
-                'nombre_materias' => 'nullable|string', // Si es un checkbox o booleano
-                'condicion_inscripcion' => 'required|array', // Cambiado a `array` si es un conjunto de opciones
+                'modalidad' => 'nullable|required_if:curso,Tercer año,Cuarto año,Quinto año,Sexto año',
+                'condicion_alumno' => 'required',
+                'escuela_proviene' => 'required_if:condicion_alumno,traspaso,ingresante|nullable|string', // Añadí validación más estricta
+                'turno' => 'required|in:Mañana,Tarde,Noche',
+                'adeuda_materias' => 'required|boolean',
+                'nombre_materias' => 'required_if:adeuda_materias,true|nullable|string',
+                //'condicion_inscripcion' => 'required|array', // Cambiado a `array` si es un conjunto de opciones
+                /* 'condicion_inscripcion' => [
+                    Rule::requiredIf(function () use ($request) {
+                        return !$request->has('id_alumno');
+                    }),'array'], */
             ],
             [
-                'nombre_alumno.required' => 'El nombre del alumno es obligatorio y debe tener entre 3 y 20 caracteres.',
-                'apellido_alumno.required' => 'El apellido del alumno es obligatorio y debe tener entre 3 y 20 caracteres.',
+                'nombre_alumno.required' => 'El nombre del alumno es obligatorio y debe tener entre 3 y 50 caracteres.',
+                'apellido_alumno.required' => 'El apellido del alumno es obligatorio y debe tener entre 3 y 50 caracteres.',
                 'genero_alumno.required' => 'El género es obligatorio y debe ser "Femenino", "Masculino" o "Otro".',
                 'genero_alumno.in' => 'El género debe ser "Femenino", "Masculino" o "Otro".',
                 'fecha_nac_alumno.required' => 'La fecha de nacimiento es obligatoria.',
@@ -109,12 +114,12 @@ class InscripcionController extends Controller
                 'email_alumno.required' => 'El email del alumno es obligatorio y debe ser válido.',
                 'email_alumno.email' => 'El email debe ser una dirección válida.',
                 'telefono_alumno.required' => 'El número de teléfono del alumno es obligatorio y debe tener entre 8 y 15 caracteres.',
-                'cuil_alumno.required' => 'El CUIL del alumno es obligatorio y debe tener entre 8 y 11 caracteres.',
+                'cuil_alumno.required' => 'El CUIL del alumno es obligatorio y debe tener 11 caracteres.',
 
                 // Tutor
-                'nombre_tutor.required' => 'El nombre del tutor es obligatorio y debe tener entre 3 y 20 caracteres.',
-                'apellido_tutor.required' => 'El apellido del tutor es obligatorio y debe tener entre 3 y 20 caracteres.',
-                'cuil_tutor.required' => 'El CUIL del tutor es obligatorio y debe tener entre 8 y 11 caracteres.',
+                'nombre_tutor.required' => 'El nombre del tutor es obligatorio y debe tener entre 3 y 50 caracteres.',
+                'apellido_tutor.required' => 'El apellido del tutor es obligatorio y debe tener entre 3 y 50 caracteres.',
+                'cuil_tutor.required' => 'El CUIL del tutor es obligatorio y debe tener 11 caracteres.',
                 'email_tutor.required' => 'El email del tutor es obligatorio y debe ser válido.',
                 'email_tutor.email' => 'El email debe ser una dirección válida.',
                 'telefono_tutor.required' => 'El número de teléfono del tutor es obligatorio y debe tener entre 8 y 15 caracteres.',
@@ -122,10 +127,10 @@ class InscripcionController extends Controller
                 'parentezco.required' => 'El parentesco con el estudiante es obligatorio.',
 
                 // Datos Estudiante - Inscripción
-                'calle.required' => 'La calle es obligatoria y debe tener entre 5 y 30 caracteres.',
+                'calle.required' => 'La calle es obligatoria y debe tener entre 5 y 100 caracteres.',
                 'departamento.required' => 'La departamento es obligatoria.',
-                'localidad.required' => 'La localidad es obligatoria y debe tener entre 5 y 20 caracteres.',
-                'barrio.required' => 'El barrio es obligatorio y debe tener entre 5 y 20 caracteres.',
+                'localidad.required' => 'La localidad es obligatoria.',
+                'barrio.required' => 'El barrio es obligatorio y debe tener entre 5 y 100 caracteres.',
                 'numeracion.required' => 'La numeración de la dirección es obligatoria y debe ser numérica.',
                 'transporte.required' => 'El medio de transporte es obligatorio.',
                 'convivencia.required' => 'El campo de convivencia es obligatorio.',
@@ -135,7 +140,10 @@ class InscripcionController extends Controller
                 'condicion_alumno.required' => 'La condición del alumno es obligatoria.',
                 'turno.required' => 'El turno es obligatorio.',
                 'adeuda_materias.required' => 'Es necesario indicar si el alumno adeuda materias.',
+                'nombre_materias.required_if' => 'Debe especificar las materias que adeuda.',
                 'condicion_inscripcion.required' => 'La condición de inscripción es obligatoria.',
+                'nombre_obra_social.required_if' => 'Debe especificar el nombre de la obra social.',
+                'escuela_proviene.required_if' => 'Debe especificar la escuela de procedencia.',
             ]
         );
     }
@@ -143,7 +151,6 @@ class InscripcionController extends Controller
     public function store(Request $request)
     {
         $validated = $this->validateForm($request);
-
         try {
             DB::beginTransaction();
             $tutor = Tutor::create([
@@ -175,8 +182,8 @@ class InscripcionController extends Controller
                 'numeracion' => $validated['numeracion'],
                 'piso' => $validated['piso'],
                 /* 'lugar_nacimiento' => $validated['lugar_nacimiento'] ?? 'Desconocido', */
-                'nombre_obra_social' => $validated['nombre_obra_social'],
                 'obra_social' => $validated['obra_social'],
+                'nombre_obra_social' => $validated['obra_social'] ? $validated['nombre_obra_social'] : null,
                 'medio_transporte' => json_encode($validated['transporte']),
                 'convivencia' => json_encode($validated['convive']),
             ]);
@@ -184,12 +191,12 @@ class InscripcionController extends Controller
             $inscripcion = $estudiante->inscripciones()->create([
                 'turno' => $validated['turno'],
                 'curso_inscripto' => $validated['curso'],
-                'modalidad' => $validated['modalidad'],
-                'escuela_proviene' => $request->input('escuela_proviene'),
+                'modalidad' => $validated['modalidad'] ?? null,
+                'escuela_proviene' => in_array($validated['condicion_alumno'], ['traspaso', 'ingresante']) ? $validated['escuela_proviene'] : null,
                 'fecha_inscripcion' => now(),
                 'condicion_alumno' => $validated['condicion_alumno'],
                 'adeuda_materias' => $validated['adeuda_materias'],
-                'nombre_materias' => $validated['nombre_materias'],
+                'nombre_materias' => $validated['adeuda_materias'] ? $validated['nombre_materias'] : null,
                 'reconocimientos' => json_encode($validated['condicion_inscripcion']),
                 'comprobante_inscripcion' => $this->generarCodigoComprobante($validated['cuil_alumno']),
             ]);
@@ -242,7 +249,7 @@ class InscripcionController extends Controller
                 'calle' => $validated['calle'],
                 'numeracion' => $validated['numeracion'],
                 'piso' => $validated['piso'],
-                'nombre_obra_social' => $validated['nombre_obra_social'],
+                'nombre_obra_social' => $validated['obra_social'] ? $validated['nombre_obra_social'] : null,
                 'obra_social' => $validated['obra_social'],
                 'medio_transporte' => json_encode($validated['transporte']),
                 'convivencia' => json_encode($validated['convive']),
@@ -251,12 +258,12 @@ class InscripcionController extends Controller
             $inscripcion = $estudiante->inscripciones()->create([
                 'turno' => $validated['turno'],
                 'curso_inscripto' => $validated['curso'],
-                'modalidad' => $validated['modalidad'],
+                'modalidad' => $validated['modalidad'] ?? null,
                 'escuela_proviene' => $request->input('escuela_proviene'), //TODO: cambiar
                 'fecha_inscripcion' => now(),
                 'condicion_alumno' => $validated['condicion_alumno'],
                 'adeuda_materias' => $validated['adeuda_materias'],
-                'nombre_materias' => $validated['nombre_materias'],
+                'nombre_materias' => $validated['adeuda_materias'] ? $validated['nombre_materias'] : null,
                 'reconocimientos' => json_encode($validated['condicion_inscripcion']),
                 'comprobante_inscripcion' => $this->generarCodigoComprobante($validated['cuil_alumno']),
             ]);
@@ -267,6 +274,7 @@ class InscripcionController extends Controller
             return redirect()->route('confirmacion-inscripcion')->with('success', 'Se registró tu inscripción correctamente');
         } catch (Exception $e) {
             DB::rollBack();
+            dd($e);
             Log::error('Error al actualizar inscripción: ' . $e->getMessage());
             return redirect()->route('inscripcion')->with('error', 'Ocurrió un error al registrar la inscripción. Vuelve a intentarlo o intenta más tarde')->withInput();
         }
