@@ -23,7 +23,6 @@ class DatabaseSeeder extends Seeder
         if (env('APP_ENV') == 'production') {
             $this->call([
                 UserSeeder::class,
-                CursoSeeder::class,
             ]);
         } else {
             $this->call([
