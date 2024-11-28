@@ -27,7 +27,7 @@
         </div>
 
         <form method="POST" class="flex flex-col gap-y-14 mt-6 items-center" id="multiStepForm"
-            action="{{ route('inscripcion') }}" data-es-nuevo="{{ $data['id'] ? 'false' : 'true' }}">
+            action="{{ route('inscripcion' . $data['id']) ? 'update' : 'store'}}" data-es-nuevo="{{ $data['id'] ? 'false' : 'true' }}">
             @csrf
             @method($data['method'])
             {{-- Step 1 --}}

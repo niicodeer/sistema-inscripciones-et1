@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\EstudianteResource\Pages;
-use App\Filament\Resources\EstudianteResource\RelationManagers\InscripcionesRelationManager;
 use App\Models\Estudiante;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Fieldset;
@@ -14,14 +13,12 @@ use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ToggleColumn;
-use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
+//use InscripcionesRelationManager;
 
 class EstudianteResource extends Resource
 {
@@ -161,7 +158,7 @@ class EstudianteResource extends Resource
     public static function getRelations(): array
     {
         return [
-            InscripcionesRelationManager::class,
+            //InscripcionesRelationManager::class,
         ];
     }
 

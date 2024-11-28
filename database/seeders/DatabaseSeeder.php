@@ -20,14 +20,12 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class
         ]);
         if(env('APP_ENV') == 'production'){
-            $this->call([
-                PreinscriptoSeeder::class
-            ]);
             $admin = User::factory()->create([
                 'name' => 'Administrador',
                 'email' => 'admin@sia.com',
                 'password' => bcrypt('Admin.24.sia'),
-            ]);        
+                'email_verified_at' => now(),
+            ]);
             $admin->assignRole('Admin');
         }else{
             $this->call([
@@ -42,9 +40,9 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Administrador',
                 'email' => 'admin@demo.com',
                 'password' => bcrypt('123456'),
-            ]);        
+            ]);
             $admin->assignRole('Admin');
-    
+
             $user2 = User::factory()->create([
                 'name' => 'Secre',
                 'email' => 'secretario@demo.com',
@@ -52,9 +50,9 @@ class DatabaseSeeder extends Seeder
             ]);
             $user2->assignRole('Secretario');
         }
-        
 
-        $ajuste = Ajustes::factory()->create([
+
+        Ajustes::factory()->create([
             'inicio_fecha_inscripcion' => '2024-09-01',
             'inicio_hora_inscripcion' => '00:00:00',
             'inicio_fecha_preinscripcion' => '2024-09-01',
