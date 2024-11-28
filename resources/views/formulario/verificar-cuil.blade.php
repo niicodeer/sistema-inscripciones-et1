@@ -53,7 +53,7 @@
                 </div>
             </div>
             <x-primary-button text="Comprobar" id="btn-comprobar" />
-            <a href="{{ route('inscripcion') }}"
+            <a href="{{ route('inscripcion.index') }}"
                 class="p-4 text-base font-bold text-center text-[#202020] bg-[#CCC] max-w-80 w-full rounded-md hover:bg-opacity-80 shadow-md hidden cursor-not-allowed pointer-events-none"
                 id="btn-continuar">
                 Continuar
