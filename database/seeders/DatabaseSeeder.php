@@ -16,6 +16,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([
+            PermissionSeeder::class
+        ]);
         if(env('APP_ENV') == 'production'){
             $this->call([
                 PreinscriptoSeeder::class
@@ -34,7 +37,6 @@ class DatabaseSeeder extends Seeder
                 EstudianteSeeder::class,
                 DatoEstudianteSeeder::class,
                 InscripcionSeeder::class,
-                PermissionSeeder::class
             ]);
             $admin = User::factory()->create([
                 'name' => 'Administrador',
@@ -50,6 +52,7 @@ class DatabaseSeeder extends Seeder
             ]);
             $user2->assignRole('Secretario');
         }
+        
 
         $ajuste = Ajustes::factory()->create([
             'inicio_fecha_inscripcion' => '2024-09-01',
