@@ -9,7 +9,7 @@
             alumno para registrar su
             pre-inscripción:</p>
     </div>
-    <form class="flex flex-col gap-y-14 mt-6 items-center" action="{{ route('preinscripcion') }}" method="POST">
+    <form class="flex flex-col gap-y-14 mt-6 items-center" action="{{ route('preinscripcion.store') }}" method="POST">
         @csrf
         <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full">
             <x-input type="text" id="cuil" label="Cuil" require
