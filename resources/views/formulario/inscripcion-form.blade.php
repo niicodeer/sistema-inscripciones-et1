@@ -40,10 +40,6 @@
             data-es-nuevo="{{ !$estudiante }}">
             @csrf
             @method($data['method'])
-            @php
-            var_dump($estudiante);
-            var_dump($data['method']);
-            @endphp
             {{-- Step 1 --}}
             <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full step"
                 id="step-1">
