@@ -19,6 +19,6 @@ class InscripcionConfirmCheck
                 return $next($request);
             }
         session()->forget('data-inscripcion');
-        return redirect('/verificar-cuil');
+        return redirect()->route('verificar-cuil.get');
     }
 }
