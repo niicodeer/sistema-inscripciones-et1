@@ -36,10 +36,14 @@
         </div>
 
         <form method="POST" class="flex flex-col gap-y-14 mt-6 items-center" id="multiStepForm"
-            action="{{ $estudiante ? route('inscripcion.update') : route('inscripcion.update') }}"
-            data-es-nuevo="{{ $estudiante }}">
+            action="{{ $estudiante==true ? route('inscripcion.update') : route('inscripcion.store') }}"
+            data-es-nuevo="{{ !$estudiante }}">
             @csrf
             @method($data['method'])
+            @php
+            var_dump($estudiante);
+            var_dump($data['method']);
+            @endphp
             {{-- Step 1 --}}
             <div class="flex flex-col md:flex-row md:flex-wrap justify-between gap-y-4 md:gap-y-8 w-full step"
                 id="step-1">
@@ -200,7 +204,7 @@
                     'Sexto año',
                 ])" require
                     value="{{ $inscripcion['curso_inscripto'] ?? '' }}" />
-                <x-select id="modalidad" label="Modalidad a seguir" :options="json_encode(['', 'Informática', 'Economía', 'Industria'])" require
+                <x-select id="modalidad" label="Modalidad a seguir" :options="json_encode(['Informática', 'Economía', 'Industria'])" require
                     value="{{ $inscripcion['modalidad'] ?? '' }}" />
 
                 <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
@@ -260,7 +264,7 @@
                     </div>
                 </div>
             </div>
-            @if(!$estudiante)
+            @if($estudiante==false)
                 {{-- Step 5 --}}
                 <div id="step-5" style="display: none;" class="step flex-col">
                     <p class="text-[#2D3648] font-semibold text-base mb-4">Indique si cumple o no con algunas de las

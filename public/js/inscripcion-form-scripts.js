@@ -8,8 +8,10 @@ const nextBtn = document.getElementById('nextBtn');
 const prevBtn = document.getElementById('prevBtn');
 const verifyBtn = document.getElementById('toVerifyBtn');
 const submitBtn = document.getElementById('submitBtn');
-const esNuevo = document.getElementById('multiStepForm').dataset.esNuevo === 'true';
-const totalSteps = esNuevo ? 5 : 4;
+const esNuevo = document.getElementById('multiStepForm').dataset.esNuevo;
+console.log(esNuevo);
+console.log(form.getAttribute('method'));
+const totalSteps = esNuevo == '1' ? 5 : 4;
 let actualStep;
 const modalidad = document.querySelector('select[name="modalidad"]');
 
@@ -397,7 +399,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (departamentoGuardado) {
         departamentoSelect.value = departamentoGuardado;
-        
+
         // Cargar las localidades del departamento seleccionado
         const localidades = LOCALIDADES[0].localidades
             .filter(localidad => localidad.departamento.nombre === departamentoGuardado)

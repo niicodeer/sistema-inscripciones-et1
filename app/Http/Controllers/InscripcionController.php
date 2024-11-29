@@ -141,7 +141,7 @@ class InscripcionController extends Controller
                 'turno.required' => 'El turno es obligatorio.',
                 'adeuda_materias.required' => 'Es necesario indicar si el alumno adeuda materias.',
                 'nombre_materias.required_if' => 'Debe especificar las materias que adeuda.',
-                'condicion_inscripcion.required' => 'La condición de inscripción es obligatoria.',
+                /* 'condicion_inscripcion.required' => 'La condición de inscripción es obligatoria.', */
                 'nombre_obra_social.required_if' => 'Debe especificar el nombre de la obra social.',
                 'escuela_proviene.required_if' => 'Debe especificar la escuela de procedencia.',
             ]
@@ -153,15 +153,30 @@ class InscripcionController extends Controller
         $validated = $this->validateForm($request);
         try {
             DB::beginTransaction();
-            $tutor = Tutor::create([
-                'nombre' => $validated['nombre_tutor'],
-                'apellido' => $validated['apellido_tutor'],
-                'cuil' => $validated['cuil_tutor'],
-                'email' => $validated['email_tutor'],
-                'telefono' => $validated['telefono_tutor'],
-                'ocupacion' => $validated['ocupacion_tutor'],
-                'parentezco' => $validated['parentezco'],
-            ]);
+            //Compruebo si ya existe el tutor
+            $tutor = Tutor::where('cuil', $validated['cuil_tutor'])->first();
+
+            if ($tutor) {
+                // Si el tutor existe, actualizar sus datos
+                $tutor->update([
+                    'nombre' => $validated['nombre_tutor'],
+                    'apellido' => $validated['apellido_tutor'],
+                    'email' => $validated['email_tutor'],
+                    'telefono' => $validated['telefono_tutor'],
+                    'ocupacion' => $validated['ocupacion_tutor'],
+                    'parentezco' => $validated['parentezco'],
+                ]);
+            } else {
+                $tutor = Tutor::create([
+                    'nombre' => $validated['nombre_tutor'],
+                    'apellido' => $validated['apellido_tutor'],
+                    'cuil' => $validated['cuil_tutor'],
+                    'email' => $validated['email_tutor'],
+                    'telefono' => $validated['telefono_tutor'],
+                    'ocupacion' => $validated['ocupacion_tutor'],
+                    'parentezco' => $validated['parentezco'],
+                ]);
+            }
 
             $estudiante = Estudiante::create([
                 'nombre' => $validated['nombre_alumno'],
@@ -197,7 +212,7 @@ class InscripcionController extends Controller
                 'condicion_alumno' => $validated['condicion_alumno'],
                 'adeuda_materias' => $validated['adeuda_materias'],
                 'nombre_materias' => $validated['adeuda_materias'] ? $validated['nombre_materias'] : null,
-                'reconocimientos' => json_encode($validated['condicion_inscripcion']),
+                'reconocimientos' => json_encode($request->input('condicion_inscripcion')),
                 'comprobante_inscripcion' => $this->generarCodigoComprobante($validated['cuil_alumno']),
             ]);
 
@@ -264,7 +279,7 @@ class InscripcionController extends Controller
                 'condicion_alumno' => $validated['condicion_alumno'],
                 'adeuda_materias' => $validated['adeuda_materias'],
                 'nombre_materias' => $validated['adeuda_materias'] ? $validated['nombre_materias'] : null,
-                'reconocimientos' => json_encode($validated['condicion_inscripcion']),
+                'reconocimientos' => json_encode($request->input('condicion_inscripcion')),
                 'comprobante_inscripcion' => $this->generarCodigoComprobante($validated['cuil_alumno']),
             ]);
 
@@ -280,7 +295,8 @@ class InscripcionController extends Controller
         }
     }
 
-    public function incripcion_correcta(){
+    public function incripcion_correcta()
+    {
         return view('confirmacion.confirmacion-inscripcion');
     }
 }
