@@ -9,8 +9,6 @@ const prevBtn = document.getElementById('prevBtn');
 const verifyBtn = document.getElementById('toVerifyBtn');
 const submitBtn = document.getElementById('submitBtn');
 const esNuevo = document.getElementById('multiStepForm').dataset.esNuevo;
-console.log(esNuevo);
-console.log(form.getAttribute('method'));
 const totalSteps = esNuevo == '1' ? 5 : 4;
 let actualStep;
 const modalidad = document.querySelector('select[name="modalidad"]');
