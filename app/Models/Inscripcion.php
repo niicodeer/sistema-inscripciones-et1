@@ -30,6 +30,13 @@ class Inscripcion extends Model
         'papeles_presentados'
     ];
 
+    protected $casts = [
+        'adeuda_materias' => 'boolean',
+        'papeles_presentados' => 'boolean',
+        'reconocimientos' => 'array',
+        'fecha_inscripcion' => 'date',
+    ];
+
     protected $table = "inscripciones";
 
     public function estudiante() : BelongsTo

@@ -27,6 +27,13 @@ class DatoEstudiante extends Model
         'estudiante_id',
     ];
 
+    protected $casts = [
+        'medio_transporte' => 'array',
+        'convivencia' => 'array',
+        'obra_social' => 'boolean',
+        'fecha_ingreso' => 'date',
+    ];
+
     public function estudiante(): BelongsTo
     {
 

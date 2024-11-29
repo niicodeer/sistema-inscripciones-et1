@@ -34,63 +34,137 @@ class EstudianteResource extends Resource
             ->schema([
                 TextInput::make('cuil')
                     ->required()
-                    ->minLength(3)
-                    ->maxLength(20),
+                    ->minLength(11)
+                    ->maxLength(11)
+                    ->unique(ignoreRecord: true),
                 TextInput::make('nombre')
-                    ->required(),
+                    ->required()
+                    ->minLength(3)
+                    ->maxLength(50),
                 TextInput::make('apellido')
-                    ->required(),
+                    ->required()
+                    ->minLength(3)
+                    ->maxLength(50),
                 TextInput::make('email')
                     ->required()
-                    ->email(),
+                    ->email()
+                    ->maxLength(100),
+                TextInput::make('telefono')
+                    ->required()
+                    ->maxLength(15)
+                    ->tel(),
                 Select::make('genero')
                     ->required()
                     ->options([
-                        'femenino' => 'Femenino',
-                        'masculino' => 'Masculino',
-                        'otro' => 'Otro'
+                        'Femenino' => 'Femenino',
+                        'Masculino' => 'Masculino',
+                        'Otro' => 'Otro'
                     ]),
                 DatePicker::make('fecha_nac')
-                    ->label('Fecha Nacimiento'),
+                    ->required()
+                    ->format('Y-m-d')
+                    ->displayFormat('d/m/Y')
+                    ->label('Fecha de nacimiento'),
+                Select::make('tutor_id')
+                    ->relationship('tutor', 'nombre')
+                    ->label('Tutor')
+                    ->nullable(),
                 Radio::make('es_alumno')
-                    ->options([
-                        0 => 'No es alumno',
-                        1 => 'Si es alumno',
-                    ])
-                    ->label('¿Es Alumno?'),
+                    ->boolean()
+                    ->default(true)
+                    ->inline()
+                    ->label('¿Es alumno actualmente?'),
                 Fieldset::make('Más datos')
                     ->relationship('dato')
                     ->schema([
-                        TextInput::make('calle'),
-                        TextInput::make('numeracion'),
-                        TextInput::make('piso'),
-                        TextInput::make('barrio'),
-                        TextInput::make('medio_transporte')
-                            ->label('Medio de transporte'),
-                        TextInput::make('lugar_nacimiento')
-                            ->label('Lugar de nacimiento'),
-                        TextInput::make('convivencia')
-                            ->label('Convive con'),
-                        Radio::make('obra_social')
+                        TextInput::make('departamento')
+                            ->required()
+                            ->label('Departamento'),
+                        TextInput::make('localidad')
+                            ->required(),
+                        TextInput::make('barrio')
+                            ->maxLength(100),
+                        Select::make('medio_transporte')
+                            ->multiple()
                             ->options([
-                                0 => 'No',
-                                1 => 'Si',
-                            ]),
-                        TextInput::make('nombre_obra_social'),
-                        /* TextInput::make('escuela_proviene')
-                            ->label('Escuela de la que proviente'), */
-                        DatePicker::make('fecha_ingreso'),
+                                'Colectivo' => 'Colectivo',
+                                'Caminando' => 'Caminando',
+                                'Bicicleta' => 'Bicicleta',
+                                'Auto' => 'Auto',
+                                'Moto' => 'Moto',
+                                'Otro' => 'Otro'
+                            ])
+                            ->label('Medio de transporte'),
+                        TextInput::make('calle')
+                            ->maxLength(100),
+                        TextInput::make('numeracion')
+                            ->numeric()
+                            ->label('Número'),
+                        TextInput::make('piso'),
+                        Radio::make('obra_social')
+                            ->boolean()
+                            ->inline()
+                            ->label('¿Tiene obra social?'),
+                        TextInput::make('nombre_obra_social')
+                            ->maxLength(100)
+                            ->label('Nombre de la obra social'),
+                        TextInput::make('lugar_nacimiento')
+                            ->maxLength(50)
+                            ->label('Lugar de nacimiento'),
+                        DatePicker::make('fecha_ingreso')
+                            ->format('Y-m-d')
+                            ->displayFormat('d/m/Y')
+                            ->label('Fecha de ingreso'),
+                        Select::make('convivencia')
+                            ->multiple()
+                            ->options([
+                                'Madre' => 'Madre',
+                                'Padre' => 'Padre',
+                                'Hermanos' => 'Hermanos',
+                                'Abuelos' => 'Abuelos',
+                                'Tíos' => 'Tíos',
+                                'Otros' => 'Otros'
+                            ])
+                            ->required()
+                            ->label('Convive con'),
                     ]),
-                Fieldset::make('Datos tutor')
+                    Fieldset::make('Datos tutor')
                     ->relationship('tutor')
                     ->schema([
-                        TextInput::make('cuil'),
-                        TextInput::make('email'),
-                        TextInput::make('parentezco'),
-                        TextInput::make('nombre'),
-                        TextInput::make('apellido'),
-                        TextInput::make('telefono'),
-                        TextInput::make('ocupacion'),
+                        TextInput::make('cuil')
+                            ->required()
+                            ->unique(ignoreRecord: true)
+                            ->minLength(11)
+                            ->maxLength(11),
+                        TextInput::make('nombre')
+                            ->required()
+                            ->minLength(3)
+                            ->maxLength(50),
+                        TextInput::make('apellido')
+                            ->required()
+                            ->minLength(3)
+                            ->maxLength(50),
+                        TextInput::make('email')
+                            ->required()
+                            ->email()
+                            ->maxLength(100),
+                        TextInput::make('telefono')
+                            ->required()
+                            ->maxLength(15)
+                            ->tel(),
+                        Select::make('parentezco')
+                            ->required()
+                            ->options([
+                                'Madre' => 'Madre',
+                                'Padre' => 'Padre',
+                                'Abuelo/a' => 'Abuelo/a',
+                                'Tío/a' => 'Tío/a',
+                                'Tutor/a' => 'Tutor/a',
+                                'Otro' => 'Otro'
+                            ]),
+                        TextInput::make('ocupacion')
+                            ->required()
+                            ->maxLength(30),
                     ]),
             ]);
     }

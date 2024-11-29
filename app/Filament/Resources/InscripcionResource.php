@@ -50,7 +50,8 @@ class InscripcionResource extends Resource
                     })->all())
                     ->label('Estudiante')
                     ->hiddenOn('edit')
-                    ->searchable(),
+                    ->searchable()
+                    ->required(),
                 Select::make('curso_inscripto')
                     ->options([
                         'Primer año' => 'Primer Año',
@@ -59,39 +60,74 @@ class InscripcionResource extends Resource
                         'Cuarto año' => 'Cuarto Año',
                         'Quinto año' => 'Quinto Año',
                         'Sexto año' => 'Sexto Año',
-                    ]),
-
+                    ])
+                    ->required(),
                 Select::make('turno')
                     ->options([
                         'mañana' => 'Mañana',
                         'tarde' => 'Tarde'
+                    ])
+                    ->required(),               
+                Select::make('modalidad')
+                    ->options([
+                        'Informática' => 'Informática',
+                        'Economía' => 'Economía',
+                        'Industria' => 'Industria'
                     ]),
+                TextInput::make('escuela_proviene')
+                    ->label('Escuela de procedencia')
+                    ->maxLength(100),
+                Select::make('condicion_alumno')
+                    ->options([
+                        'ingresante' => 'Ingresante',
+                        'regular' => 'Regular',
+                        'traspaso' => 'Traspaso',
+                        'repitente' => 'Repitente',
+                    ])
+                    ->required(),                  
                 Select::make('curso_id')
                     ->options(Curso::all()->mapWithKeys(function ($curso) {
                         return [$curso->id => "{$curso->id} - {$curso->año_curso}º {$curso->division}º"];
                     })->all())
                     ->label('Curso')
-                    ->searchable(),
-                DatePicker::make('fecha_inscripcion'),
-                Radio::make('estado_inscripcion')
+                    ->searchable()
+                    ->required(),
+                DatePicker::make('fecha_inscripcion')
+                    ->required()
+                    ->format('Y-m-d')
+                    ->displayFormat('d/m/Y')
+                    ->default(now()),
+                Select::make('estado_inscripcion')
                     ->options([
                         'pendiente' => 'Pendiente',
                         'no aceptado' => 'No aceptado',
                         'aceptado' => 'Aceptado',
                     ])
+                    ->default('pendiente')
+                    ->required()
                     ->label('Estado inscripción'),
                 Radio::make('adeuda_materias')
+                    ->boolean()
+                    ->inline()
+                    ->label('¿Adeuda materias?'),
+                TextInput::make('nombre_materias')
+                    ->label('Materias que adeuda')
+                    ->maxLength(100)
+                    ->visible(fn (callable $get) => $get('adeuda_materias')),
+                Select::make('reconocimientos')
+                    ->multiple()
                     ->options([
-                        0 => 'No',
-                        1 => 'Si'
-                    ]),
+                        'familiar' => 'Familiar',
+                        'merito' => 'Merito',
+                        'otros' => 'Otros',
+                        'ninguno' => 'Ninguno',
+                    ])
+                    ->label('Reconocimientos obtenidos'),
                 Radio::make('papeles_presentados')
-                    ->options([
-                        0 => 'No',
-                        1 => 'Si'
-                    ]),
-                TextInput::make('nombre_materias'),
-                TextInput::make('reconocimientos'),
+                    ->boolean()
+                    ->inline()
+                    ->default(false)
+                    ->label('¿Presentó documentación?'),
             ]);
     }
 

@@ -47,7 +47,8 @@ class PreinscriptoResource extends Resource
                 TextInput::make('email')
                     ->required(),
                 DatePicker::make('fecha_nac')
-                    ->format('d-M-y')
+                    ->format('Y-m-d')
+                    ->displayFormat('d/m/Y')
                     ->label("Fecha de nacimiento")
                     ->required(),
                 TextInput::make('telefono')
