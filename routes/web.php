@@ -16,7 +16,7 @@ Route::get('/', [AjustesController::class, 'index'])->name('inicio');
 
 Route::get('/preinscripcion', [PreinscriptoController::class, 'index'])->name('preinscripcion.index')->middleware('checkHorario:preinscripcion');
 Route::post('/preinscripcion', [PreinscriptoController::class, 'store'])->name('preinscripcion.store');
-Route::get('/inscripcion', [InscripcionController::class, 'index'])->name('inscripcion')->middleware('verificarCuil');
+Route::get('/inscripcion', [InscripcionController::class, 'index'])->name('inscripcion')/* ->middleware('verificarCuil') */;
 Route::post('/inscripcion', [InscripcionController::class, 'store'])->name('inscripcion.store');
 Route::put('/inscripcion', [InscripcionController::class, 'update'])->name('inscripcion.update');
 Route::get('/preinscripcion-correcta', [PreinscriptoController::class, 'preincripcion_correcta'])->name('confirmacion-preinscripcion')->middleware('checkPreinscripcion');

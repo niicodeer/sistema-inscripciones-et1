@@ -46,14 +46,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     svgCross.classList.remove('block');
                     svgCross.classList.add('hidden');
 
-                    setTimeout(function() {
+/*                     setTimeout(function() {
                         window.location.href = "/inscripcion";
-                    }, 1000);
+                    }, 1000); */
                     setTimeout(function() {
                         btnContinuar.classList.remove('cursor-not-allowed',
                             'pointer-events-none', 'bg-[#CCC]');
                         btnContinuar.classList.add('bg-[#EA9010]');
-                    }, 7000);
+                    }, 1000);
 
                 } else {
                     svgCross.classList.add('block');

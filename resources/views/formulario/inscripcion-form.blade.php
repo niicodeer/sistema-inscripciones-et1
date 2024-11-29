@@ -1,6 +1,15 @@
 @extends('layouts.forms-layout')
 @section('title', 'Formulario Inscripción')
 @section('content')
+    @isset($data['id'])
+        @php
+            $estudiante = true;
+        @endphp
+    @else
+        @php
+            $estudiante = false;
+        @endphp
+    @endisset
     <div class="px-2">
         <h1 class="text-2xl xl:text-3xl font-bold text-center mb-6 md:mb-14">Inscripción Ciclo Lectivo {{ date('Y') + 1 }}
         </h1>
@@ -15,9 +24,9 @@
                     id="progress-bar-3"></span></span>
             <span class="w-full h-1 bg-gray-500"><span class="w-full h-1 block progress-bar"
                     id="progress-bar-4"></span></span>
-            @if(!$data['id'])
+            @if (!$estudiante)
                 <span class="w-full h-1 bg-gray-500"><span class="w-full h-1 block progress-bar"
-                    id="progress-bar-5"></span></span>
+                        id="progress-bar-5"></span></span>
             @endif
 
         </div>
@@ -27,7 +36,8 @@
         </div>
 
         <form method="POST" class="flex flex-col gap-y-14 mt-6 items-center" id="multiStepForm"
-            action="{{ route('inscripcion' . $data['id']) ? 'update' : 'store'}}" data-es-nuevo="{{ $data['id'] ? 'false' : 'true' }}">
+            action="{{ $estudiante ? route('inscripcion.update') : route('inscripcion.update') }}"
+            data-es-nuevo="{{ $estudiante }}">
             @csrf
             @method($data['method'])
             {{-- Step 1 --}}
@@ -61,9 +71,12 @@
                 </div>
                 <x-input type="text" id="barrio" label="Barrio" placeholder="Barrio" require
                     value="{{ $data['dato']['barrio'] ?? '' }}" />
-                <x-select id="departamento" label="Departamento" :options="json_encode([])" value="{{ $data['dato']['departamento'] ?? '' }}" require />
-                <x-select id="localidad" label="Localidad" :options="json_encode([])" value="{{ $data['dato']['localidad'] ?? '' }}" require />
-                <div id="locationData" data-departamento="{{ $data['dato']['departamento'] ?? '' }}" data-localidad="{{ $data['dato']['localidad'] ?? '' }}"></div>
+                <x-select id="departamento" label="Departamento" :options="json_encode([])"
+                    value="{{ $data['dato']['departamento'] ?? '' }}" require />
+                <x-select id="localidad" label="Localidad" :options="json_encode([])" value="{{ $data['dato']['localidad'] ?? '' }}"
+                    require />
+                <div id="locationData" data-departamento="{{ $data['dato']['departamento'] ?? '' }}"
+                    data-localidad="{{ $data['dato']['localidad'] ?? '' }}"></div>
                 <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                     <p class="text-[#2D3648] font-semibold text-sm">Convive con</p>
                     @isset($data['dato']['convivencia'])
@@ -187,7 +200,7 @@
                     'Sexto año',
                 ])" require
                     value="{{ $inscripcion['curso_inscripto'] ?? '' }}" />
-                <x-select id="modalidad" label="Modalidad a seguir" :options="json_encode(['','Informática', 'Economía', 'Industria'])" require
+                <x-select id="modalidad" label="Modalidad a seguir" :options="json_encode(['', 'Informática', 'Economía', 'Industria'])" require
                     value="{{ $inscripcion['modalidad'] ?? '' }}" />
 
                 <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
@@ -247,58 +260,57 @@
                     </div>
                 </div>
             </div>
-            @if(!$data['id']){
-            {{-- Step 5 --}}
-            <div id="step-5" style="display: none;" class="step flex-col">
-                <p class="text-[#2D3648] font-semibold text-base mb-4">Indique si cumple o no con algunas de las
-                    siguientes opciones:</p>
-                <div class="w-full flex flex-col gap-y-2">
-                    <x-input-check id="familiar" label="Tengo un familiar que es alumno escuela" value="familiar"
-                        name="condicion_inscripcion[]" />
-                    <x-input-check id="merito" label="Reconocimiento al mérito" value="merito"
-                        name="condicion_inscripcion[]" />
-                    <x-input-check id="otros" label="Otros reconocimientos (concursos, mejor compañero,  etc)"
-                        value="otros" name="condicion_inscripcion[]" />
-                    <x-input-check id="ninguno" label="Ninguno" value="ninguno" name="condicion_inscripcion[]" />
-                </div>
-                @error('reconocimientos')
-                    <p class="text-red-700 text-sm">{{ $message }}</p>
-                @enderror
-                <p id="reconocimientos_error"></p>
-                <div class="my-6">
-                    <p class="text-[#2D3648] italic font-bold text-base">* En caso de cumplir con alguna opción debe
-                        presentar en la institución una copia del certificado que lo respalde.</p>
-                    <p class="text-[#2D3648] italic font-bold text-base">* Además, recuerde que debe proporcionar una
-                        foto 4x4 y fotocopia del DNI del inscripto.</p>
-                </div>
-                <p class="text-[#2D3648] font-semibold text-base pt-6">Por último, indique que está de acuerdo con los
-                    siguientes términos.</p>
-                <div class="w-full flex gap-2 justify-start items-center mt-2">
-                    <input class="border border-gray-300 p-2 rounded h-5 w-5" id="uso_producciones_alumno"
-                        name="uso_producciones_alumno" type="checkbox">
-                    <p>
-                        Acepto el uso de producciones, imágenes, videos y sonido del alumno
-                    </p>
-
-                </div>
-                <div class="w-full flex gap-2 justify-start items-center mt-2">
-                    <input class="border border-gray-300 p-2 rounded h-5 w-5" id="terminos" name="terminos"
-                        type="checkbox">
-                    <p>
-                        He leído y estoy de acuerdo con el <a class='underline' href="{{ route('convivencia.pdf') }}"
-                            target="_blank">código de convivencia de la institución</a>
-
-                    </p>
-                    @error('terminos')
+            @if(!$estudiante)
+                {{-- Step 5 --}}
+                <div id="step-5" style="display: none;" class="step flex-col">
+                    <p class="text-[#2D3648] font-semibold text-base mb-4">Indique si cumple o no con algunas de las
+                        siguientes opciones:</p>
+                    <div class="w-full flex flex-col gap-y-2">
+                        <x-input-check id="familiar" label="Tengo un familiar que es alumno escuela" value="familiar"
+                            name="condicion_inscripcion[]" />
+                        <x-input-check id="merito" label="Reconocimiento al mérito" value="merito"
+                            name="condicion_inscripcion[]" />
+                        <x-input-check id="otros" label="Otros reconocimientos (concursos, mejor compañero,  etc)"
+                            value="otros" name="condicion_inscripcion[]" />
+                        <x-input-check id="ninguno" label="Ninguno" value="ninguno" name="condicion_inscripcion[]" />
+                    </div>
+                    @error('reconocimientos')
                         <p class="text-red-700 text-sm">{{ $message }}</p>
                     @enderror
+                    <p id="reconocimientos_error"></p>
+                    <div class="my-6">
+                        <p class="text-[#2D3648] italic font-bold text-base">* En caso de cumplir con alguna opción debe
+                            presentar en la institución una copia del certificado que lo respalde.</p>
+                        <p class="text-[#2D3648] italic font-bold text-base">* Además, recuerde que debe proporcionar una
+                            foto 4x4 y fotocopia del DNI del inscripto.</p>
+                    </div>
+                    <p class="text-[#2D3648] font-semibold text-base pt-6">Por último, indique que está de acuerdo con los
+                        siguientes términos.</p>
+                    <div class="w-full flex gap-2 justify-start items-center mt-2">
+                        <input class="border border-gray-300 p-2 rounded h-5 w-5" id="uso_producciones_alumno"
+                            name="uso_producciones_alumno" type="checkbox">
+                        <p>
+                            Acepto el uso de producciones, imágenes, videos y sonido del alumno
+                        </p>
+
+                    </div>
+                    <div class="w-full flex gap-2 justify-start items-center mt-2">
+                        <input class="border border-gray-300 p-2 rounded h-5 w-5" id="terminos" name="terminos"
+                            type="checkbox">
+                        <p>
+                            He leído y estoy de acuerdo con el <a class='underline' href="{{ route('convivencia.pdf') }}"
+                                target="_blank">código de convivencia de la institución</a>
+
+                        </p>
+                        @error('terminos')
+                            <p class="text-red-700 text-sm">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <p id="terminos_error"></p>
                 </div>
-                <p id="terminos_error"></p>
-            </div>
-            }
             @endif
             <div class="flex gap-4 w-full justify-center">
-                <x-secondary-button text="Volver" href="{{ route('verificar-cuil') }}" id="toVerifyBtn" />
+                <x-secondary-button text="Volver" href="{{ route('verificar-cuil.get') }}" id="toVerifyBtn" />
                 <x-secondary-button text="Volver" id="prevBtn" class="none" />
                 <x-primary-button text="Siguiente" type="button" id="nextBtn" />
                 <x-primary-button text="Enviar" type="submit" id="submitBtn" class="none" />
