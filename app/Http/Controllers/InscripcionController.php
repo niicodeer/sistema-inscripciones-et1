@@ -84,7 +84,7 @@ class InscripcionController extends Controller
                 'calle' => 'required|string|min:5|max:100',
                 'departamento' => 'required|string',
                 'localidad' => 'required|string',
-                'barrio' => 'required|string|min:5|max:50',
+                'barrio' => 'required|string|min:5|max:100',
                 'numeracion' => 'required|numeric',
                 'piso' => 'nullable',
                 'transporte' => 'required|array',

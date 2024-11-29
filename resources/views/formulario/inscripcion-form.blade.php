@@ -1,5 +1,6 @@
 @extends('layouts.forms-layout')
 @section('title', 'Formulario Inscripción')
+
 @section('content')
     @isset($data['id'])
         @php
@@ -10,6 +11,13 @@
             $estudiante = false;
         @endphp
     @endisset
+    {{-- Loader --}}
+    <div id="loader-overlay" class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-50 flex items-center justify-center transition-opacity duration-300">
+        <div class="bg-white p-6 rounded-lg shadow-xl flex flex-col items-center gap-3">
+            <div class="w-12 h-12 border-4 border-[#EA9010] border-t-transparent rounded-full animate-spin"></div>
+            <p class="text-gray-700 font-medium">Cargando formulario...</p>
+        </div>
+    </div>
     <div class="px-2">
         <h1 class="text-2xl xl:text-3xl font-bold text-center mb-6 md:mb-14">Inscripción Ciclo Lectivo {{ date('Y') + 1 }}
         </h1>
@@ -309,8 +317,8 @@
                     <p id="terminos_error"></p>
                 </div>
             @endif
-            <div class="flex gap-4 w-full justify-center">
-                <x-secondary-button text="Volver" href="{{ route('verificar-cuil.get') }}" id="toVerifyBtn" />
+            <div class="flex gap-4 w-full justify-center opacity-0" id="form-buttons">
+                <x-secondary-button text="Volver" href="{{ route('verificar-cuil.get') }}" id="verifyBtn" />
                 <x-secondary-button text="Volver" id="prevBtn" class="none" />
                 <x-primary-button text="Siguiente" type="button" id="nextBtn" />
                 <x-primary-button text="Enviar" type="submit" id="submitBtn" class="none" />

@@ -73,9 +73,9 @@ export function validateStep(step) {
         }
 
         const barrio = document.querySelector('input[name="barrio"]');
-        if (barrio.value.length < 5 || barrio.value.length > 20) {
+        if (barrio.value.length < 5 || barrio.value.length > 50) {
             isValid = false;
-            showError(barrio, 'El campo barrio debe tener entre 5 y 20 caracteres.');
+            showError(barrio, 'El campo barrio debe tener entre 5 y 50 caracteres.');
         }
 
         const numeracion = document.querySelector('input[name="numeracion"]');

@@ -1,6 +1,12 @@
 @extends('layouts.forms-layout')
 @section('title', 'Formulario Preinscripción')
 @section('content')
+<div id="loader-overlay" class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-50 flex items-center justify-center transition-opacity duration-300">
+    <div class="bg-white p-6 rounded-lg shadow-xl flex flex-col items-center gap-3">
+        <div class="w-12 h-12 border-4 border-[#EA9010] border-t-transparent rounded-full animate-spin"></div>
+        <p class="text-gray-700 font-medium">Cargando formulario...</p>
+    </div>
+</div>
 <div class="px-2">
     <div>
         <h1 class="text-2xl xl:text-3xl font-bold text-center mb-6 md:mb-14">Pre-Inscripción Ciclo Lectivo
@@ -51,7 +57,7 @@
                     falsificación de los datos proporcionados llevará a la anulación de la solicitud." />
         </div>
 
-        <x-primary-button text="Finalizar" />
+        <x-primary-button text="Finalizar" id="submitBtn" />
     </form>
 </div>
 @endsection

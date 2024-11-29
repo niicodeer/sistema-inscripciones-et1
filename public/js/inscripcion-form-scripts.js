@@ -6,13 +6,12 @@ const form = document.getElementById('multiStepForm');
 const steps = form.querySelectorAll('.step');
 const nextBtn = document.getElementById('nextBtn');
 const prevBtn = document.getElementById('prevBtn');
-const verifyBtn = document.getElementById('toVerifyBtn');
+const verifyBtn = document.getElementById('verifyBtn');
 const submitBtn = document.getElementById('submitBtn');
 const esNuevo = document.getElementById('multiStepForm').dataset.esNuevo;
 const totalSteps = esNuevo == '1' ? 5 : 4;
 let actualStep;
 const modalidad = document.querySelector('select[name="modalidad"]');
-
 
 function showStep(step) {
     if (step === 1) {
@@ -73,7 +72,18 @@ function prevStep() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    showStep(currentStep);
+    // Asegurarnos de que todas las imágenes y recursos estén cargados
+    window.addEventListener('load', function() {
+        showStep(currentStep);
+        // Mostrar los botones
+        document.getElementById('form-buttons').classList.remove('opacity-0');
+        // Ocultar el loader con una transición suave
+        const loader = document.getElementById('loader-overlay');
+        loader.style.opacity = '0';
+        setTimeout(() => {
+            loader.style.display = 'none';
+        }, 300); // Esperar a que termine la transición
+    });
 });
 
 prevBtn.addEventListener('click', function() {
@@ -87,6 +97,15 @@ nextBtn.addEventListener('click', function() {
 
 form.addEventListener('submit', function(event) {
     if (validateStep(currentStep)) {
+        // Mostrar loader en el botón de enviar
+        submitBtn.innerHTML = '<div class="mx-auto border-gray-300 h-8 w-8 animate-spin rounded-full border-4 border-t-[#EA9010]"></div>';
+        submitBtn.classList.add('cursor-not-allowed', 'pointer-events-none', 'opacity-50');
+        submitBtn.disabled = true;
+        
+        // Deshabilitar el botón volver
+        prevBtn.classList.add('cursor-not-allowed', 'pointer-events-none', 'opacity-50');
+        prevBtn.disabled = true;
+        
         const formData = new FormData(event.target);
         const data = {};
         formData.forEach((value, key) => {

@@ -68,4 +68,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     .message); // Esto captura los errores;
             });
     })
+
+    btnContinuar.addEventListener('click', function() {
+        btnContinuar.innerHTML = '<div class="mx-auto border-gray-300 h-8 w-8 animate-spin rounded-full border-4 border-t-[#EA9010]"></div>';
+        btnContinuar.classList.add('cursor-not-allowed', 'pointer-events-none', 'opacity-50');
+        btnContinuar.disabled = true;
+        window.location.href = btnContinuar.getAttribute('href');
+    });
 });
