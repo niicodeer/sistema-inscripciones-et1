@@ -19,10 +19,19 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PermissionSeeder::class,
             AjustesSeeder::class,
+            UserSeeder::class,
         ]);
         if (env('APP_ENV') == 'production') {
             $this->call([
-                UserSeeder::class,
+               // UserSeeder::class,
+                PreinscriptoSeeder::class,
+                CursoSeeder::class,
+                TutorSeeder::class,
+                EstudianteSeeder::class,
+                DatoEstudianteSeeder::class,
+                InscripcionSeeder::class,
+                PermissionSeeder::class,
+                AjustesSeeder::class,
             ]);
         } else {
             $this->call([

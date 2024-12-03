@@ -89,7 +89,7 @@
                     <p class="text-[#2D3648] font-semibold text-sm">Convive con</p>
                     @isset($data['dato']['convivencia'])
                         @php
-                            $convive = json_decode($data['dato']['convivencia'], true) ?? [];
+                            $convive = $data['dato']['convivencia'] ?? [];
                         @endphp
                     @endisset
                     <div class="w-full grid grid-cols-2 gap-2">
@@ -116,7 +116,7 @@
                     <div class="w-full grid grid-cols-2 gap-2">
                         @isset($data['dato']['medio_transporte'])
                             @php
-                                $transporte = json_decode($data['dato']['medio_transporte'], true) ?? [];
+                                $transporte = $transporte = $data['dato']['medio_transporte'] ?? [];
                             @endphp
                         @endisset
                         <x-input-check id="transporte_publico" value="transporte publico" name="transporte[]"

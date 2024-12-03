@@ -87,12 +87,12 @@ class EstudianteResource extends Resource
                         Select::make('medio_transporte')
                             ->multiple()
                             ->options([
-                                'Colectivo' => 'Colectivo',
-                                'Caminando' => 'Caminando',
-                                'Bicicleta' => 'Bicicleta',
-                                'Auto' => 'Auto',
-                                'Moto' => 'Moto',
-                                'Otro' => 'Otro'
+                                'colectivo' => 'Colectivo',
+                                'caminando' => 'Caminando',
+                                'bicicleta' => 'Bicicleta',
+                                'auto' => 'Auto',
+                                'moto' => 'Moto',
+                                'otro' => 'Otro'
                             ])
                             ->label('Medio de transporte'),
                         TextInput::make('calle')
@@ -118,12 +118,12 @@ class EstudianteResource extends Resource
                         Select::make('convivencia')
                             ->multiple()
                             ->options([
-                                'Madre' => 'Madre',
-                                'Padre' => 'Padre',
-                                'Hermanos' => 'Hermanos',
-                                'Abuelos' => 'Abuelos',
-                                'Tíos' => 'Tíos',
-                                'Otros' => 'Otros'
+                                'madre' => 'Madre',
+                                'padre' => 'Padre',
+                                'hermanos' => 'Hermanos',
+                                'abuelos' => 'Abuelos',
+                                'tíos' => 'Tíos',
+                                'otros' => 'Otros'
                             ])
                             ->required()
                             ->label('Convive con'),

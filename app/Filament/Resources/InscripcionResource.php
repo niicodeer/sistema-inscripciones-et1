@@ -52,6 +52,7 @@ class InscripcionResource extends Resource
                     ->hiddenOn('edit')
                     ->searchable()
                     ->required(),
+
                 Select::make('curso_inscripto')
                     ->options([
                         'Primer año' => 'Primer Año',
@@ -61,19 +62,36 @@ class InscripcionResource extends Resource
                         'Quinto año' => 'Quinto Año',
                         'Sexto año' => 'Sexto Año',
                     ])
-                    ->required(),
+                    ->required()
+                    ->reactive()
+                    ->live()
+                    ->afterStateUpdated(function ($set) {
+                        // para vaciar los campos 'modalidad' y 'curso_id' cuando se cambia el valor
+                        $set('modalidad', null);
+                        $set('curso_id', null);
+                    }),
+
                 Select::make('turno')
                     ->options([
                         'mañana' => 'Mañana',
                         'tarde' => 'Tarde'
                     ])
-                    ->required(),               
+                    ->required(),     
+
                 Select::make('modalidad')
                     ->options([
                         'Informática' => 'Informática',
                         'Economía' => 'Economía',
                         'Industria' => 'Industria'
-                    ]),
+                    ])
+                    ->disabled(fn (callable $get) => !in_array($get('curso_inscripto'), ['Tercer año', 'Cuarto año', 'Quinto año', 'Sexto año']))
+                    ->reactive()
+                    ->afterStateUpdated(function ($set, $get) {
+                        if (!in_array($get('curso_inscripto'), ['Tercer año', 'Cuarto año', 'Quinto año', 'Sexto año'])) {
+                            $set('modalidad', null);
+                        }
+                    }),
+
                 TextInput::make('escuela_proviene')
                     ->label('Escuela de procedencia')
                     ->maxLength(100),
@@ -84,14 +102,40 @@ class InscripcionResource extends Resource
                         'traspaso' => 'Traspaso',
                         'repitente' => 'Repitente',
                     ])
-                    ->required(),                  
+                    ->required(),         
+
                 Select::make('curso_id')
-                    ->options(Curso::all()->mapWithKeys(function ($curso) {
-                        return [$curso->id => "{$curso->id} - {$curso->año_curso}º {$curso->division}º"];
-                    })->all())
+                ->options(function (callable $get) {
+                    $cursoInscripto = $get('curso_inscripto');
+            
+                    $mapAño = [
+                        'Primer año' => 1,
+                        'Segundo año' => 2,
+                        'Tercer año' => 3,
+                        'Cuarto año' => 4,
+                        'Quinto año' => 5,
+                        'Sexto año' => 6,
+                    ];
+            
+                    if (!$cursoInscripto || !array_key_exists($cursoInscripto, $mapAño)) {
+                        return [];
+                    }
+            
+                    return Curso::where('año_curso', $mapAño[$cursoInscripto])
+                        ->get()
+                        ->mapWithKeys(function ($curso) {
+                            return [$curso->id => "{$curso->año_curso}º {$curso->division}º"];
+                        })
+                        ->all();
+                })
+                    // ->options(Curso::all()->mapWithKeys(function ($curso) {
+                    //     return [$curso->id => "{$curso->id} - {$curso->año_curso}º {$curso->division}º"];
+                    // })->all())
                     ->label('Curso')
                     ->searchable()
-                    ->required(),
+                    ->required()
+                    ->reactive(),
+
                 DatePicker::make('fecha_inscripcion')
                     ->required()
                     ->format('Y-m-d')
@@ -106,14 +150,17 @@ class InscripcionResource extends Resource
                     ->default('pendiente')
                     ->required()
                     ->label('Estado inscripción'),
+
                 Radio::make('adeuda_materias')
                     ->boolean()
                     ->inline()
                     ->label('¿Adeuda materias?'),
+
                 TextInput::make('nombre_materias')
                     ->label('Materias que adeuda')
                     ->maxLength(100)
                     ->visible(fn (callable $get) => $get('adeuda_materias')),
+
                 Select::make('reconocimientos')
                     ->multiple()
                     ->options([
@@ -123,6 +170,7 @@ class InscripcionResource extends Resource
                         'ninguno' => 'Ninguno',
                     ])
                     ->label('Reconocimientos obtenidos'),
+
                 Radio::make('papeles_presentados')
                     ->boolean()
                     ->inline()

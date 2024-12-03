@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        if(env('APP_ENV') == 'production'){
+        // if(env('APP_ENV') == 'production'){
             $admin = User::create([
                 'name' => 'Administrador',
                 'email' => 'admin@sia.com',
@@ -22,21 +22,21 @@ class UserSeeder extends Seeder
                 'email_verified_at' => now(),
             ]);
             $admin->assignRole('Admin');
-        }else{
-            $admin = User::create([
-                'name' => 'Administrador',
-                'email' => 'admin@demo.com',
-                'password' => bcrypt('123456'),
-                'email_verified_at' => now(),
-            ]);
-            $admin->assignRole('Admin');
-            $user2 = User::create([
-                'name' => 'Secre',
-                'email' => 'secretario@demo.com',
-                'password' => bcrypt('123456'),
-                'email_verified_at' => now(),
-            ]);
-            $user2->assignRole('Secretario');
-        }
+        // }else{
+        //     $admin = User::create([
+        //         'name' => 'Administrador',
+        //         'email' => 'admin@demo.com',
+        //         'password' => bcrypt('123456'),
+        //         'email_verified_at' => now(),
+        //     ]);
+        //     $admin->assignRole('Admin');
+        //     $user2 = User::create([
+        //         'name' => 'Secre',
+        //         'email' => 'secretario@demo.com',
+        //         'password' => bcrypt('123456'),
+        //         'email_verified_at' => now(),
+        //     ]);
+        //     $user2->assignRole('Secretario');
+        // }
     }
 }
