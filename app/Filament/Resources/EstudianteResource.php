@@ -87,12 +87,12 @@ class EstudianteResource extends Resource
                         Select::make('medio_transporte')
                             ->multiple()
                             ->options([
-                                'colectivo' => 'Colectivo',
-                                'caminando' => 'Caminando',
-                                'bicicleta' => 'Bicicleta',
-                                'auto' => 'Auto',
-                                'moto' => 'Moto',
-                                'otro' => 'Otro'
+                                'Transporte público' => 'Transporte público',
+                                'No utiliza' => 'No utiliza',
+                                'Bicicleta' => 'Bicicleta',
+                                'Auto Camioneta' => 'Auto Camioneta',
+                                'Moto' => 'Moto',
+                                'Otro' => 'Otro'
                             ])
                             ->label('Medio de transporte'),
                         TextInput::make('calle')
@@ -118,12 +118,12 @@ class EstudianteResource extends Resource
                         Select::make('convivencia')
                             ->multiple()
                             ->options([
-                                'madre' => 'Madre',
-                                'padre' => 'Padre',
-                                'hermanos' => 'Hermanos',
-                                'abuelos' => 'Abuelos',
-                                'tíos' => 'Tíos',
-                                'otros' => 'Otros'
+                                'Madre' => 'Madre',
+                                'Padre' => 'Padre',
+                                'Hermanos' => 'Hermanos',
+                                'Abuelos' => 'Abuelos',
+                                'Tios' => 'Tíos',
+                                'Otros' => 'Otros'
                             ])
                             ->required()
                             ->label('Convive con'),
@@ -157,9 +157,9 @@ class EstudianteResource extends Resource
                             ->options([
                                 'Madre' => 'Madre',
                                 'Padre' => 'Padre',
-                                'Abuelo/a' => 'Abuelo/a',
-                                'Tío/a' => 'Tío/a',
-                                'Tutor/a' => 'Tutor/a',
+                                'Hermano' => 'Hermano/a',
+                                'Abuelo' => 'Abuelo/a',
+                                'Tio' => 'Tío/a',
                                 'Otro' => 'Otro'
                             ]),
                         TextInput::make('ocupacion')
