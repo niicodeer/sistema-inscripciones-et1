@@ -89,21 +89,21 @@
                     <p class="text-[#2D3648] font-semibold text-sm">Convive con</p>
                     @isset($data['dato']['convivencia'])
                         @php
-                            $convive = json_decode($data['dato']['convivencia'], true) ?? [];
+                            $convive = $data['dato']['convivencia'] ?? [];
                         @endphp
                     @endisset
                     <div class="w-full grid grid-cols-2 gap-2">
-                        <x-input-check id="convive_madre" label="Madre" value="madre" name="convive[]"
-                            check="{{ in_array('madre', $convive ?? []) ?? '' }}" />
-                        <x-input-check id="convive_padre" label="Padre" value="padre" name="convive[]"
-                            check="{{ in_array('padre', $convive ?? []) ?? '' }}" />
-                        <x-input-check id="convive_hermanos" label="Hermano/a" value="hermanos" name="convive[]"
-                            check="{{ in_array('hermanos', $convive ?? []) ?? '' }}" />
-                        <x-input-check id="convive_tios" label="Tia/o" value="tios" name="convive[]"
-                            check="{{ in_array('tios', $convive ?? []) ?? '' }}" />
-                        <x-input-check id="convive_abuelos" label="Abuela/o" value="abuelos" name="convive[]"
-                            check="{{ in_array('abuelos', $convive ?? []) ?? '' }}" />
-                        <x-input-check id="convive_otros" label="Otros" value="otros" name="convive[]"
+                        <x-input-check id="convive_madre" label="Madre" value="Madre" name="convive[]"
+                            check="{{ in_array('Madre', $convive ?? []) ?? '' }}" />
+                        <x-input-check id="convive_padre" label="Padre" value="Padre" name="convive[]"
+                            check="{{ in_array('Padre', $convive ?? []) ?? '' }}" />
+                        <x-input-check id="convive_hermanos" label="Hermano/a" value="Hermanos" name="convive[]"
+                            check="{{ in_array('Hermanos', $convive ?? []) ?? '' }}" />
+                        <x-input-check id="convive_tios" label="Tia/o" value="Tios" name="convive[]"
+                            check="{{ in_array('Tios', $convive ?? []) ?? '' }}" />
+                        <x-input-check id="convive_abuelos" label="Abuela/o" value="Abuelos" name="convive[]"
+                            check="{{ in_array('Abuelos', $convive ?? []) ?? '' }}" />
+                        <x-input-check id="convive_otros" label="Otros" value="Otros" name="convive[]"
                             check="{{ in_array('otros', $convive ?? []) ?? '' }}" />
                     </div>
                     @error('convive')
@@ -116,22 +116,22 @@
                     <div class="w-full grid grid-cols-2 gap-2">
                         @isset($data['dato']['medio_transporte'])
                             @php
-                                $transporte = json_decode($data['dato']['medio_transporte'], true) ?? [];
+                                $transporte = $transporte = $data['dato']['medio_transporte'] ?? [];
                             @endphp
                         @endisset
-                        <x-input-check id="transporte_publico" value="transporte publico" name="transporte[]"
+                        <x-input-check id="transporte_publico" value="Transporte publico" name="transporte[]"
                             label="Trasporte público"
-                            check="{{ in_array('transporte publico', $transporte ?? []) ?? '' }}" />
-                        <x-input-check id="transporte_auto" value="auto camioneta" name="transporte[]"
-                            label="Auto / Camioneta" check="{{ in_array('auto camioneta', $transporte ?? []) ?? '' }}" />
-                        <x-input-check id="transporte_moto" value="moto" name="transporte[]" label="Moto"
-                            check="{{ in_array('moto', $transporte ?? []) ?? '' }}" />
-                        <x-input-check id="transporte_bicicleta" value="bicicleta" name="transporte[]" label="Bicicleta"
-                            check="{{ in_array('bicicleta', $transporte ?? []) ?? '' }}" />
-                        <x-input-check id="transporte_otro" value="otros" name="transporte[]" label="Otros"
-                            check="{{ in_array('otros', $transporte ?? []) ?? '' }}" />
-                        <x-input-check id="transporte_no_utiliza" value="no utiliza" name="transporte[]"
-                            label="No utiliza" check="{{ in_array('no utiliza', $transporte ?? []) ?? '' }}" />
+                            check="{{ in_array('Transporte publico', $transporte ?? []) ?? '' }}" />
+                        <x-input-check id="transporte_auto" value="Auto Camioneta" name="transporte[]"
+                            label="Auto / Camioneta" check="{{ in_array('Auto Camioneta', $transporte ?? []) ?? '' }}" />
+                        <x-input-check id="transporte_moto" value="Moto" name="transporte[]" label="Moto"
+                            check="{{ in_array('Moto', $transporte ?? []) ?? '' }}" />
+                        <x-input-check id="transporte_bicicleta" value="Bicicleta" name="transporte[]" label="Bicicleta"
+                            check="{{ in_array('Bicicleta', $transporte ?? []) ?? '' }}" />
+                        <x-input-check id="transporte_otro" value="Otros" name="transporte[]" label="Otros"
+                            check="{{ in_array('Otros', $transporte ?? []) ?? '' }}" />
+                        <x-input-check id="transporte_no_utiliza" value="No utiliza" name="transporte[]"
+                            label="No utiliza" check="{{ in_array('No utiliza', $transporte ?? []) ?? '' }}" />
                     </div>
                     @error('transporte')
                         <p class="text-red-700 text-sm">{{ $message }}</p>
@@ -172,17 +172,17 @@
                 <div class="md:max-w-[45%] w-full flex flex-col gap-y-2">
                     <p class="text-[#2D3648] font-semibold text-sm">Parentezco</p>
                     <div class="grid grid-cols-2">
-                        <x-input-radio id="tutor_madre" name="parentezco" label="Madre" value="madre"
+                        <x-input-radio id="tutor_madre" name="parentezco" label="Madre" value="Madre"
                             check="{{ ($data['tutor']['parentezco'] ?? '') === 'madre' }}" />
-                        <x-input-radio id="tutor_padre" name="parentezco" label="Padre" value="padre"
+                        <x-input-radio id="tutor_padre" name="parentezco" label="Padre" value="Padre"
                             check="{{ ($data['tutor']['parentezco'] ?? '') === 'padre' }}" />
-                        <x-input-radio id="tutor_hermano" name="parentezco" label="Hermano/a" value="hermano"
+                        <x-input-radio id="tutor_hermano" name="parentezco" label="Hermano/a" value="Hermano"
                             check="{{ ($data['tutor']['parentezco'] ?? '') === 'hermano' }}" />
-                        <x-input-radio id="tutor_tio" name="parentezco" label="Tia/o" value="tio"
+                        <x-input-radio id="tutor_tio" name="parentezco" label="Tia/o" value="Tio"
                             check="{{ ($data['tutor']['parentezco'] ?? '') === 'tio' }}" />
-                        <x-input-radio id="tutor_abuelo" name="parentezco" label="Abuela/o" value="abuelo"
+                        <x-input-radio id="tutor_abuelo" name="parentezco" label="Abuela/o" value="Abuelo"
                             check="{{ ($data['tutor']['parentezco'] ?? '') === 'abuelo' }}" />
-                        <x-input-radio id="tutor_otro" name="parentezco" label="Otro" value="otro"
+                        <x-input-radio id="tutor_otro" name="parentezco" label="Otro" value="Otro"
                             check="{{ ($data['tutor']['parentezco'] ?? '') === 'otro' }}" />
                     </div>
                     @error('parentezco')

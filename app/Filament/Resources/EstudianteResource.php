@@ -87,10 +87,10 @@ class EstudianteResource extends Resource
                         Select::make('medio_transporte')
                             ->multiple()
                             ->options([
-                                'Colectivo' => 'Colectivo',
-                                'Caminando' => 'Caminando',
+                                'Transporte público' => 'Transporte público',
+                                'No utiliza' => 'No utiliza',
                                 'Bicicleta' => 'Bicicleta',
-                                'Auto' => 'Auto',
+                                'Auto Camioneta' => 'Auto Camioneta',
                                 'Moto' => 'Moto',
                                 'Otro' => 'Otro'
                             ])
@@ -122,7 +122,7 @@ class EstudianteResource extends Resource
                                 'Padre' => 'Padre',
                                 'Hermanos' => 'Hermanos',
                                 'Abuelos' => 'Abuelos',
-                                'Tíos' => 'Tíos',
+                                'Tios' => 'Tíos',
                                 'Otros' => 'Otros'
                             ])
                             ->required()
@@ -157,9 +157,9 @@ class EstudianteResource extends Resource
                             ->options([
                                 'Madre' => 'Madre',
                                 'Padre' => 'Padre',
-                                'Abuelo/a' => 'Abuelo/a',
-                                'Tío/a' => 'Tío/a',
-                                'Tutor/a' => 'Tutor/a',
+                                'Hermano' => 'Hermano/a',
+                                'Abuelo' => 'Abuelo/a',
+                                'Tio' => 'Tío/a',
                                 'Otro' => 'Otro'
                             ]),
                         TextInput::make('ocupacion')

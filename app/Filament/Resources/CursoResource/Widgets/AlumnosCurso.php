@@ -4,6 +4,7 @@ namespace App\Filament\Resources\CursoResource\Widgets;
 
 use App\Models\Curso;
 use Filament\Widgets\ChartWidget;
+use Filament\Support\RawJs;
 
 class AlumnosCurso extends ChartWidget
 {
@@ -31,8 +32,8 @@ class AlumnosCurso extends ChartWidget
                 [
                     'label' => 'Cantidad de alumnos',
                     'data' => array_values($alumnosPorAño),
-                    'backgroundColor' => '#B7250C',
-                    'borderColor' => '#B7250C',
+                    'backgroundColor' => '#EA9010',
+                    'borderColor' => '#EA9010',
                 ],
             ],
             'labels' => ['Primero', 'Segundo', 'Tercero', 'Cuarto', 'Quinto', 'Sexto'],
@@ -42,5 +43,21 @@ class AlumnosCurso extends ChartWidget
     protected function getType(): string
     {
         return 'bar';
+    }
+
+    protected function getOptions(): RawJs
+    {
+        return RawJs::make(<<<JS
+            {
+                scales: {
+                    y: {
+                        ticks: {
+                            stepSize: 1,
+                            precision: 0,
+                        },
+                    },
+                },
+            }
+        JS);
     }
 }
