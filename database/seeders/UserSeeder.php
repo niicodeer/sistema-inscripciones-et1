@@ -14,12 +14,29 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'name' => 'Admin',
-            'email' => 'admin@demo.com',
-            'password' => Hash::make('123456'),
-            'rol_id' => 1
-        ]);
-        User::factory()->create();
+        // if(env('APP_ENV') == 'production'){
+            $admin = User::create([
+                'name' => 'Administrador',
+                'email' => 'admin@sia.com',
+                'password' => bcrypt('Admin.24.sia'),
+                'email_verified_at' => now(),
+            ]);
+            $admin->assignRole('Admin');
+        // }else{
+        //     $admin = User::create([
+        //         'name' => 'Administrador',
+        //         'email' => 'admin@demo.com',
+        //         'password' => bcrypt('123456'),
+        //         'email_verified_at' => now(),
+        //     ]);
+        //     $admin->assignRole('Admin');
+        //     $user2 = User::create([
+        //         'name' => 'Secre',
+        //         'email' => 'secretario@demo.com',
+        //         'password' => bcrypt('123456'),
+        //         'email_verified_at' => now(),
+        //     ]);
+        //     $user2->assignRole('Secretario');
+        // }
     }
 }

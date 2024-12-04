@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('inscripciones', function (Blueprint $table) {
             $table->id();
             $table->string('turno', 10);
-            $table->string('modalidad', 15);
-            $table->string('escuela_proviene', 30);
+            $table->string('modalidad', 15)->nullable();
+            $table->string('escuela_proviene', 100)->nullable();
             $table->string('condicion_alumno', 10);
             $table->string('estado_inscripcion')->default('pendiente');
             $table->boolean('adeuda_materias')->nullable();
-            $table->string('nombre_materias', 50)->nullable();
-            $table->json('reconocimientos');
+            $table->string('nombre_materias', 100)->nullable();
+            $table->json('reconocimientos')->nullable();
             $table->boolean('papeles_presentados')->default(false);
             $table->date('fecha_inscripcion');
             $table->string('curso_inscripto', 15);

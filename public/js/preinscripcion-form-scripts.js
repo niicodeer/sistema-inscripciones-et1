@@ -1,5 +1,15 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('form');
+    const submitBtn = document.getElementById('submitBtn');
+
+    // Ocultar el loader cuando todo esté cargado
+    window.addEventListener('load', function() {
+        const loader = document.getElementById('loader-overlay');
+        loader.style.opacity = '0';
+        setTimeout(() => {
+            loader.style.display = 'none';
+        }, 300);
+    });
 
     form.addEventListener('submit', function(event) {
         clearErrors();
@@ -16,13 +26,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let isValid = true;
 
-        if (!nombre || nombre.length < 3 || nombre.length > 20) {
-            showError('nombre', 'El nombre debe tener entre 3 y 20 caracteres');
+        if (!nombre || nombre.length < 3 || nombre.length > 50) {
+            showError('nombre', 'El nombre debe tener entre 3 y 50 caracteres');
             isValid = false;
         }
 
-        if (!apellido || apellido.length < 3 || apellido.length > 20) {
-            showError('apellido', 'El apellido debe tener entre 3 y 20 caracteres');
+        if (!apellido || apellido.length < 3 || apellido.length > 50) {
+            showError('apellido', 'El apellido debe tener entre 3 y 50 caracteres');
             isValid = false;
         }
 
@@ -49,29 +59,33 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if (email && (email.length < 10 || email.length > 100 || !validateEmail(email))) {
-            showError('email',
-                'El email debe ser una dirección válida con entre 10 y 100 caracteres');
+            showError('email', 'El email debe ser una dirección válida con entre 10 y 100 caracteres');
             isValid = false;
         }
 
         const telefonoRegex = /^[0-9\s\-]+$/;
-        if (!telefono || telefono.length < 8 || telefono.length > 15 || !telefonoRegex.test(
-                telefono)) {
+        if (!telefono || telefono.length < 8 || telefono.length > 15 || !telefonoRegex.test(telefono)) {
             showError('telefono', 'El teléfono debe ser un número válido entre 8 y 15 caracteres');
             isValid = false;
         }
 
         if (!Array.from(condicionPreinscripcion).some(item => item.checked)) {
-        showError('condicion_preinscripcion_error', 'Debe seleccionar una condición de preinscripción');
-        isValid = false;
-    }
+            showError('condicion_preinscripcion_error', 'Debe seleccionar una condición de preinscripción');
+            isValid = false;
+        }
 
         if (!declaracionJurada) {
             showError('declaracion_jurada', 'Debe aceptar la declaración jurada');
             isValid = false;
         }
+
         if (!isValid) {
             event.preventDefault();
+        } else {
+            // Mostrar loader en el botón de enviar
+            submitBtn.innerHTML = '<div class="mx-auto border-gray-300 h-8 w-8 animate-spin rounded-full border-4 border-t-[#EA9010]"></div>';
+            submitBtn.classList.add('cursor-not-allowed', 'pointer-events-none', 'opacity-50');
+            submitBtn.disabled = true;
         }
     });
 

@@ -27,26 +27,30 @@ class EditInscripcion extends EditRecord
         $cursoNuevo = Curso::find($this->data['curso_id']);
         $cursoAnterior = Curso::find($this->record['curso_id']);
         $estudiante = Estudiante::find($this->data['estudiante_id']);
-        if (
-            $cursoNuevo->id === $cursoAnterior->id &&
+
+        // Si existe un curso anterior y es el mismo que el nuevo
+        if ($cursoAnterior && $cursoNuevo->id === $cursoAnterior->id &&
             (($this->data['estado_inscripcion'] === "pendiente" || $this->data['estado_inscripcion'] === "no aceptado") &&
                 $this->record['estado_inscripcion'] === "aceptado")
-            //Deberia cambiaar el estado de es_alumno a 0??
         ) {
             $cursoAnterior->cantidad_alumnos--;
             $cursoAnterior->save();
         }
+
         if ($this->data['estado_inscripcion'] === "aceptado") {
             if ($cursoNuevo->cantidad_alumnos < $cursoNuevo->cantidad_maxima) {
-                if ($cursoNuevo->id != $cursoAnterior->id) {
+                // Solo decrementar el curso anterior si existe y es diferente al nuevo
+                if ($cursoAnterior && $cursoNuevo->id != $cursoAnterior->id) {
                     $cursoAnterior->cantidad_alumnos--;
+                    $cursoAnterior->save();
                 }
+                
                 $cursoNuevo->cantidad_alumnos++;
                 $this->data['estado_inscripcion'] = "aceptado";
                 $estudiante->es_alumno = 1;
                 $estudiante->save();
                 $cursoNuevo->save();
-                $cursoAnterior->save();
+                
                 $this->succesful = true;
             } else {
                 $this->data['estado_inscripcion'] = "pendiente";

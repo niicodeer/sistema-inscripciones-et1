@@ -1,14 +1,17 @@
 import { validateStep } from './validaciones.js';
 import { LOCALIDADES, DEPARTAMENTOS } from './datos-geograficos.js';
 
-let currentStep = 4;
+let currentStep = 1;
 const form = document.getElementById('multiStepForm');
 const steps = form.querySelectorAll('.step');
 const nextBtn = document.getElementById('nextBtn');
 const prevBtn = document.getElementById('prevBtn');
-const verifyBtn = document.getElementById('toVerifyBtn');
+const verifyBtn = document.getElementById('verifyBtn');
 const submitBtn = document.getElementById('submitBtn');
+const esNuevo = document.getElementById('multiStepForm').dataset.esNuevo;
+const totalSteps = esNuevo == '1' ? 5 : 4;
 let actualStep;
+const modalidad = document.querySelector('select[name="modalidad"]');
 
 function showStep(step) {
     if (step === 1) {
@@ -27,7 +30,7 @@ function showStep(step) {
     const titles = ["Datos Alumno", "Datos Alumno", "Datos Tutor", "Selección de curso", "Documentos"];
     document.getElementById('step-title').innerText = titles[step - 1];
 
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= totalSteps; i++) {
         const progressBar = document.getElementById('progress-bar-' + i);
 
         if (i <= step) {
@@ -37,16 +40,16 @@ function showStep(step) {
         }
     }
 
-    nextBtn.style.display = step === 5 ? 'none' : 'block';
+    nextBtn.style.display = step === totalSteps ? 'none' : 'block';
     prevBtn.style.display = step === 1 ? 'none' : 'block';
     verifyBtn.style.display = step !== 1 ? 'none' : 'block';
-    submitBtn.style.display = step !== 5 ? 'none' : 'block';
+    submitBtn.style.display = step !== totalSteps ? 'none' : 'block';
 
 }
 
 function nextStep() {
     if (validateStep(currentStep)) {
-        if (currentStep < 5) {
+        if (currentStep < totalSteps) {
             currentStep++;
             showStep(currentStep);
         }
@@ -69,7 +72,18 @@ function prevStep() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    showStep(currentStep);
+    // Asegurarnos de que todas las imágenes y recursos estén cargados
+    window.addEventListener('load', function() {
+        showStep(currentStep);
+        // Mostrar los botones
+        document.getElementById('form-buttons').classList.remove('opacity-0');
+        // Ocultar el loader con una transición suave
+        const loader = document.getElementById('loader-overlay');
+        loader.style.opacity = '0';
+        setTimeout(() => {
+            loader.style.display = 'none';
+        }, 300); // Esperar a que termine la transición
+    });
 });
 
 prevBtn.addEventListener('click', function() {
@@ -83,6 +97,15 @@ nextBtn.addEventListener('click', function() {
 
 form.addEventListener('submit', function(event) {
     if (validateStep(currentStep)) {
+        // Mostrar loader en el botón de enviar
+        submitBtn.innerHTML = '<div class="mx-auto border-gray-300 h-8 w-8 animate-spin rounded-full border-4 border-t-[#EA9010]"></div>';
+        submitBtn.classList.add('cursor-not-allowed', 'pointer-events-none', 'opacity-50');
+        submitBtn.disabled = true;
+        
+        // Deshabilitar el botón volver
+        prevBtn.classList.add('cursor-not-allowed', 'pointer-events-none', 'opacity-50');
+        prevBtn.disabled = true;
+        
         const formData = new FormData(event.target);
         const data = {};
         formData.forEach((value, key) => {
@@ -177,6 +200,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
+        if (cursoSelect.value !== 'Primer año' && cursoSelect.value !== 'Segundo año' && cursoSelect.value !=="") {
+            modalidad.disabled = false;
+            modalidad.value = modalidad.value || '';
+        } else {
+            modalidad.value = '';
+            modalidad.disabled = true;
+        };
+
         if (cursoSelect.value === 'Primer año') {
             radios.forEach(radio => {
                 if (radio.value !== 'ingresante' && radio.value !== 'repitente') {
@@ -224,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function disableNombreEscuela() {
         const selectedValue = Array.from(radios).find(radio => radio.checked)?.value;
         escuelaProviene.disabled = selectedValue !== 'traspaso' && selectedValue !== 'ingresante';
-        console.log(escuelaProviene.disabled);
+
     }
 
     disableCoursesForPreinscripto()
@@ -337,11 +368,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedValue = Array.from(radiosAdeudaMateria).find(radio => radio.checked)?.value;
         nombreMaterias.disabled = selectedValue !== '1';
         nombreMaterias.value;
+        if (nombreMaterias.disabled) {
+            nombreMaterias.value = ""; // Limpiar el campo
+        }
     }
     function disableNombreEscuela() {
         const selectedValue = Array.from(radios).find(radio => radio.checked)?.value;
         escuelaProviene.disabled = selectedValue !== 'traspaso' && selectedValue !== 'ingresante';
-        console.log(escuelaProviene.disabled);
+        if (escuelaProviene.disabled) {
+            escuelaProviene.value = ""; // Limpiar el campo
+        }
     }
 
     disableCoursesForPreinscripto()
@@ -361,6 +397,9 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     const departamentoSelect = document.getElementById('departamento');
     const localidadSelect = document.getElementById('localidad');
+    const locationData = document.getElementById('locationData');
+    const departamentoGuardado = locationData.dataset.departamento;
+    const localidadGuardada = locationData.dataset.localidad;
 
     // Obtener y ordenar los departamentos alfabéticamente por nombre
     const departamentos = DEPARTAMENTOS[0].departamentos.sort((a, b) => {
@@ -370,21 +409,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Llenar el selector de departamentos
     departamentos.forEach(departamento => {
         const option = document.createElement('option');
-        option.value = departamento.id;
+        option.value = departamento.nombre;
         option.text = departamento.nombre;
         departamentoSelect.appendChild(option);
     });
 
-    // Evento para cuando se selecciona un departamento
-    departamentoSelect.addEventListener('change', function() {
-        const selectedDepartamentoId = departamentoSelect.value;
+    if (departamentoGuardado) {
+        departamentoSelect.value = departamentoGuardado;
 
-        // Limpiar el selector de localidades
-        localidadSelect.innerHTML = '';
-
-        // Obtener y ordenar las localidades del departamento seleccionado
+        // Cargar las localidades del departamento seleccionado
         const localidades = LOCALIDADES[0].localidades
-            .filter(localidad => localidad.departamento.id === selectedDepartamentoId)
+            .filter(localidad => localidad.departamento.nombre === departamentoGuardado)
             .sort((a, b) => {
                 return a.nombre.localeCompare(b.nombre);
             });
@@ -392,10 +427,58 @@ document.addEventListener('DOMContentLoaded', function() {
         // Llenar el selector de localidades
         localidades.forEach(localidad => {
             const option = document.createElement('option');
-            option.value = localidad.id;
+            option.value = localidad.nombre;
+            option.text = localidad.nombre;
+            localidadSelect.appendChild(option);
+        });
+
+        // Si hay una localidad guardada, seleccionarla
+        if (localidadGuardada) {
+            localidadSelect.value = localidadGuardada;
+        }
+    }
+
+    // Evento para cuando se selecciona un departamento
+    departamentoSelect.addEventListener('change', function() {
+        const selectedDepartamentoName = departamentoSelect.value;
+
+        // Limpiar el selector de localidades
+        localidadSelect.innerHTML = '';
+
+        // Obtener y ordenar las localidades del departamento seleccionado
+        const localidades = LOCALIDADES[0].localidades
+            .filter(localidad => localidad.departamento.nombre === selectedDepartamentoName)
+            .sort((a, b) => {
+                return a.nombre.localeCompare(b.nombre);
+            });
+
+        // Llenar el selector de localidades
+        localidades.forEach(localidad => {
+            const option = document.createElement('option');
+            option.value = localidad.nombre;
             option.text = localidad.nombre;
             localidadSelect.appendChild(option);
         });
     });
 ;
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const obraSocialSi = document.getElementById("obra_social_si");
+    const obraSocialNo = document.getElementById("obra_social_no");
+    const nombreObraSocial = document.getElementById("nombre_obra_social");
+
+    function toggleNombreObraSocial() {
+        if (obraSocialNo.checked) {
+            nombreObraSocial.value = "";
+            nombreObraSocial.disabled = true;
+        } else {
+            nombreObraSocial.disabled = false;
+        }
+    }
+
+    obraSocialSi.addEventListener("change", toggleNombreObraSocial);
+    obraSocialNo.addEventListener("change", toggleNombreObraSocial);
+
+    toggleNombreObraSocial();
 });

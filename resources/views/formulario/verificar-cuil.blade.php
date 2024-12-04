@@ -11,7 +11,7 @@
                 encuentra
                 pre-inscripto o es alumno de la institución</p>
         </div>
-        <form class="flex flex-col gap-y-14 mt-6 items-center w-full" action="{{ route('verificar-cuil') }}" method="POST">
+        <form class="flex flex-col gap-y-14 mt-6 items-center w-full" action="{{ route('verificar-cuil.post') }}" method="POST">
             @csrf
             <div class="w-full flex flex-col gap-2">
                 <label for="cuil" class="text-[#2D3648] font-semibold text-sm">CUIL</label>

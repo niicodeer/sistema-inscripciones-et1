@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('preinscriptos', function (Blueprint $table) {
             $table->id();
             $table->string('cuil', 11)->unique();
-            $table->string('nombre', 20);
-            $table->string('apellido', 20);
+            $table->string('nombre', 50);
+            $table->string('apellido', 50);
             $table->string('email', 100);
             $table->string('telefono', 15);
             $table->string('genero', 10);

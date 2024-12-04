@@ -4,6 +4,7 @@ namespace App\Filament\Resources\CursoResource\Widgets;
 
 use App\Models\Curso;
 use Filament\Widgets\ChartWidget;
+use Filament\Support\RawJs;
 
 class AlumnosTurno extends ChartWidget
 {
@@ -27,8 +28,8 @@ class AlumnosTurno extends ChartWidget
                 [
                     'label' => 'Cantidad de alumnos',
                     'data' => array_values($alumnosPorTurno),
-                    'backgroundColor' => '#7243A7',
-                    'borderColor' => '#7243A7',
+                    'backgroundColor' => '#445c29',
+                    'borderColor' => '#445c29',
                 ],
             ],
             'labels' => ['Mañana', 'Tarde'],
@@ -38,5 +39,21 @@ class AlumnosTurno extends ChartWidget
     protected function getType(): string
     {
         return 'bar';
+    }
+
+    protected function getOptions(): RawJs
+    {
+        return RawJs::make(<<<JS
+            {
+                scales: {
+                    y: {
+                        ticks: {
+                            stepSize: 1,
+                            precision: 0,
+                        },
+                    },
+                },
+            }
+        JS);
     }
 }

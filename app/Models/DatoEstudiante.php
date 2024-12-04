@@ -16,8 +16,8 @@ class DatoEstudiante extends Model
         'calle',
         'numeracion',
         'piso',
-        'provincia',
-        'ciudad',
+        'departamento',
+        'localidad',
         'barrio',
         'obra_social',
         'nombre_obra_social',
@@ -25,6 +25,13 @@ class DatoEstudiante extends Model
         'fecha_ingreso',
         'convivencia',
         'estudiante_id',
+    ];
+
+    protected $casts = [
+        'medio_transporte' => 'array',
+        'convivencia' => 'array',
+        'obra_social' => 'boolean',
+        'fecha_ingreso' => 'date',
     ];
 
     public function estudiante(): BelongsTo

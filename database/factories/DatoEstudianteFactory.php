@@ -21,11 +21,11 @@ class DatoEstudianteFactory extends Factory
         $relacionTransporte = ['moto', 'auto', 'bicicleta'];
 
         $data = [
-            'calle' => fake()->address(),
+            'calle' => fake()->streetAddress(),
             'numeracion' => fake()->numberBetween(0, 999),
-            'provincia' => fake()->state(),
+            'departamento' => fake()->state(),
             'barrio' => fake()->city(),
-            'ciudad' => fake()->city(),
+            'localidad' => fake()->city(),
             'obra_social' => fake()->boolean(),
             'nombre_obra_social' => fake()->word(),
             'lugar_nacimiento' => fake()->city(),

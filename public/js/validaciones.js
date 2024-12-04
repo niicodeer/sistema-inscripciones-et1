@@ -37,7 +37,7 @@ export function validateStep(step) {
         } else if (edad < 12 || (edad === 12 && (mes < 0 || (mes === 0 && dia < 0)))) {
             isValid = false;
             showError(fechaNacimientoInput, 'Debe tener al menos 12 años.');
-        }else if (edad > 22 || (edad === 25 && (mes < 0 || (mes === 0 && dia < 0)))) {
+        } else if (edad > 22 || (edad === 25 && (mes < 0 || (mes === 0 && dia < 0)))) {
             isValid = false;
             showError(fechaNacimientoInput, 'Debe tener no más de 22 años.');
         }
@@ -60,22 +60,22 @@ export function validateStep(step) {
             showError(calle, 'El campo calle debe tener entre 5 y 30 caracteres.');
         }
 
-        const provincia = document.querySelector('input[name="provincia"]');
-        if (!provincia.value) {
+        const departamento = document.querySelector('select[name="departamento"]');
+        if (!departamento.value) {
             isValid = false;
-            showError(provincia, 'El campo provincia es obligatorio.');
+            showError(departamento, 'El campo departamento es obligatorio.');
         }
 
-        const ciudad = document.querySelector('input[name="ciudad"]');
-        if (ciudad.value.length < 5 || ciudad.value.length > 20) {
+        const localidad = document.querySelector('select[name="localidad"]');
+        if (localidad.value === '') {
             isValid = false;
-            showError(ciudad, 'El campo ciudad debe tener entre 5 y 20 caracteres.');
+            showError(localidad, 'El campo localidad es obligatorio.');
         }
 
         const barrio = document.querySelector('input[name="barrio"]');
-        if (barrio.value.length < 5 || barrio.value.length > 20) {
+        if (barrio.value.length < 5 || barrio.value.length > 50) {
             isValid = false;
-            showError(barrio, 'El campo barrio debe tener entre 5 y 20 caracteres.');
+            showError(barrio, 'El campo barrio debe tener entre 5 y 50 caracteres.');
         }
 
         const numeracion = document.querySelector('input[name="numeracion"]');
@@ -97,9 +97,16 @@ export function validateStep(step) {
         }
 
         const obraSocial = document.querySelector('input[name="obra_social"]:checked');
+        const obraSocialSi = document.getElementById("obra_social_si");
+        const obraSocialNo = document.getElementById("obra_social_no");
+        const nombreObraSocial = document.getElementById("nombre_obra_social");
         if (!obraSocial) {
             isValid = false;
             showError(document.getElementById('obraSocial_error'), 'Debe seleccionar si tiene obra social.');
+        }
+        if (obraSocialSi.checked && nombreObraSocial.value == "") {
+            isValid = false;
+            showError(document.getElementById('obraSocial_error'), 'Debe especificar un nombre de obra social/prepaga.');
         }
 
     } else if (step === 3) {
@@ -108,7 +115,6 @@ export function validateStep(step) {
             isValid = false;
             showError(nombreTutor, 'El nombre debe tener entre 3 y 20 caracteres.');
         }
-
 
         const apellidoTutor = document.querySelector('input[name="apellido_tutor"]');
         if (apellidoTutor.value.length < 3 || apellidoTutor.value.length > 20) {
@@ -155,10 +161,12 @@ export function validateStep(step) {
         }
 
         const modalidad = document.querySelector('select[name="modalidad"]');
-        const validModalidades = ['Informática', 'Economía', 'Industria'];
-        if (!modalidad.value || !validModalidades.includes(modalidad.value)) {
-            isValid = false;
-            showError(modalidad, 'Debe seleccionar una modalidad válida.');
+        const validModalidades = ['Informática', 'Economía', 'Industria', ''];
+        if (!modalidad.disabled) {
+            if (!modalidad.value || !validModalidades.includes(modalidad.value)) {
+                isValid = false;
+                showError(modalidad, 'Debe seleccionar una modalidad válida.');
+            }
         }
 
         const condicionAlumno = document.querySelector('input[name="condicion_alumno"]:checked');
@@ -167,6 +175,12 @@ export function validateStep(step) {
             showError(document.getElementById('condicionAlumno_error'),
                 'Debe seleccionar una condición para el alumno.');
         }
+        const nombreEscuela = document.getElementById('escuela_proviene');
+        if(!nombreEscuela.disabled && nombreEscuela.value === ''){
+            isValid = false;
+            showError(nombreEscuela,
+                'Debe especificar una escuela.');
+        }
 
         const turno = document.querySelector('input[name="turno"]:checked');
         if (!turno) {
@@ -174,10 +188,17 @@ export function validateStep(step) {
             showError(document.getElementById('turno_error'), 'Debe seleccionar un turno.');
         }
 
-        const adeudaMaterias = document.querySelector('input[name="adeuda_materia"]:checked');
+        const adeudaMaterias = document.querySelector('input[name="adeuda_materias"]:checked');
+        const adeudaSi = document.getElementById("adeuda_si");
+        const nombreMaterias = document.getElementById("nombre_materias");
+
         if (!adeudaMaterias) {
             isValid = false;
             showError(document.getElementById('adeudaMaterias_error'), 'Debe seleccionar si adeuda materias.');
+        }
+        if (adeudaSi.checked && nombreMaterias.value == "") {
+            isValid = false;
+            showError(document.getElementById('adeudaMaterias_error'), 'Debe especificar un nombre de las materias que adeuda.');
         }
     } else if (step === 5) {
         const reconocimientos = document.querySelectorAll('input[name="condicion_inscripcion[]"]:checked');

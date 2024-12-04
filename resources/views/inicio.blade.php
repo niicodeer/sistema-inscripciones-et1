@@ -23,7 +23,7 @@
                 @elseif($diferenciaDiasPreinscripcion < 0)
                     <p>La preinscripción de alumnos ha finalizado.</p>
                 @else
-                    <a href="{{ route('preinscripcion') }}" class="link">Preinscripción {{ date('Y') + 1 }}</a>
+                    <a href="{{ route('preinscripcion.index') }}" class="link">Preinscripción {{ date('Y') + 1 }}</a>
                 @endif
             @else
                 <p>Las preinscripciones no se encuentran habilitadas de momento.</p>
@@ -35,7 +35,7 @@
                 @elseif ($diferenciaDiasInscripcion < 0)
                     <p>La inscripción de alumnos ha finalizado.</p>
                 @else
-                    <a href="{{ route('verificar-cuil') }}" class="link">Inscripción {{ date('Y') + 1 }}</a>
+                    <a href="{{ route('verificar-cuil.get') }}" class="link">Inscripción {{ date('Y') + 1 }}</a>
                 @endif
             @else
                 <p>Las inscripciones no se encuentran habilitadas de momento.</p>

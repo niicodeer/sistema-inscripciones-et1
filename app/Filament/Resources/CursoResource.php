@@ -82,16 +82,21 @@ class CursoResource extends Resource
                 Tables\Columns\TextColumn::make('cantidad_alumnos')
                     ->alignment(Alignment::Center)
                     ->badge()
-                    ->color(function (string $state): string {
-                        $value = (int) $state;
-                        return match (true) {
-                            $value >= 0 && $value <= 15 => 'success',
-                            $value >= 16 && $value <= 20 => 'warning',
-                            $value > 20 => 'danger',
+                    ->color(function ($record): string {
+                        $cantidadActual = (int) $record->cantidad_alumnos;
+                        $maximaCapacidad = (int) $record->cantidad_maxima;
+                        
+                        if ($maximaCapacidad === 0) return 'gray';
+                        
+                        $porcentajeOcupacion = ($cantidadActual / $maximaCapacidad) * 100;
+                        
+                        return match(true) {
+                            $porcentajeOcupacion <= 50 => 'success',
+                            $porcentajeOcupacion <= 80 => 'warning',
+                            $porcentajeOcupacion > 80 => 'danger',
                             default => 'gray',
                         };
-                    })
-                    ->sortable(),
+                    }),
                 Tables\Columns\TextColumn::make('cantidad_maxima')
                 ->alignment(Alignment::Center),
             ])

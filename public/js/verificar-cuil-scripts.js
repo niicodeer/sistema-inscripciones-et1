@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: formData,
             })
             .then(response => {
-                console.log(response);
                 return response.json()
             })
             .then(data => {
@@ -46,14 +45,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     svgCross.classList.remove('block');
                     svgCross.classList.add('hidden');
 
-                    setTimeout(function() {
+/*                     setTimeout(function() {
                         window.location.href = "/inscripcion";
-                    }, 1000);
+                    }, 1000); */
                     setTimeout(function() {
                         btnContinuar.classList.remove('cursor-not-allowed',
                             'pointer-events-none', 'bg-[#CCC]');
                         btnContinuar.classList.add('bg-[#EA9010]');
-                    }, 7000);
+                    }, 1000);
 
                 } else {
                     svgCross.classList.add('block');
@@ -69,4 +68,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     .message); // Esto captura los errores;
             });
     })
+
+    btnContinuar.addEventListener('click', function() {
+        btnContinuar.innerHTML = '<div class="mx-auto border-gray-300 h-8 w-8 animate-spin rounded-full border-4 border-t-[#EA9010]"></div>';
+        btnContinuar.classList.add('cursor-not-allowed', 'pointer-events-none', 'opacity-50');
+        btnContinuar.disabled = true;
+        window.location.href = btnContinuar.getAttribute('href');
+    });
 });

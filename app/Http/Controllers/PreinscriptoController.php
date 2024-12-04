@@ -23,12 +23,12 @@ class PreinscriptoController extends Controller
     public function store(Request $req)
     {
         $req->validate([
-            'nombre' => 'required|min:3|max:20|string',
-            'apellido' => 'required|min:3|max:20|string',
+            'nombre' => 'required|min:3|max:50|string',
+            'apellido' => 'required|min:3|max:50|string',
             'cuil' => 'required|unique:preinscriptos,cuil|min:11|max:11|regex:/^[0-9]{11}$/',
             'email' => 'nullable|email|max:100|min:10',
             'telefono' => 'required|min:8|max:15|regex:/^[0-9\s\-]+$/',
-            'genero' => 'required|in:Femenino,Masculino,Otro|min:3|max:10',
+            'genero' => 'required|in:Femenino,Masculino,Otro|max:10',
             'condicion_preinscripcion' => 'required',
             'fecha_nac' => [
                 'required',
@@ -51,10 +51,10 @@ class PreinscriptoController extends Controller
             'cuil.format' => 'El formato del CUIL no es correcto, se esperan 11 numeros',
             'nombre.required' => 'El nombre es obligatorio',
             'nombre.min' => 'El nombre debe tener un mínimo de 3 caracteres',
-            'nombre.max' => 'El nombre debe tener un máximo de 20 caracteres',
+            'nombre.max' => 'El nombre debe tener un máximo de 50 caracteres',
             'apellido.required' => 'El apellido es obligatorio',
             'apellido.min' => 'Apellido debe tener un mínimo de 3 caracteres',
-            'apellido.max' => 'Apellido debe tener un máximo de 20 caracteres',
+            'apellido.max' => 'Apellido debe tener un máximo de 50 caracteres',
             'genero.required' => 'Debe seleccionar un género',
             'genero.in' => 'El género seleccionado no es válido.',
             'fecha_nac.required' => 'La fecha de nacimiento es obligatoria',

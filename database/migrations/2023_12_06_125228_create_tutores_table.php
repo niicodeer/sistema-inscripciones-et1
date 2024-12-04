@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('cuil', 11)->unique();
             $table->string('telefono', 15);
             $table->string('email', 100);
-            $table->string('nombre', 20);
-            $table->string('apellido', 20);
+            $table->string('nombre', 50);
+            $table->string('apellido', 50);
             $table->string('ocupacion', 30);
             $table->string('parentezco', 15);
             $table->timestamps();

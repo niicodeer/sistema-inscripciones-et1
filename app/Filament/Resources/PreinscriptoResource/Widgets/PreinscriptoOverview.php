@@ -15,6 +15,7 @@ class PreinscriptoOverview extends BaseWidget
         return [
             Stat::make('Total Preinscriptos', Preinscripto::all()->count()),
             Stat::make('Total Inscripciones', Inscripcion::all()->count()),
+            Stat::make('Inscripciones pendientes de revisión', Inscripcion::where('estado_inscripcion', 'pendiente')->count()),
             Stat::make('Total Alumnos', Estudiante::where('es_alumno', 1)->count()),
         ];
     }
